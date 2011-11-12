@@ -29,7 +29,8 @@ namespace PillHunt
         public void Draw(SpriteBatch spriteBatch, Texture2D pill, Rectangle pillPos)
         {
             this.pillPos = pillPos;
-            spriteBatch.Draw(pill, pillPos, Color.White);
+            if(alive)
+                spriteBatch.Draw(pill, pillPos, Color.White);
         }
 
        

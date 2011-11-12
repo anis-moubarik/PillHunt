@@ -28,6 +28,7 @@ namespace PillHunt
         int frameTime;
         int currentFrameRate;
         int score = 0;
+        Pill piller = new Pill();
 
         public Game1()
         {
@@ -115,7 +116,12 @@ namespace PillHunt
                 frameTime = 0;
                 frameCounter = 0;
             }
-
+            if (awesomePos.Intersects(pillPos) && piller.alive)
+                score++;
+            if (awesomePos.Intersects(pillPos))
+            {
+                piller.alive = false;
+            }
             base.Update(gameTime);
         }
 
@@ -123,7 +129,6 @@ namespace PillHunt
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        Pill piller = new Pill();
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightBlue);
@@ -137,16 +142,12 @@ namespace PillHunt
 
 
             spriteBatch.Begin();
-            if(piller.alive)
-                piller.Draw(spriteBatch, pill, pillPos);
+            piller.Draw(spriteBatch, pill, pillPos);
             spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth-60, 0), Color.Black);
-            spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 70, 20), Color.Black);
+            spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 80, 20), Color.Black);
             spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
-            if (awesomePos.Intersects(pillPos))
-            {
-                piller.alive = false;
-                score++;
-            }
+
+
             spriteBatch.End();
             base.Draw(gameTime);
             
