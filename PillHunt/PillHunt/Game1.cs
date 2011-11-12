@@ -26,6 +26,8 @@ namespace PillHunt
         int score = 0;
         Dictionary<Pill, Rectangle> pillerList;
         List<Pill> toBeRemoved;
+        double _timer;
+        Vector2 _timerVec;
 
         public Game1()
         {
@@ -33,6 +35,8 @@ namespace PillHunt
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 640;
             graphics.PreferredBackBufferWidth = 800;
+            _timer = 5.0f;
+            _timerVec = new Vector2(0, 0);
         }
 
         protected override void Initialize()
@@ -60,7 +64,7 @@ namespace PillHunt
 
             pillerList = new Dictionary<Pill, Rectangle>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 100; i++)
                 {
                 pillerList.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
                 }
@@ -72,7 +76,15 @@ namespace PillHunt
         
         protected override void Update(GameTime gameTime)
         {
-
+            if (_timer > 0)
+            {
+                _timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                _timer = 0;
+                //endGame();
+            }
             toBeRemoved = new List<Pill>();
 
             KeyboardState keyState = Keyboard.GetState();
@@ -130,6 +142,7 @@ namespace PillHunt
                 
                 }
 
+
             base.Update(gameTime);
         }
 
@@ -145,6 +158,7 @@ namespace PillHunt
             
             spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth-60, 0), Color.Black);
             spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 80, 20), Color.Black);
+            spriteBatch.DrawString(font, "Time: " + Math.Round(_timer), _timerVec, Color.White);
             spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
             foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
                 {
