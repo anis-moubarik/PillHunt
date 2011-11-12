@@ -28,6 +28,8 @@ namespace PillHunt
         List<Pill> toBeRemoved;
         double _timer;
         Vector2 _timerVec;
+        int speedX;
+        int speedY;
 
         public Game1()
         {
@@ -98,21 +100,61 @@ namespace PillHunt
             int MaxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
             int MinY = 0, MinX = 0;
 
-            if (keyState.IsKeyDown(Keys.W) && awesomePos.Y > MinY)
+            if (keyState.GetPressedKeys().Length > 0)
             {
-                awesomePos.Y -= 5;
+                if (keyState.IsKeyDown(Keys.W))
+                {
+                    speedY -= 2;
+                }
+                if (keyState.IsKeyDown(Keys.S))
+                {
+                    speedY += 2;
+                }
+                if (keyState.IsKeyDown(Keys.A))
+                {
+                    speedX -= 2;
+                }
+                if (keyState.IsKeyDown(Keys.D))
+                {
+                    speedX += 2;
+                }
             }
-            if (keyState.IsKeyDown(Keys.S) && awesomePos.Y < MaxY)
+            else
             {
-                awesomePos.Y += 5;
+                if (speedX > 0)
+                {
+                    speedX -= 1;
+                }
+                if (speedX < 0)
+                {
+                    speedX += 1;
+                }
+
+                if (speedY > 0)
+                {
+                    speedY -= 1;
+                }
+                if (speedY < 0)
+                {
+                    speedY += 1;
+                }
             }
-            if (keyState.IsKeyDown(Keys.A) && awesomePos.X > MinX)
+
+            if ((awesomePos.X + speedX) < MaxX && (awesomePos.X + speedX) > MinX)
             {
-                awesomePos.X -= 5;
+                awesomePos.X += speedX;
+            } else
+            {
+                speedX -= speedX * 2;
             }
-            if (keyState.IsKeyDown(Keys.D) && awesomePos.X < MaxX)
+
+            if ((awesomePos.Y + speedY) < MaxY && (awesomePos.Y + speedY) > MinY)
             {
-                awesomePos.X += 5;
+                awesomePos.Y += speedY;
+            }
+            else
+            {
+                speedY -= speedY * 2;
             }
 
             frameCounter++;
