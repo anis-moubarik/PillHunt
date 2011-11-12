@@ -31,6 +31,8 @@ namespace PillHunt
         double _timer;
         Vector2 _timerVec;
         bool endGame = false;
+        int speedX;
+        int speedY;
 
         public Game1()
         {
@@ -78,7 +80,7 @@ namespace PillHunt
         protected override void UnloadContent()
         {
         }
-        
+
         protected override void Update(GameTime gameTime)
         {
             if (_timer > 0)
@@ -95,9 +97,9 @@ namespace PillHunt
             KeyboardState keyState = Keyboard.GetState();
 
             if (keyState.IsKeyDown(Keys.Escape))
-                {
+            {
                 this.Exit();
-                }
+            }
 
             int MaxX = graphics.GraphicsDevice.Viewport.Width - awesomeFace.Width;
             int MaxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
@@ -121,37 +123,94 @@ namespace PillHunt
                 {
                     awesomePos.X += 5;
                 }
-            }
-
-            frameCounter++;
-            frameTime += gameTime.ElapsedGameTime.Milliseconds;
-
-            if (frameTime >= 1000)
-            {
-                currentFrameRate = frameCounter;
-                frameTime = 0;
-                frameCounter = 0;
-            }
-
-
-            foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+                if (keyState.GetPressedKeys().Length > 0)
                 {
-                if (awesomePos.Intersects(pair.Value))
+                    if (keyState.IsKeyDown(Keys.W))
                     {
-                    score++;
-                    toBeRemoved.Add(pair.Key);                
+                        speedY -= 2;
+                    }
+                    if (keyState.IsKeyDown(Keys.S))
+                    {
+                        speedY += 2;
+                    }
+                    if (keyState.IsKeyDown(Keys.A))
+                    {
+                        speedX -= 2;
+                    }
+                    if (keyState.IsKeyDown(Keys.D))
+                    {
+                        speedX += 2;
+                    }
+                }
+                else
+                {
+                    if (speedX > 0)
+                    {
+                        speedX -= 1;
+                    }
+                    if (speedX < 0)
+                    {
+                        speedX += 1;
+                    }
+
+                    if (speedY > 0)
+                    {
+                        speedY -= 1;
+                    }
+                    if (speedY < 0)
+                    {
+                        speedY += 1;
+                    }
+
+                    if ((awesomePos.X + speedX) < MaxX && (awesomePos.X + speedX) > MinX)
+                    {
+                        awesomePos.X += speedX;
+                    }
+                    else
+                    {
+                        speedX -= speedX * 2;
+                    }
+
+                    if ((awesomePos.Y + speedY) < MaxY && (awesomePos.Y + speedY) > MinY)
+                    {
+                        awesomePos.Y += speedY;
+                    }
+                    else
+                    {
+                        speedY -= speedY * 2;
                     }
                 }
 
-            foreach (Pill pill in toBeRemoved)
-                {
+                frameCounter++;
+                frameTime += gameTime.ElapsedGameTime.Milliseconds;
 
-                pillerList.Remove(pill);
-                
+                if (frameTime >= 1000)
+                {
+                    currentFrameRate = frameCounter;
+                    frameTime = 0;
+                    frameCounter = 0;
                 }
 
 
-            base.Update(gameTime);
+                foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+                {
+                    if (awesomePos.Intersects(pair.Value))
+                    {
+                        score++;
+                        toBeRemoved.Add(pair.Key);
+                    }
+                }
+
+                foreach (Pill pill in toBeRemoved)
+                {
+
+                    pillerList.Remove(pill);
+
+                }
+
+
+                base.Update(gameTime);
+            }
         }
 
         protected override void Draw(GameTime gameTime)
