@@ -14,26 +14,14 @@ namespace PillHunt
     class Pill
     {
 
-        public Rectangle pillPos = new Rectangle(0, 0, 0, 0);
-        private bool _alive;
-        public bool alive
-        {
-            set { _alive = value; }
-            get { return _alive; }
-        }
-
         public Pill()
         {
-            alive = true;
-        }
-        public void Draw(SpriteBatch spriteBatch, Texture2D pill, Rectangle pillPos)
-        {
-            this.pillPos = pillPos;
-            if(alive)
-                spriteBatch.Draw(pill, pillPos, Color.White);
         }
 
-       
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle position)
+        {
+            spriteBatch.Draw(texture, position, Color.White);
+        }
 
     }
 }

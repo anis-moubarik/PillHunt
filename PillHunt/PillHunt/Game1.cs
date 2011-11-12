@@ -11,9 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PillHunt
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
+
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -22,13 +20,12 @@ namespace PillHunt
         Texture2D pill;
         SpriteFont font;
         Rectangle awesomePos = new Rectangle(0, 0, 32, 32);
-        Rectangle pillPos = new Rectangle(100, 10, 32, 32);
-        Vector2 origin = Vector2.Zero;
         int frameCounter;
         int frameTime;
         int currentFrameRate;
         int score = 0;
-        Pill piller = new Pill();
+        Dictionary<Pill, Rectangle> pillerList;
+        List<Pill> toBeRemoved;
 
         public Game1()
         {
@@ -38,55 +35,53 @@ namespace PillHunt
             graphics.PreferredBackBufferWidth = 800;
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             awesomeFace = Content.Load<Texture2D>("Awesome");
             pill = Content.Load<Texture2D>("pill");
             font = Content.Load<SpriteFont>("FPS");
+            createPills();
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
+
+        public void createPills()
+            {
+
+            Random random = new Random();
+            int maxX = graphics.GraphicsDevice.Viewport.Width - pill.Width;
+            int maxY = graphics.GraphicsDevice.Viewport.Height - pill.Height;
+
+            pillerList = new Dictionary<Pill, Rectangle>();
+
+            for (int i = 0; i < 20; i++)
+                {
+                pillerList.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
+                }
+            }
+
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+
+            toBeRemoved = new List<Pill>();
 
             KeyboardState keyState = Keyboard.GetState();
-            // TODO: Add your update logic here
+
+            if (keyState.IsKeyDown(Keys.Escape))
+                {
+                this.Exit();
+                }
+
             int MaxX = graphics.GraphicsDevice.Viewport.Width - awesomeFace.Width;
             int MaxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
             int MinY = 0, MinX = 0;
@@ -110,42 +105,51 @@ namespace PillHunt
 
             frameCounter++;
             frameTime += gameTime.ElapsedGameTime.Milliseconds;
+
             if (frameTime >= 1000)
             {
                 currentFrameRate = frameCounter;
                 frameTime = 0;
                 frameCounter = 0;
             }
-            if (awesomePos.Intersects(pillPos) && piller.alive)
-                score++;
-            if (awesomePos.Intersects(pillPos))
-            {
-                piller.alive = false;
-            }
+
+
+            foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+                {
+                if (awesomePos.Intersects(pair.Value))
+                    {
+                    score++;
+                    toBeRemoved.Add(pair.Key);                
+                    }
+                }
+
+            foreach (Pill pill in toBeRemoved)
+                {
+
+                pillerList.Remove(pill);
+                
+                }
+
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightBlue);
-            // TODO: Add your drawing code here
+
 
             int maxWidth = graphics.GraphicsDevice.Viewport.Width;
             int maxHeight = graphics.GraphicsDevice.Viewport.Height;
 
-            
-
-
-
             spriteBatch.Begin();
-            piller.Draw(spriteBatch, pill, pillPos);
+            
             spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth-60, 0), Color.Black);
             spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 80, 20), Color.Black);
             spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
+            foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+                {
+                pair.Key.draw(spriteBatch, pill, pair.Value);
+                }
 
 
             spriteBatch.End();
