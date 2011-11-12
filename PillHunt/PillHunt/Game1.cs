@@ -21,15 +21,20 @@ namespace PillHunt
         Texture2D awesomeFace;
         Texture2D pill;
         SpriteFont font;
-        Vector2 spritePos = Vector2.Zero;
+        Rectangle awesomePos = new Rectangle(0, 0, 32, 32);
+        Rectangle pillPos = new Rectangle(100, 10, 32, 32);
         Vector2 origin = Vector2.Zero;
         int frameCounter;
         int frameTime;
         int currentFrameRate;
+        int score = 0;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 640;
+            graphics.PreferredBackBufferWidth = 800;
         }
 
         /// <summary>
@@ -56,7 +61,6 @@ namespace PillHunt
             awesomeFace = Content.Load<Texture2D>("Awesome");
             pill = Content.Load<Texture2D>("pill");
             font = Content.Load<SpriteFont>("FPS");
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -74,19 +78,6 @@ namespace PillHunt
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         
-        public void spawnPills(SpriteBatch spriteBatch, Texture2D pill)
-        {
-            int MaxX = graphics.GraphicsDevice.Viewport.Width - pill.Width;
-            int MaxY = graphics.GraphicsDevice.Viewport.Height - pill.Height;
-            Random random = new Random();
-            for (int i = 0; i < 20; i++)
-            {
-                int eka = random.Next(MaxX);
-                int toka = random.Next(MaxY);
-                Vector2 vec = new Vector2(eka, toka);
-                spriteBatch.Draw(pill, vec, Color.White);
-            }
-        }
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -99,21 +90,21 @@ namespace PillHunt
             int MaxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
             int MinY = 0, MinX = 0;
 
-            if (keyState.IsKeyDown(Keys.W) && spritePos.Y > MinY)
+            if (keyState.IsKeyDown(Keys.W) && awesomePos.Y > MinY)
             {
-                spritePos.Y -= 5;
+                awesomePos.Y -= 5;
             }
-            if (keyState.IsKeyDown(Keys.S) && spritePos.Y < MaxY)
+            if (keyState.IsKeyDown(Keys.S) && awesomePos.Y < MaxY)
             {
-                spritePos.Y += 5;
+                awesomePos.Y += 5;
             }
-            if (keyState.IsKeyDown(Keys.A) && spritePos.X > MinX)
+            if (keyState.IsKeyDown(Keys.A) && awesomePos.X > MinX)
             {
-                spritePos.X -= 5;
+                awesomePos.X -= 5;
             }
-            if (keyState.IsKeyDown(Keys.D) && spritePos.X < MaxX)
+            if (keyState.IsKeyDown(Keys.D) && awesomePos.X < MaxX)
             {
-                spritePos.X += 5;
+                awesomePos.X += 5;
             }
 
             frameCounter++;
@@ -124,7 +115,6 @@ namespace PillHunt
                 frameTime = 0;
                 frameCounter = 0;
             }
-            
 
             base.Update(gameTime);
         }
@@ -133,16 +123,30 @@ namespace PillHunt
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        Pill piller = new Pill();
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightBlue);
             // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
 
-            spriteBatch.Draw(pill, new Vector2(150, 10), Color.White);
-            spriteBatch.Draw(awesomeFace, spritePos, Color.White);
+            int maxWidth = graphics.GraphicsDevice.Viewport.Width;
+            int maxHeight = graphics.GraphicsDevice.Viewport.Height;
 
-            spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(0, 0), Color.White);
+            
+
+
+
+            spriteBatch.Begin();
+            if(piller.alive)
+                piller.Draw(spriteBatch, pill, pillPos);
+            spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth-60, 0), Color.Black);
+            spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 70, 20), Color.Black);
+            spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
+            if (awesomePos.Intersects(pillPos))
+            {
+                piller.alive = false;
+                score++;
+            }
             spriteBatch.End();
             base.Draw(gameTime);
             
