@@ -18,6 +18,8 @@ namespace PillHunt
         SpriteBatch spriteBatch;
         Texture2D awesomeFace;
         Texture2D pill;
+        Texture2D dimmer;
+        Texture2D gameOver;
         SpriteFont font;
         Rectangle awesomePos = new Rectangle(0, 0, 32, 32);
         int frameCounter;
@@ -28,12 +30,13 @@ namespace PillHunt
         List<Pill> toBeRemoved;
         double _timer;
         Vector2 _timerVec;
+        bool endGame = false;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 640;
+            graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
             _timer = 5.0f;
             _timerVec = new Vector2(0, 0);
@@ -51,6 +54,8 @@ namespace PillHunt
             awesomeFace = Content.Load<Texture2D>("Awesome");
             pill = Content.Load<Texture2D>("pill");
             font = Content.Load<SpriteFont>("FPS");
+            dimmer = Content.Load<Texture2D>("dimmer");
+            gameOver = Content.Load<Texture2D>("gameOver");
             createPills();
         }
 
@@ -64,7 +69,7 @@ namespace PillHunt
 
             pillerList = new Dictionary<Pill, Rectangle>();
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10000; i++)
                 {
                 pillerList.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
                 }
@@ -83,7 +88,7 @@ namespace PillHunt
             else
             {
                 _timer = 0;
-                //endGame();
+                endGame = true;
             }
             toBeRemoved = new List<Pill>();
 
@@ -98,21 +103,24 @@ namespace PillHunt
             int MaxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
             int MinY = 0, MinX = 0;
 
-            if (keyState.IsKeyDown(Keys.W) && awesomePos.Y > MinY)
+            if (!endGame)
             {
-                awesomePos.Y -= 5;
-            }
-            if (keyState.IsKeyDown(Keys.S) && awesomePos.Y < MaxY)
-            {
-                awesomePos.Y += 5;
-            }
-            if (keyState.IsKeyDown(Keys.A) && awesomePos.X > MinX)
-            {
-                awesomePos.X -= 5;
-            }
-            if (keyState.IsKeyDown(Keys.D) && awesomePos.X < MaxX)
-            {
-                awesomePos.X += 5;
+                if (keyState.IsKeyDown(Keys.W) && awesomePos.Y > MinY)
+                {
+                    awesomePos.Y -= 5;
+                }
+                if (keyState.IsKeyDown(Keys.S) && awesomePos.Y < MaxY)
+                {
+                    awesomePos.Y += 5;
+                }
+                if (keyState.IsKeyDown(Keys.A) && awesomePos.X > MinX)
+                {
+                    awesomePos.X -= 5;
+                }
+                if (keyState.IsKeyDown(Keys.D) && awesomePos.X < MaxX)
+                {
+                    awesomePos.X += 5;
+                }
             }
 
             frameCounter++;
@@ -150,20 +158,44 @@ namespace PillHunt
         {
             GraphicsDevice.Clear(Color.LightBlue);
 
-
+            Rectangle dim = new Rectangle(0, 0, 800, 600);
             int maxWidth = graphics.GraphicsDevice.Viewport.Width;
             int maxHeight = graphics.GraphicsDevice.Viewport.Height;
 
-            spriteBatch.Begin();
-            
-            spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth-60, 0), Color.Black);
-            spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 80, 20), Color.Black);
-            spriteBatch.DrawString(font, "Time: " + Math.Round(_timer), _timerVec, Color.White);
-            spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
-            foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+
+
+            if (endGame)
+            {
+                Vector2 mid;
+
+                KeyboardState ks = Keyboard.GetState();
+                mid.X = (graphics.GraphicsDevice.Viewport.Width / 2);
+                mid.Y = graphics.GraphicsDevice.Viewport.Height / 2;
+                spriteBatch.Draw(dimmer, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
+
+
+                spriteBatch.Draw(gameOver, mid, null, Color.White, 0f, new Vector2((float)gameOver.Width / 2, (float)gameOver.Height / 2), 1f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, "Score: " + score, new Vector2(mid.X + 20, mid.Y + 20), Color.White);
+                spriteBatch.DrawString(font, "Game Over", new Vector2(mid.X - 50, mid.Y - 50), Color.White);
+
+
+            }
+            if (!endGame)
+            {
+                foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
                 {
-                pair.Key.draw(spriteBatch, pill, pair.Value);
+                    pair.Key.draw(spriteBatch, pill, pair.Value);
                 }
+            }
+                spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth - 60, 0), Color.Black);
+                spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 80, 20), Color.Black);
+                spriteBatch.DrawString(font, "Time: " + Math.Round(_timer), _timerVec, Color.White);
+                spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
+
+
+
 
 
             spriteBatch.End();
