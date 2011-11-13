@@ -112,70 +112,9 @@ namespace PillHunt
                 this.Exit();
                 }
 
-            int maxX = graphics.GraphicsDevice.Viewport.Width - awesomeFace.Width;
-            int maxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
-            int minY = 0;
-            int minX = 0;
-
             if (!endGame)
-                {
-                if (keyState.GetPressedKeys().Length > 0)
-                    {
-                    if (keyState.IsKeyDown(Keys.W))
-                        {
-                        speedY -= 2;
-                        }
-                    if (keyState.IsKeyDown(Keys.S))
-                        {
-                        speedY += 2;
-                        }
-                    if (keyState.IsKeyDown(Keys.A))
-                        {
-                        speedX -= 2;
-                        }
-                    if (keyState.IsKeyDown(Keys.D))
-                        {
-                        speedX += 2;
-                        }
-                    }
-                else
-                    {
-                    if (speedX > 0)
-                        {
-                        speedX -= 1;
-                        }
-                    if (speedX < 0)
-                        {
-                        speedX += 1;
-                        }
-
-                    if (speedY > 0)
-                        {
-                        speedY -= 1;
-                        }
-                    if (speedY < 0)
-                        {
-                        speedY += 1;
-                        }
-                    }
-
-                if ((player1.getX() + speedX) < maxX && ((player1.getX() + speedX) > minX))
-                    {
-                    player1.setX(player1.getX() + speedX);
-                    }
-                else
-                    {
-                    speedX -= speedX * 2;
-                    }
-
-                if ((player1.getY() + speedY) < maxY && (player1.getY() + speedY) > minY)
-                    {
-                    player1.setY(player1.getY() + speedY);
-                    }
-                else
-                    {
-                    speedY -= speedY * 2;
-                    }
+            {
+                keyState = movement(keyState);
 
 
                 fps.increaseCounter();
@@ -207,6 +146,76 @@ namespace PillHunt
                 base.Update(gameTime);
                 }
             }
+
+        private KeyboardState movement(KeyboardState keyState)
+        {
+
+            //liike nopeutuu jos nappia painettu
+            if (keyState.GetPressedKeys().Length > 0)
+            {
+                if (keyState.IsKeyDown(Keys.W))
+                {
+                    speedY -= 2;
+                }
+                if (keyState.IsKeyDown(Keys.S))
+                {
+                    speedY += 2;
+                }
+                if (keyState.IsKeyDown(Keys.A))
+                {
+                    speedX -= 2;
+                }
+                if (keyState.IsKeyDown(Keys.D))
+                {
+                    speedX += 2;
+                }
+            } //muuten hidastuu
+            else
+            {
+                if (speedX > 0)
+                {
+                    speedX -= 1;
+                }
+                if (speedX < 0)
+                {
+                    speedX += 1;
+                }
+
+                if (speedY > 0)
+                {
+                    speedY -= 1;
+                }
+                if (speedY < 0)
+                {
+                    speedY += 1;
+                }
+            }
+
+            int maxX = graphics.GraphicsDevice.Viewport.Width - awesomeFace.Width;
+            int maxY = graphics.GraphicsDevice.Viewport.Height - awesomeFace.Height;
+            int minY = 0;
+            int minX = 0;
+
+            //estää pelaajan menon ulos kentältä
+            if ((player1.getX() + speedX) < maxX && ((player1.getX() + speedX) > minX))
+            {
+                player1.setX(player1.getX() + speedX);
+            } //bounce
+            else 
+            {
+                speedX -= speedX * 2;
+            }
+
+            if ((player1.getY() + speedY) < maxY && (player1.getY() + speedY) > minY)
+            {
+                player1.setY(player1.getY() + speedY);
+            }
+            else
+            {
+                speedY -= speedY * 2;
+            }
+            return keyState;
+        }
 
         protected override void Draw(GameTime gameTime)
             {
