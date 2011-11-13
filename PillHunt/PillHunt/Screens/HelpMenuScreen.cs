@@ -29,7 +29,8 @@ namespace PillHunt
             // Add entries to the menu.
             //MenuEntries.Add(languageMenuEntry);
             message = "PillHunt is a realistic simulation of the hunt\n some members of the society go through daily.\n\n"
-            + "Your objective is to eat as many pills\n as you can under the time limit.\n\n You move using the WASD keys.";
+            + "Your objective is to eat as many pills\n as you can under the time limit.\n\n You move using the WASD keys.\n\n"
+            + "Press ESC to pause the game.";
             MenuEntries.Add(back);
         }
 
