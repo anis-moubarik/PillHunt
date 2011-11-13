@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PillHunt
     {
@@ -35,10 +36,11 @@ namespace PillHunt
             time = 0.0f;
             }
 
-        public Vector2 getVector()
+        public void draw(SpriteBatch spriteBatch, SpriteFont font)
             {
-            return timeVector;
+            spriteBatch.DrawString(font, "Time: " + Math.Round(time), timeVector, Color.Black);
             }
+
 
         }
 

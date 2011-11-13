@@ -246,8 +246,8 @@ namespace PillHunt
                 }
             spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth - 60, 0), Color.Black);
             spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(maxWidth - 80, 20), Color.Black);
-            spriteBatch.DrawString(font, "Time: " + Math.Round(clock.getTime()), clock.getVector(), Color.White);
 
+            clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeFace);
 
             spriteBatch.End();
