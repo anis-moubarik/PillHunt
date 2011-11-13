@@ -31,8 +31,6 @@ namespace PillHunt
         List<Pill> toBeRemoved;
 
         bool endGame = false;
-        int speedX;
-        int speedY;
         float pauseAlpha;
 
         InputAction pauseAction;
@@ -189,40 +187,24 @@ namespace PillHunt
             {
                 if (keyState.IsKeyDown(Keys.W))
                 {
-                    speedY -= 2;
+                    player1.changeSpeedY(-2);
                 }
                 if (keyState.IsKeyDown(Keys.S))
                 {
-                    speedY += 2;
+                    player1.changeSpeedY(2);
                 }
                 if (keyState.IsKeyDown(Keys.A))
                 {
-                    speedX -= 2;
+                    player1.changeSpeedX(-2);
                 }
                 if (keyState.IsKeyDown(Keys.D))
                 {
-                    speedX += 2;
+                    player1.changeSpeedX(2);
                 }
             } //muuten hidastuu
             else
             {
-                if (speedX > 0)
-                {
-                    speedX -= 1;
-                }
-                if (speedX < 0)
-                {
-                    speedX += 1;
-                }
-
-                if (speedY > 0)
-                {
-                    speedY -= 1;
-                }
-                if (speedY < 0)
-                {
-                    speedY += 1;
-                }
+                player1.slowDown();
             }
 
             int maxX = ScreenManager.GraphicsDevice.Viewport.Width - awesomeFace.Width;
@@ -230,24 +212,8 @@ namespace PillHunt
             int minY = 0;
             int minX = 0;
 
-            //estää pelaajan menon ulos kentältä
-            if ((player1.getX() + speedX) < maxX && ((player1.getX() + speedX) > minX))
-            {
-                player1.setX(player1.getX() + speedX);
-            } //bounce
-            else
-            {
-                speedX -= speedX * 2;
-            }
+            player1.move(maxX, maxY, minX, minY);
 
-            if ((player1.getY() + speedY) < maxY && (player1.getY() + speedY) > minY)
-            {
-                player1.setY(player1.getY() + speedY);
-            }
-            else
-            {
-                speedY -= speedY * 2;
-            }
             return keyState;
         }
 
