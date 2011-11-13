@@ -14,8 +14,11 @@ namespace PillHunt
 
     public class ScreenManager : DrawableGameComponent
     {
+        //Game should be able to handle crashing game and come to the last screen we were
+        //not sure it works though.
         private const string StateFilename = "ScreenManagerState.xml";
 
+        //List of screens we use
         List<GameScreen> screens = new List<GameScreen>();
         List<GameScreen> tempScreensList = new List<GameScreen>();
 
@@ -26,8 +29,6 @@ namespace PillHunt
         InputState input = new InputState();
 
         bool isInitialized;
-
-        bool traceEnabled;
 
 
 
@@ -45,12 +46,6 @@ namespace PillHunt
             get { return font; }
         }
 
-
-        public bool TraceEnabled
-        {
-            get { return traceEnabled; }
-            set { traceEnabled = value; }
-        }
 
         public Texture2D BlankTexture
         {
@@ -79,6 +74,7 @@ namespace PillHunt
             font = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");
 
+            //As we load we activate our screens
             foreach (GameScreen screen in screens)
             {
                 screen.Activate(false);
@@ -135,20 +131,6 @@ namespace PillHunt
                 }
             }
 
-            // Print debug trace?
-            if (traceEnabled)
-                TraceScreens();
-        }
-
-
-        void TraceScreens()
-        {
-            List<string> screenNames = new List<string>();
-
-            foreach (GameScreen screen in screens)
-                screenNames.Add(screen.GetType().Name);
-
-            Debug.WriteLine(string.Join(", ", screenNames.ToArray()));
         }
 
 

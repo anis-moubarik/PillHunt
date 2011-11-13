@@ -4,9 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace PillHunt
 {
-    /// <summary>
-    /// The main menu screen is the first thing displayed when the game starts up.
-    /// </summary>
+    // First thing that shows up is this.
     class MainMenuScreen : MenuScreen
     {
 
@@ -40,18 +38,14 @@ namespace PillHunt
         }
 
 
-        /// <summary>
-        /// Event handler for when the Options menu entry is selected.
-        /// </summary>
+        // Event handler for when the Options menu entry is selected.
         void HelpMenuEntry(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new HelpMenuScreen(), e.PlayerIndex);
         }
 
 
-        /// <summary>
-        /// When the user cancels the main menu, ask if they want to exit the sample.
-        /// </summary>
+        // When the user cancels the main menu, ask if they want to exit.
         protected override void OnCancel(PlayerIndex playerIndex)
         {
             const string message = "Are you sure you want to exit?";

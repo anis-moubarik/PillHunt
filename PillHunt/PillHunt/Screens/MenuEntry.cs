@@ -28,7 +28,7 @@ namespace PillHunt
         }
 
 
-
+        //Who triggered the event?
         public event EventHandler<PlayerIndexEventArgs> Selected;
 
 

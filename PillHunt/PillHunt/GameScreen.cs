@@ -5,9 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace PillHunt
 {
-    /// <summary>
-    /// Enum describes the screen transition state.
-    /// </summary>
+    // Enum describes the screen transition state.
     public enum ScreenState
     {
         TransitionOn,
@@ -145,7 +143,7 @@ namespace PillHunt
                 }
                 else
                 {
-                    // Transition finished!
+                    // Transition finished
                     screenState = ScreenState.Hidden;
                 }
             }
@@ -159,7 +157,7 @@ namespace PillHunt
                 }
                 else
                 {
-                    // Transition finished!
+                    // Transition finished
                     screenState = ScreenState.Active;
                 }
             }

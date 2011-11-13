@@ -1,3 +1,7 @@
+/*
+ * Game is run here
+ */
+
 using System;
 using System.Threading;
 using Microsoft.Xna.Framework;

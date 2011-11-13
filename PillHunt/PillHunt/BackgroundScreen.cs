@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PillHunt
 {
-
+    //Draws our supercool background
     class BackgroundScreen : GameScreen
     {
         ContentManager content;
