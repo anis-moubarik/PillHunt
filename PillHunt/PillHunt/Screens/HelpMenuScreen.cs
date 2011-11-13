@@ -7,7 +7,6 @@ namespace PillHunt
     class HelpMenuScreen : MenuScreen
     {
 
-        MenuEntry languageMenuEntry;
 
 
         static string message;
@@ -29,14 +28,14 @@ namespace PillHunt
             
             // Add entries to the menu.
             //MenuEntries.Add(languageMenuEntry);
-            message = "Text";
+            message = "PillHunt is a realistic simulation of the hunt\n some members of the society go through daily.\n\n"
+            + "Your objective is to eat as many pills\n as you can under the time limit.\n\n You move using the WASD keys.";
             MenuEntries.Add(back);
         }
 
 
         void SetMenuEntryText()
         {
-            languageMenuEntry.Text = "test";
         }
 
         public override void Draw(GameTime gameTime)
