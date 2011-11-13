@@ -15,6 +15,7 @@ namespace PillHunt
 
     class GameplayScreen : GameScreen
     {
+
         ContentManager content;
         SpriteFont gameFont;
 
@@ -25,9 +26,9 @@ namespace PillHunt
         SpriteFont font;
 
         Player player1;
+        Player player2;
         Timer clock;
         FPS fps;
-
 
         Dictionary<Pill, Rectangle> pillerList;
         List<Pill> toBeRemoved;
@@ -40,7 +41,7 @@ namespace PillHunt
 
         public GameplayScreen()
         {
-            TransitionOnTime = TimeSpan.FromSeconds(1.5);
+            TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             pauseAction = new InputAction(
@@ -48,6 +49,9 @@ namespace PillHunt
                 true);
 
             player1 = new Player();
+            player2 = new Player();
+            player2.setX(300);
+            player2.setY(300);
             clock = new Timer();
             fps = new FPS(800);
         }
@@ -145,7 +149,7 @@ namespace PillHunt
 
                 if (!endGame)
                 {
-                    keyState = movement(keyState);
+                    movement(keyState);
 
 
                     fps.increaseCounter();
@@ -166,6 +170,12 @@ namespace PillHunt
                             player1.increaseScore();
                             toBeRemoved.Add(pair.Key);
                         }
+
+                        if (player2.getPosition().Intersects(pair.Value))
+                        {
+                            player2.increaseScore();
+                            toBeRemoved.Add(pair.Key);
+                        }
                     }
 
                     foreach (Pill pill in toBeRemoved)
@@ -179,32 +189,70 @@ namespace PillHunt
             }
         }
 
-        private KeyboardState movement(KeyboardState keyState)
+        private void movement(KeyboardState keyState)
         {
 
             //liike nopeutuu jos nappia painettu
             if (keyState.GetPressedKeys().Length > 0)
             {
+                Boolean playerOne = false;
+                Boolean playerTwo = false;
+
                 if (keyState.IsKeyDown(Keys.W))
                 {
                     player1.changeSpeedY(-2);
+                    playerOne = true;
                 }
                 if (keyState.IsKeyDown(Keys.S))
                 {
                     player1.changeSpeedY(2);
+                    playerOne = true;
                 }
                 if (keyState.IsKeyDown(Keys.A))
                 {
                     player1.changeSpeedX(-2);
+                    playerOne = true;
                 }
                 if (keyState.IsKeyDown(Keys.D))
                 {
                     player1.changeSpeedX(2);
+                    playerOne = true;
+                }
+
+                if (keyState.IsKeyDown(Keys.Up))
+                {
+                    player2.changeSpeedY(-2);
+                    playerTwo = true;
+                }
+                if (keyState.IsKeyDown(Keys.Down))
+                {
+                    player2.changeSpeedY(2);
+                    playerTwo = true;
+                }
+                if (keyState.IsKeyDown(Keys.Left))
+                {
+                    player2.changeSpeedX(-2);
+                    playerTwo = true;
+                }
+                if (keyState.IsKeyDown(Keys.Right))
+                {
+                    player2.changeSpeedX(2);
+                    playerTwo = true;
+                }
+
+                if (!playerOne)
+                {
+                    player1.slowDown();
+                }
+                else if (!playerTwo)
+                {
+                    player2.slowDown();
                 }
             } //muuten hidastuu
             else
             {
                 player1.slowDown();
+                player2.slowDown();
             }
 
             int maxX = ScreenManager.GraphicsDevice.Viewport.Width - awesomeFace.Width;
@@ -212,9 +260,16 @@ namespace PillHunt
             int minY = 0;
             int minX = 0;
 
-            player1.move(maxX, maxY, minX, minY);
+            if (player1.getPosition().Intersects(player2.getPosition()))
+            {
+                player1.bounceX();
+                player1.bounceY();
+                player2.bounceX();
+                player2.bounceY();
+            }
 
-            return keyState;
+            player1.move(maxX, maxY, minX, minY);
+            player2.move(maxX, maxY, minX, minY);
         }
 
 
@@ -255,23 +310,14 @@ namespace PillHunt
 
             if (endGame)
             {
-                //Vector2 mid;
-                //mid.X = ScreenManager.GraphicsDevice.Viewport.Width / 2;
-                //mid.Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
-                //spriteBatch.Draw(dimmer, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
-
-
-                //spriteBatch.Draw(gameOver, mid, null, Color.White, 0f, new Vector2((float)gameOver.Width / 2, (float)gameOver.Height / 2), 1f, SpriteEffects.None, 0f);
-                //spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(mid.X + 20, mid.Y + 20), Color.White);
-                //spriteBatch.DrawString(font, "Game Over", new Vector2(mid.X - 50, mid.Y - 50), Color.White);
                 Vector2 mid = new Vector2((float)ScreenManager.GraphicsDevice.Viewport.Width / 2, (float)ScreenManager.GraphicsDevice.Viewport.Height / 2);
                 Vector2 goPos = new Vector2((float)gameOver.Width / 2, (float)gameOver.Height / 2);
 
                 spriteBatch.Draw(dimmer, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
                 spriteBatch.Draw(gameOver, mid, null, Color.White, 0f, goPos, 1f, SpriteEffects.None, 1f);
                 spriteBatch.DrawString(font, "Game Over", new Vector2(mid.X - 50, mid.Y - 50), Color.Black);
-                spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(mid.X - 50, mid.Y - 20), Color.Black);
-
+                spriteBatch.DrawString(font, "Player 1 score: " + player1.getScore(), new Vector2(mid.X - 50, mid.Y - 20), Color.Black);
+                spriteBatch.DrawString(font, "Player 2 score: " + player2.getScore(), new Vector2(mid.X - 50, mid.Y - 0), Color.Black);
 
             }
             if (!endGame)
@@ -285,10 +331,12 @@ namespace PillHunt
             calculateFPS(gameTime);
 
             clock.draw(spriteBatch, font);
-            player1.draw(spriteBatch, awesomeFace);
+            player1.draw(spriteBatch, awesomeFace, Color.Yellow);
+            player2.draw(spriteBatch, awesomeFace, Color.Red);
             fps.draw(spriteBatch, font);
 
-            spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(maxWidth - 80, 20), Color.Black);
+            spriteBatch.DrawString(font, "Player 1: " + player1.getScore(), new Vector2(maxWidth - 100, 20), Color.Black);
+            spriteBatch.DrawString(font, "Player 2: " + player2.getScore(), new Vector2(maxWidth - 100, 40), Color.Black);
 
 
             spriteBatch.End();

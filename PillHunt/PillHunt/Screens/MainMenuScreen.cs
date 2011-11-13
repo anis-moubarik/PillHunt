@@ -10,7 +10,7 @@ namespace PillHunt
 
 
         public MainMenuScreen()
-            : base("Main Menu")
+            : base("PillHunt")
         {
             // Create our menu entries.
             MenuEntry playGameMenuEntry = new MenuEntry("Play Game");

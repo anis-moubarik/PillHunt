@@ -11,7 +11,7 @@ namespace PillHunt
     {
 
         private double time;
-        private Vector2 timeVector;
+        private Vector2 timeVector; //location of the timer
 
 
         public Timer()
@@ -31,11 +31,13 @@ namespace PillHunt
             time = time - decrease;
         }
 
+        //resets the timer
         public void zero()
         {
             time = 0.0f;
         }
 
+        //draws the timer to the left corner of the screen
         public void draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             spriteBatch.DrawString(font, "Time: " + Math.Round(time), timeVector, Color.Black);

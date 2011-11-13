@@ -18,6 +18,7 @@ namespace PillHunt
         {
         }
 
+        //draws the pill to given location using the given spritebatch and texture
         public void draw(SpriteBatch spriteBatch, Texture2D texture, Rectangle position)
         {
             spriteBatch.Draw(texture, position, Color.White);

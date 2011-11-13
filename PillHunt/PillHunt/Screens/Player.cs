@@ -13,8 +13,8 @@ namespace PillHunt
         private int score;
         private Rectangle position;
 
-        int speedX;
-        int speedY;
+        private int speedX;
+        private int speedY;
 
 
         public Player()
@@ -33,6 +33,7 @@ namespace PillHunt
             speedY += change;
         }
 
+        //decreases the speed of the player by 1
         public void slowDown()
         {
             if (speedX > 0)
@@ -53,55 +54,46 @@ namespace PillHunt
             }
         }
 
-        internal void move(int maxX, int maxY, int minX, int minY)
-        {
-            if ((getX() + speedX) < maxX && (getX() + speedX) > minX)
+        //moves the player, if the player hits a wall he bounces of it
+        public void move(int maxX, int maxY, int minX, int minY)
             {
-                setX(getX() + speedX);
-            }
+
+            if ((position.X + speedX) < maxX && (position.X + speedX) > minX)
+                {
+                position.X = position.X + speedX;
+                }
+
             else
-            {
+                {
                 bounceX();
-            }
-            if ((getY() + speedY) < maxY && (getY() + speedY) > minY)
-            {
-                setY(getY() + speedY);
-            }
+                }
+
+            if ((position.Y + speedY) < maxY && (position.Y + speedY) > minY)
+                {
+                position.Y = position.Y + speedY;
+                }
+
             else
-            {
+                {
                 bounceY();
+                }
+
             }
-        }
 
-        internal void bounceX()
-        {
+        public void bounceX()
+            {
             speedX -= speedX * 2;
-        }
+            }
 
-        internal void bounceY()
-        {
+        public void bounceY()
+            {
             speedY -= speedY * 2;
-        }
+            }
 
         public Rectangle getPosition()
-        {
+            {
             return position;
-        }
-
-        public int getX()
-        {
-            return position.X;
-        }
-
-        public int getY()
-        {
-            return position.Y;
-        }
-
-        public void setPosition(Rectangle newPosition)
-        {
-            position = newPosition;
-        }
+            }
 
         public void setX(int x)
         {
@@ -123,9 +115,9 @@ namespace PillHunt
             score++;
         }
 
-        public void draw(SpriteBatch spriteBatch, Texture2D texture)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, Color color)
         {
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, position, color);
         }
 
     }
