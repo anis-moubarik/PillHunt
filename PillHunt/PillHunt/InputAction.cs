@@ -25,24 +25,16 @@ namespace PillHunt
 
         public bool Evaluate(InputState state, PlayerIndex? controllingPlayer, out PlayerIndex player)
         {
-            ButtonPress buttonTest;
             KeyPress keyTest;
             if (newPressOnly)
             {
-                buttonTest = state.IsNewButtonPress;
                 keyTest = state.IsNewKeyPress;
             }
             else
             {
-                buttonTest = state.IsButtonPressed;
                 keyTest = state.IsKeyPressed;
             }
 
-            foreach (Buttons button in buttons)
-            {
-                if (buttonTest(button, controllingPlayer, out player))
-                    return true;
-            }
             foreach (Keys key in keys)
             {
                 if (keyTest(key, controllingPlayer, out player))

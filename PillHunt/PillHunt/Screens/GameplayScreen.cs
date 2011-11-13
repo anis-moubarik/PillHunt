@@ -23,9 +23,7 @@ namespace PillHunt
         Player player1;
         Timer clock;
 
-        int frameCounter;
-        int frameTime;
-        int currentFrameRate;
+        FPS fps;
 
         Dictionary<Pill, Rectangle> pillerList;
         List<Pill> toBeRemoved;
@@ -48,6 +46,7 @@ namespace PillHunt
 
             player1 = new Player();
             clock = new Timer();
+            fps = new FPS(800);
         }
 
         public void createPills()
@@ -146,14 +145,12 @@ namespace PillHunt
                     keyState = movement(keyState);
 
 
-                    frameCounter++;
-                    frameTime += gameTime.ElapsedGameTime.Milliseconds;
+                    fps.increaseCounter();
+                    fps.increaseTime(gameTime.ElapsedGameTime.Milliseconds);
 
-                    if (frameTime >= 1000)
+                    if (fps.getFrameTime() >= 1000)
                     {
-                        currentFrameRate = frameCounter;
-                        frameTime = 0;
-                        frameCounter = 0;
+                        fps.setFPS();
                     }
 
 
@@ -284,6 +281,7 @@ namespace PillHunt
 
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeFace);
+            fps.draw(spriteBatch, font);
 
             spriteBatch.End();
 

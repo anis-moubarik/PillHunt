@@ -120,7 +120,7 @@
     <Compile Include="Screens\MenuEntry.cs" />
     <Compile Include="Screens\MenuScreen.cs" />
     <Compile Include="Screens\MessageBoxScreen.cs" />
-    <Compile Include="Screens\OptionsMenuScreen.cs" />
+    <Compile Include="Screens\HelpMenuScreen.cs" />
     <Compile Include="Screens\PauseMenuScreen.cs" />
     <Compile Include="Screens\Pill.cs" />
     <Compile Include="Screens\Player.cs" />

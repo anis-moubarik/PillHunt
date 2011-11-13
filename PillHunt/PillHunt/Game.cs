@@ -16,7 +16,7 @@ namespace PillHunt
             Content.RootDirectory = "Content";
 
             graphics = new GraphicsDeviceManager(this);
-            TargetElapsedTime = TimeSpan.FromTicks(333333);
+            TargetElapsedTime = TimeSpan.FromTicks(166666);
 
 
             // Create the screen factory and add it to the Services
