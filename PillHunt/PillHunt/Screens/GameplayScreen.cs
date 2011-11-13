@@ -1,7 +1,3 @@
-/*
- * Game is run here
- */
-
 using System;
 using System.Threading;
 using Microsoft.Xna.Framework;
@@ -42,29 +38,32 @@ namespace PillHunt
 
         public GameplayScreen()
         {
+
+            //times for the transition
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
-            pauseAction = new InputAction(
-                new Keys[] { Keys.Escape },
-                true);
+            //sets the escape-key as the pause-button
+            pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
 
             player1 = new Player();
+
             player2 = new Player();
             player2.setX(300);
             player2.setY(300);
+
             clock = new Timer();
             fps = new FPS(800);
 
         }
 
+        //creates all the pills to the game and adds them and their (random) locations to a dictionary
         public void createPills()
         {
 
             Random random = new Random();
             int maxX = ScreenManager.GraphicsDevice.Viewport.Width - pill.Width;
             int maxY = ScreenManager.GraphicsDevice.Viewport.Height - pill.Height;
-
             pillerList = new Dictionary<Pill, Rectangle>();
 
             for (int i = 0; i < 100; i++)
@@ -73,13 +72,18 @@ namespace PillHunt
             }
         }
 
-
+        //activates the game by loading all the needed images etc.
         public override void Activate(bool instancePreserved)
-        {
-            if (!instancePreserved)
             {
+
+            if (!instancePreserved)
+                {
+
                 if (content == null)
+                    {
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
+                    }
+                
                 gameFont = content.Load<SpriteFont>("gamefont");
                 awesomeFace = content.Load<Texture2D>("awesome");
                 pill = content.Load<Texture2D>("pill");
@@ -89,20 +93,17 @@ namespace PillHunt
                 bg = content.Load<Texture2D>("bg");
                 createPills();
 
-                // A real game would probably have more content than this sample, so
-                // it would take longer to load. We simulate that by delaying for a
-                // while, giving you a chance to admire the beautiful loading screen.
                 Thread.Sleep(1000);
 
                 ScreenManager.Game.ResetElapsedTime();
-            }
-        }
 
+                }
+
+            }
 
 
         public override void Deactivate()
         {
-
             base.Deactivate();
         }
 
@@ -110,14 +111,10 @@ namespace PillHunt
         public override void Unload()
         {
             content.Unload();
-
-
         }
 
 
-
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus,
-                                                       bool coveredByOtherScreen)
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
@@ -140,33 +137,19 @@ namespace PillHunt
                     endGame = true;
                 }
 
-                toBeRemoved = new List<Pill>();
-
-                KeyboardState keyState = Keyboard.GetState();
-
-                if (keyState.IsKeyDown(Keys.Escape))
-                {
-                    
-                }
-
                 if (!endGame)
                 {
+
+                    toBeRemoved = new List<Pill>();
+                    KeyboardState keyState = Keyboard.GetState();
+
                     movement(keyState);
+                    calculateFPS(gameTime);
 
-
-                    fps.increaseCounter();
-                    fps.increaseTime(gameTime.ElapsedGameTime.Milliseconds);
-
-                    if (fps.getFrameTime() >= 1000)
-                    {
-                        fps.setFPS();
-                    }
-
-
+                    //checks if either of the players intersects with a piller
+                    //and if they do then the player gets a score and the piller is removed
                     foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
                     {
-                        //awesomePos.Width += 1;
-                        //awesomePos.Height += 1;
                         if (player1.getPosition().Intersects(pair.Value))
                         {
                             player1.increaseScore();
@@ -180,11 +163,10 @@ namespace PillHunt
                         }
                     }
 
+                    //removes the eaten pillers
                     foreach (Pill pill in toBeRemoved)
                     {
-
                         pillerList.Remove(pill);
-
                     }
 
                 }
@@ -194,67 +176,63 @@ namespace PillHunt
         private void movement(KeyboardState keyState)
         {
 
-            //liike nopeutuu jos nappia painettu
-            if (keyState.GetPressedKeys().Length > 0)
+        //players move faster if keys are pressed, otherwise they slow down
+
+        Boolean playerOne = false;
+        Boolean playerTwo = false;
+
+        //player 1 movement
+        if (keyState.IsKeyDown(Keys.W))
             {
-                Boolean playerOne = false;
-                Boolean playerTwo = false;
-
-                if (keyState.IsKeyDown(Keys.W))
-                {
-                    player1.changeSpeedY(-2);
-                    playerOne = true;
-                }
-                if (keyState.IsKeyDown(Keys.S))
-                {
-                    player1.changeSpeedY(2);
-                    playerOne = true;
-                }
-                if (keyState.IsKeyDown(Keys.A))
-                {
-                    player1.changeSpeedX(-2);
-                    playerOne = true;
-                }
-                if (keyState.IsKeyDown(Keys.D))
-                {
-                    player1.changeSpeedX(2);
-                    playerOne = true;
-                }
-
-                if (keyState.IsKeyDown(Keys.Up))
-                {
-                    player2.changeSpeedY(-2);
-                    playerTwo = true;
-                }
-                if (keyState.IsKeyDown(Keys.Down))
-                {
-                    player2.changeSpeedY(2);
-                    playerTwo = true;
-                }
-                if (keyState.IsKeyDown(Keys.Left))
-                {
-                    player2.changeSpeedX(-2);
-                    playerTwo = true;
-                }
-                if (keyState.IsKeyDown(Keys.Right))
-                {
-                    player2.changeSpeedX(2);
-                    playerTwo = true;
-                }
-
-                if (!playerOne)
-                {
-                    player1.slowDown();
-                }
-                else if (!playerTwo)
-                {
-                    player2.slowDown();
-                }
-            } //muuten hidastuu
-            else
+            player1.changeSpeedY(-2);
+            playerOne = true;
+            }
+        if (keyState.IsKeyDown(Keys.S))
             {
-                player1.slowDown();
-                player2.slowDown();
+            player1.changeSpeedY(2);
+            playerOne = true;
+            }
+        if (keyState.IsKeyDown(Keys.A))
+            {
+            player1.changeSpeedX(-2);
+            playerOne = true;
+            }
+        if (keyState.IsKeyDown(Keys.D))
+            {
+            player1.changeSpeedX(2);
+            playerOne = true;
+            }
+
+        //player 2 movement
+        if (keyState.IsKeyDown(Keys.Up))
+            {
+            player2.changeSpeedY(-2);
+            playerTwo = true;
+            }
+        if (keyState.IsKeyDown(Keys.Down))
+            {
+            player2.changeSpeedY(2);
+            playerTwo = true;
+            }
+        if (keyState.IsKeyDown(Keys.Left))
+            {
+            player2.changeSpeedX(-2);
+            playerTwo = true;
+            }
+        if (keyState.IsKeyDown(Keys.Right))
+            {
+            player2.changeSpeedX(2);
+            playerTwo = true;
+            }
+
+        //possible slow downs
+        if (!playerOne)
+            {
+            player1.slowDown();
+            }
+        if (!playerTwo)
+            {
+            player2.slowDown();
             }
 
             int maxX = ScreenManager.GraphicsDevice.Viewport.Width - awesomeFace.Width;
@@ -262,6 +240,7 @@ namespace PillHunt
             int minY = 0;
             int minX = 0;
 
+            //if players intersect with each other, they bounce away
             if (player1.getPosition().Intersects(player2.getPosition()))
             {
                 player1.bounceX();
@@ -270,11 +249,25 @@ namespace PillHunt
                 player2.bounceY();
             }
 
+            //the actual moving happens here
             player1.move(maxX, maxY, minX, minY);
             player2.move(maxX, maxY, minX, minY);
+
         }
 
+        //calculates current FPS
+        private void calculateFPS(GameTime gameTime)
+            {
+            fps.increaseCounter();
+            fps.increaseTime(gameTime.ElapsedGameTime.Milliseconds);
 
+            if (fps.getFrameTime() >= 1000)
+                {
+                fps.setFPS();
+                }
+            }
+
+        //input handling
         public override void HandleInput(GameTime gameTime, InputState input)
         {
             if (input == null)
@@ -298,13 +291,11 @@ namespace PillHunt
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-
             ScreenManager.GraphicsDevice.Clear(Color.White);
 
             Rectangle dim = new Rectangle(0, 0, 800, 600);
             int maxWidth = ScreenManager.GraphicsDevice.Viewport.Width;
             int maxHeight = ScreenManager.GraphicsDevice.Viewport.Height;
-
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
@@ -318,11 +309,13 @@ namespace PillHunt
                 }
             }
 
-            calculateFPS(gameTime);
+            
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeFace, Color.Yellow);
             player2.draw(spriteBatch, awesomeFace, Color.Red);
             fps.draw(spriteBatch, font);
+
+
             if (endGame)
             {
                 Vector2 mid = new Vector2((float)ScreenManager.GraphicsDevice.Viewport.Width / 2, (float)ScreenManager.GraphicsDevice.Viewport.Height / 2);
@@ -351,16 +344,7 @@ namespace PillHunt
             }
         }
 
-        private void calculateFPS(GameTime gameTime)
-        {
-            fps.increaseCounter();
-            fps.increaseTime(gameTime.ElapsedGameTime.Milliseconds);
-
-            if (fps.getFrameTime() >= 1000)
-            {
-                fps.setFPS();
-            }
-        }
+        
 
     }
 }
