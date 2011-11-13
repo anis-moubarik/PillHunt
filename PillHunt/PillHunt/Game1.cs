@@ -182,8 +182,8 @@ namespace PillHunt
                     if (awesomePos.Intersects(pair.Value))
                     {
                         score++;
-                        awesomePos.Width += 1;
-                        awesomePos.Height += 1;
+                        //awesomePos.Width += 1;
+                        //awesomePos.Height += 1;
                         toBeRemoved.Add(pair.Key);
                     }
                 }
@@ -236,7 +236,7 @@ namespace PillHunt
                 }
             }
                 spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth - 60, 0), Color.Black);
-                spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 80, 20), Color.Black);
+                spriteBatch.DrawString(font, "Score: " + score, new Vector2(maxWidth - 90, 20), Color.Black);
                 spriteBatch.DrawString(font, "Time: " + Math.Round(_timer), _timerVec, Color.White);
                 spriteBatch.Draw(awesomeFace, awesomePos, Color.White);
 
