@@ -312,8 +312,8 @@ namespace PillHunt
                 spriteBatch.Draw(dimmer, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
                 spriteBatch.Draw(gameOver, mid, null, Color.White, 0f, goPos, 1f, SpriteEffects.None, 1f);
                 spriteBatch.DrawString(font, "Game Over", new Vector2(mid.X - 50, mid.Y - 50), Color.Black);
-                spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(mid.X - 50, mid.Y - 20), Color.Black);
-
+                spriteBatch.DrawString(font, "Player 1 score: " + player1.getScore(), new Vector2(mid.X - 50, mid.Y - 20), Color.Black);
+                spriteBatch.DrawString(font, "Player 2 score: " + player2.getScore(), new Vector2(mid.X - 50, mid.Y - 0), Color.Black);
 
             }
             if (!endGame)
@@ -327,8 +327,8 @@ namespace PillHunt
             calculateFPS(gameTime);
 
             clock.draw(spriteBatch, font);
-            player1.draw(spriteBatch, awesomeFace);
-            player2.draw(spriteBatch, awesomeFace);
+            player1.draw(spriteBatch, awesomeFace, Color.Yellow);
+            player2.draw(spriteBatch, awesomeFace, Color.Red);
             fps.draw(spriteBatch, font);
 
             spriteBatch.DrawString(font, "Player 1: " + player1.getScore(), new Vector2(maxWidth - 100, 20), Color.Black);

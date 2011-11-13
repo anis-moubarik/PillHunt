@@ -65,7 +65,7 @@ namespace PillHunt
 
             else
                 {
-                speedX -= speedX * 2;
+                bounceX();
                 }
 
             if ((position.Y + speedY) < maxY && (position.Y + speedY) > minY)
@@ -75,30 +75,31 @@ namespace PillHunt
 
             else
                 {
-                speedY -= speedY * 2;
+                bounceY();
                 }
 
             }
 
-        //tarvitaanko tätä missään?
+        public void bounceX()
+            {
+            speedX -= speedX * 2;
+            }
+
+        public void bounceY()
+            {
+            speedY -= speedY * 2;
+            }
+
         public Rectangle getPosition()
-        {
+            {
             return position;
-        }
+            }
 
-        //tarvitaanko tätä??
-        public void setPosition(Rectangle newPosition)
-        {
-            position = newPosition;
-        }
-
-        //tarvitaanko?
         public void setX(int x)
         {
             position.X = x;
         }
 
-        //tarvitaanko?
         public void setY(int y)
         {
             position.Y = y;
@@ -114,9 +115,9 @@ namespace PillHunt
             score++;
         }
 
-        public void draw(SpriteBatch spriteBatch, Texture2D texture)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, Color color)
         {
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, position, color);
         }
 
     }
