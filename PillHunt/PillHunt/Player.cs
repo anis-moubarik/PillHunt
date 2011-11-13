@@ -12,7 +12,8 @@ namespace PillHunt
 
         private int score;
         private Rectangle position;
-
+        int speedX;
+        int speedY;
 
         public Player()
             {
@@ -65,5 +66,66 @@ namespace PillHunt
             spriteBatch.Draw(texture, position, Color.White);
             }
 
+        public void changeSpeedX(int change)
+        {
+            speedX += change;
+        }
+
+        public void changeSpeedY(int change)
+        {
+            speedY += change;
+        }
+
+        public void slowDown()
+        {
+            if (speedX > 0)
+            {
+                speedX -= 1;
+            }
+            if (speedX < 0)
+            {
+                speedX += 1;
+            }
+
+            if (speedY > 0)
+            {
+                speedY -= 1;
+            }
+            if (speedY < 0)
+            {
+                speedY += 1;
+            }
+        }
+
+        internal void move(int maxX, int maxY, int minX, int minY)
+        {
+            if ((getX() + speedX) < maxX && ((getX() + speedX) > minX))
+            {
+                setX(getX() + speedX);
+            } //bounce
+            else
+            {
+                bounceX();
+            }
+
+            if ((getY() + speedY) < maxY && (getY() + speedY) > minY)
+            {
+                setY(getY() + speedY);
+            }
+            else
+            {
+                bounceY();
+            }
+        }
+
+        internal void bounceX()
+        {
+            speedX -= speedX * 2;
+        }
+
+        internal void bounceY()
+        {
+            speedY -= speedY * 2;
+        }
         }
     }
