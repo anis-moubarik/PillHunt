@@ -48,7 +48,7 @@ namespace PillHunt
         //draws the FPS to the top right corner using the given spritebatch and font
         public void draw(SpriteBatch spriteBatch, SpriteFont font)
             {
-            spriteBatch.DrawString(font, "FPS: " + currentFrameRate, vector, Color.Black);
+            spriteBatch.DrawString(font, "FPS: " + currentFrameRate, vector, Color.White);
             }
 
         }

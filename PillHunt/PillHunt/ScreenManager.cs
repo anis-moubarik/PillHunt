@@ -23,6 +23,7 @@ namespace PillHunt
         List<GameScreen> tempScreensList = new List<GameScreen>();
 
 
+
         SpriteBatch spriteBatch;
         SpriteFont font;
         Texture2D blankTexture;
@@ -56,6 +57,7 @@ namespace PillHunt
         public ScreenManager(Game game)
             : base(game)
         {
+
         }
 
         public override void Initialize()
@@ -69,7 +71,6 @@ namespace PillHunt
         protected override void LoadContent()
         {
             ContentManager content = Game.Content;
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = content.Load<SpriteFont>("menufont");
             blankTexture = content.Load<Texture2D>("blank");

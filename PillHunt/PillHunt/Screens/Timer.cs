@@ -16,7 +16,7 @@ namespace PillHunt
 
         public Timer()
         {
-            time = 15.0f;
+            time = 8.0f;
             timeVector = new Vector2(0, 0);
         }
 
