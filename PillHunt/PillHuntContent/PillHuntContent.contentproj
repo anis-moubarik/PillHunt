@@ -42,8 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Awesome.png">
-      <Name>Awesome</Name>
+    <Compile Include="awesome.png">
+      <Name>awesome</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
