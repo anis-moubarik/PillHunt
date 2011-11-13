@@ -71,7 +71,7 @@ namespace PillHunt
 
             pillerList = new Dictionary<Pill, Rectangle>();
 
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100; i++)
                 {
                 pillerList.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
                 }
@@ -107,22 +107,6 @@ namespace PillHunt
 
             if (!endGame)
             {
-                if (keyState.IsKeyDown(Keys.W) && awesomePos.Y > MinY)
-                {
-                    awesomePos.Y -= 5;
-                }
-                if (keyState.IsKeyDown(Keys.S) && awesomePos.Y < MaxY)
-                {
-                    awesomePos.Y += 5;
-                }
-                if (keyState.IsKeyDown(Keys.A) && awesomePos.X > MinX)
-                {
-                    awesomePos.X -= 5;
-                }
-                if (keyState.IsKeyDown(Keys.D) && awesomePos.X < MaxX)
-                {
-                    awesomePos.X += 5;
-                }
                 if (keyState.GetPressedKeys().Length > 0)
                 {
                     if (keyState.IsKeyDown(Keys.W))
@@ -161,6 +145,7 @@ namespace PillHunt
                     {
                         speedY += 1;
                     }
+                }
 
                     if ((awesomePos.X + speedX) < MaxX && (awesomePos.X + speedX) > MinX)
                     {
@@ -179,7 +164,7 @@ namespace PillHunt
                     {
                         speedY -= speedY * 2;
                     }
-                }
+                
 
                 frameCounter++;
                 frameTime += gameTime.ElapsedGameTime.Milliseconds;
@@ -197,6 +182,8 @@ namespace PillHunt
                     if (awesomePos.Intersects(pair.Value))
                     {
                         score++;
+                        awesomePos.Width += 1;
+                        awesomePos.Height += 1;
                         toBeRemoved.Add(pair.Key);
                     }
                 }
