@@ -22,8 +22,8 @@ namespace PillHunt
 
         Player player1;
         Timer clock;
-
         FPS fps;
+
 
         Dictionary<Pill, Rectangle> pillerList;
         List<Pill> toBeRemoved;
@@ -40,7 +40,6 @@ namespace PillHunt
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             pauseAction = new InputAction(
-                new Buttons[] { Buttons.Start, Buttons.Back },
                 new Keys[] { Keys.Escape },
                 true);
 
@@ -279,9 +278,14 @@ namespace PillHunt
                 }
             }
 
+            calculateFPS(gameTime);
+
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeFace);
             fps.draw(spriteBatch, font);
+
+            spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(maxWidth - 80, 20), Color.Black);
+
 
             spriteBatch.End();
 
@@ -291,6 +295,17 @@ namespace PillHunt
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
 
                 ScreenManager.FadeBackBufferToBlack(alpha);
+            }
+        }
+
+        private void calculateFPS(GameTime gameTime)
+        {
+            fps.increaseCounter();
+            fps.increaseTime(gameTime.ElapsedGameTime.Milliseconds);
+
+            if (fps.getFrameTime() >= 1000)
+            {
+                fps.setFPS();
             }
         }
 

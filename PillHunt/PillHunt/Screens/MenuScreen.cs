@@ -33,19 +33,15 @@ namespace PillHunt
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             menuUp = new InputAction(
-                new Buttons[] { Buttons.DPadUp, Buttons.LeftThumbstickUp }, 
                 new Keys[] { Keys.Up },
                 true);
             menuDown = new InputAction(
-                new Buttons[] { Buttons.DPadDown, Buttons.LeftThumbstickDown },
                 new Keys[] { Keys.Down },
                 true);
             menuSelect = new InputAction(
-                new Buttons[] { Buttons.A, Buttons.Start },
                 new Keys[] { Keys.Enter, Keys.Space },
                 true);
             menuCancel = new InputAction(
-                new Buttons[] { Buttons.B, Buttons.Back },
                 new Keys[] { Keys.Escape },
                 true);
         }

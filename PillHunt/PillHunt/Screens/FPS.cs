@@ -19,7 +19,7 @@ namespace PillHunt
             {
             frameCounter = 0;
             frameTime = 0;
-            vector = new Vector2(width - 60, 0);
+            vector = new Vector2(width - 80, 0);
             }
 
         public void increaseCounter()

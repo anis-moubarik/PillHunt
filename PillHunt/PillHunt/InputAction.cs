@@ -7,16 +7,13 @@ namespace PillHunt
 
     public class InputAction
     {
-        private readonly Buttons[] buttons;
         private readonly Keys[] keys;
         private readonly bool newPressOnly;
 
-        private delegate bool ButtonPress(Buttons button, PlayerIndex? controllingPlayer, out PlayerIndex player);
         private delegate bool KeyPress(Keys key, PlayerIndex? controllingPlayer, out PlayerIndex player);
 
-        public InputAction(Buttons[] buttons, Keys[] keys, bool newPressOnly)
+        public InputAction(Keys[] keys, bool newPressOnly)
         {
-            this.buttons = buttons != null ? buttons.Clone() as Buttons[] : new Buttons[0];
             this.keys = keys != null ? keys.Clone() as Keys[] : new Keys[0];
 
             this.newPressOnly = newPressOnly;

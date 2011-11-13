@@ -54,7 +54,7 @@ namespace PillHunt
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
-            const string message = "Are you sure you want to exit this sample?";
+            const string message = "Are you sure you want to exit?";
 
             MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);
 
@@ -64,10 +64,6 @@ namespace PillHunt
         }
 
 
-        /// <summary>
-        /// Event handler for when the user selects ok on the "are you sure
-        /// you want to exit" message box.
-        /// </summary>
         void ConfirmExitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.Game.Exit();

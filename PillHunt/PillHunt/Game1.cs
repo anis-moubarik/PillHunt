@@ -148,7 +148,7 @@ namespace PillHunt
         private KeyboardState movement(KeyboardState keyState)
         {
 
-            //liike nopeutuu jos nappia painettu
+            //movement increases if a button is pressed down
             if (keyState.GetPressedKeys().Length > 0)
             {
                 if (keyState.IsKeyDown(Keys.W))
@@ -167,7 +167,7 @@ namespace PillHunt
                 {
                     player1.changeSpeedX(2);
                 }
-            } //muuten hidastuu
+            } //otherwise slows down
             else
             {
                 player1.slowDown();
@@ -178,7 +178,7 @@ namespace PillHunt
             int minY = 0;
             int minX = 0;
 
-            //liikuttaa pelaajaa
+            //move the player
             player1.move(maxX, maxY, minX, minY);
 
             return keyState;

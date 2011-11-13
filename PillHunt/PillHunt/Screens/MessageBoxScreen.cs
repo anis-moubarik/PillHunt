@@ -23,8 +23,8 @@ namespace PillHunt
 
         public MessageBoxScreen(string message, bool includeUsageText)
         {
-            const string usageText = "\nA button, Space, Enter = ok" +
-                                     "\nB button, Esc = cancel"; 
+            const string usageText = "\nEnter = ok" +
+                                     "\nEsc = cancel"; 
             
             if (includeUsageText)
                 this.message = message + usageText;
@@ -37,12 +37,10 @@ namespace PillHunt
             TransitionOffTime = TimeSpan.FromSeconds(0.2);
 
             menuSelect = new InputAction(
-                new Buttons[] { Buttons.A, Buttons.Start },
-                new Keys[] { Keys.Space, Keys.Enter },
+                new Keys[] { Keys.Enter },
                 true);
             menuCancel = new InputAction(
-                new Buttons[] { Buttons.B, Buttons.Back },
-                new Keys[] { Keys.Escape, Keys.Back },
+                new Keys[] { Keys.Escape },
                 true);
         }
 
