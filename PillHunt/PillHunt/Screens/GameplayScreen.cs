@@ -11,6 +11,7 @@ namespace PillHunt
 
     class GameplayScreen : GameScreen
     {
+
         ContentManager content;
         SpriteFont gameFont;
 
@@ -24,7 +25,6 @@ namespace PillHunt
         Timer clock;
         FPS fps;
 
-
         Dictionary<Pill, Rectangle> pillerList;
         List<Pill> toBeRemoved;
 
@@ -36,7 +36,7 @@ namespace PillHunt
 
         public GameplayScreen()
         {
-            TransitionOnTime = TimeSpan.FromSeconds(1.5);
+            TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             pauseAction = new InputAction(
@@ -251,15 +251,6 @@ namespace PillHunt
 
             if (endGame)
             {
-                //Vector2 mid;
-                //mid.X = ScreenManager.GraphicsDevice.Viewport.Width / 2;
-                //mid.Y = ScreenManager.GraphicsDevice.Viewport.Height / 2;
-                //spriteBatch.Draw(dimmer, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
-
-
-                //spriteBatch.Draw(gameOver, mid, null, Color.White, 0f, new Vector2((float)gameOver.Width / 2, (float)gameOver.Height / 2), 1f, SpriteEffects.None, 0f);
-                //spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(mid.X + 20, mid.Y + 20), Color.White);
-                //spriteBatch.DrawString(font, "Game Over", new Vector2(mid.X - 50, mid.Y - 50), Color.White);
                 Vector2 mid = new Vector2((float)ScreenManager.GraphicsDevice.Viewport.Width / 2, (float)ScreenManager.GraphicsDevice.Viewport.Height / 2);
                 Vector2 goPos = new Vector2((float)gameOver.Width / 2, (float)gameOver.Height / 2);
 

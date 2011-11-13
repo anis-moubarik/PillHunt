@@ -37,6 +37,7 @@ namespace PillHunt
             return frameTime;
             }
 
+        //sets the current fps to currentFrameRate and sets both frameTime and frameCounter to 0
         public void setFPS()
             {
             currentFrameRate = frameCounter;
@@ -44,6 +45,7 @@ namespace PillHunt
             frameCounter = 0;
             }
 
+        //draws the FPS to the top right corner using the given spritebatch and font
         public void draw(SpriteBatch spriteBatch, SpriteFont font)
             {
             spriteBatch.DrawString(font, "FPS: " + currentFrameRate, vector, Color.Black);
