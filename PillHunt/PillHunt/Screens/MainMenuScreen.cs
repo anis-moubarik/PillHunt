@@ -38,7 +38,7 @@ namespace PillHunt
         }
 
 
-        // Event handler for when the Options menu entry is selected.
+        // Event handler for when the help menu entry is selected.
         void HelpMenuEntry(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new HelpMenuScreen(), e.PlayerIndex);

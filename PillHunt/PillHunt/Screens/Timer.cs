@@ -40,7 +40,7 @@ namespace PillHunt
         //draws the timer to the left corner of the screen
         public void draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            spriteBatch.DrawString(font, "Time: " + Math.Round(time), timeVector, Color.Black);
+            spriteBatch.DrawString(font, "Time: " + Math.Round(time), timeVector, Color.White);
         }
 
 
