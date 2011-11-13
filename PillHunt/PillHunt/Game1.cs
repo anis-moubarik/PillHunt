@@ -24,7 +24,8 @@ namespace PillHunt
         Texture2D gameOver;
         SpriteFont font;
 
-        Player player1 = new Player();
+        Player player1;
+        Timer clock;
 
         int frameCounter;
         int frameTime;
@@ -32,20 +33,23 @@ namespace PillHunt
 
         Dictionary<Pill, Rectangle> pillerList;
         List<Pill> toBeRemoved;
-        double timer;
-        Vector2 timerVector;
+
         bool endGame = false;
         int speedX;
         int speedY;
 
         public Game1()
             {
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
-            timer = 15.0f;
-            timerVector = new Vector2(0, 0);
+
+            player1 = new Player();
+            clock = new Timer();
+
             }
 
         protected override void Initialize()
@@ -88,15 +92,18 @@ namespace PillHunt
 
         protected override void Update(GameTime gameTime)
             {
-            if (timer > 0)
+
+            if (clock.getTime() > 0)
                 {
-                timer -= gameTime.ElapsedGameTime.TotalSeconds;
+                clock.decreaseTime(gameTime.ElapsedGameTime.TotalSeconds);
                 }
+
             else
                 {
-                timer = 0;
+                clock.zero();
                 endGame = true;
                 }
+
             toBeRemoved = new List<Pill>();
 
             KeyboardState keyState = Keyboard.GetState();
@@ -219,7 +226,7 @@ namespace PillHunt
             if (endGame)
                 {
                 Vector2 mid;
-                mid.X = (graphics.GraphicsDevice.Viewport.Width / 2);
+                mid.X = graphics.GraphicsDevice.Viewport.Width / 2;
                 mid.Y = graphics.GraphicsDevice.Viewport.Height / 2;
                 spriteBatch.Draw(dimmer, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
 
@@ -239,7 +246,7 @@ namespace PillHunt
                 }
             spriteBatch.DrawString(font, "FPS: " + currentFrameRate, new Vector2(maxWidth - 60, 0), Color.Black);
             spriteBatch.DrawString(font, "Score: " + player1.getScore(), new Vector2(maxWidth - 80, 20), Color.Black);
-            spriteBatch.DrawString(font, "Time: " + Math.Round(timer), timerVector, Color.White);
+            spriteBatch.DrawString(font, "Time: " + Math.Round(clock.getTime()), clock.getVector(), Color.White);
 
             player1.draw(spriteBatch, awesomeFace);
 
