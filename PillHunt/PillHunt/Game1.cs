@@ -71,7 +71,7 @@ namespace PillHunt
 
             pillerList = new Dictionary<Pill, Rectangle>();
 
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 100; i++)
                 {
                 pillerList.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
                 }
@@ -182,6 +182,8 @@ namespace PillHunt
                     if (awesomePos.Intersects(pair.Value))
                     {
                         score++;
+                        awesomePos.Width += 1;
+                        awesomePos.Height += 1;
                         toBeRemoved.Add(pair.Key);
                     }
                 }
