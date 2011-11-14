@@ -15,11 +15,11 @@ namespace PillHunt
         private int speedY;
         private Rectangle position;
 
-
-        public Player()
+        //creates a new player to a given (x,y) position
+        public Player(int x, int y)
             {
             score = 0;
-            position = new Rectangle(0, 0, 32, 32);
+            position = new Rectangle(x, y, 32, 32);
             }
 
         public void changeSpeedX(int change)
@@ -81,16 +81,6 @@ namespace PillHunt
         public Rectangle getPosition()
             {
             return position;
-            }
-
-        public void setX(int x)
-            {
-            position.X = x;
-            }
-
-        public void setY(int y)
-            {
-            position.Y = y;
             }
 
         public int getScore()

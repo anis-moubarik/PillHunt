@@ -6,15 +6,19 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace PillHunt
+
     {
+
     class FPS
+
         {
 
         private int frameCounter;
         private int frameTime;
-        int currentFrameRate;
+        private int currentFrameRate;
         private Vector2 vector;
 
+        //creates a new FPS object, requires width of the game window
         public FPS(int width)
             {
             frameCounter = 0;
@@ -22,27 +26,19 @@ namespace PillHunt
             vector = new Vector2(width - 80, 0);
             }
 
-        public void increaseCounter()
+        //calculates current frames per second
+        public void calculateFPS(GameTime gameTime)
             {
+
             frameCounter++;
-            }
+            frameTime = frameTime + gameTime.ElapsedGameTime.Milliseconds;
 
-        public void increaseTime(int increase)
-            {
-            frameTime = frameTime + increase;
-            }
-
-        public int getFrameTime()
-            {
-            return frameTime;
-            }
-
-        //sets the current fps to currentFrameRate and sets both frameTime and frameCounter to 0
-        public void setFPS()
-            {
-            currentFrameRate = frameCounter;
-            frameTime = 0;
-            frameCounter = 0;
+            if (frameTime >= 1000)
+                {
+                currentFrameRate = frameCounter;
+                frameTime = 0;
+                frameCounter = 0;
+                }
             }
 
         //draws the FPS to the top right corner using the given spritebatch and font
@@ -52,4 +48,5 @@ namespace PillHunt
             }
 
         }
+
     }

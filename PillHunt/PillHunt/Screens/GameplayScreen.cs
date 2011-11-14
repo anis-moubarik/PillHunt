@@ -13,13 +13,15 @@ namespace PillHunt
     {
 
         ContentManager content;
+        InputAction pauseAction;
+
         SpriteFont gameFont;
+        SpriteFont font;
 
         Texture2D awesomeFace;
         Texture2D pill;
         Texture2D dimmer;
         Texture2D gameOver;
-        SpriteFont font;
         Texture2D bg;
 
         Player player1;
@@ -27,13 +29,11 @@ namespace PillHunt
         Timer clock;
         FPS fps;
 
-        Dictionary<Pill, Rectangle> pillerList;
+        Dictionary<Pill, Rectangle> pills;
         List<Pill> toBeRemoved;
 
-        bool endGame = false;
+        bool endGame;
         float pauseAlpha;
-
-        InputAction pauseAction;
 
 
         public GameplayScreen()
@@ -46,14 +46,12 @@ namespace PillHunt
             //sets the escape-key as the pause-button
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
 
-            player1 = new Player();
-
-            player2 = new Player();
-            player2.setX(300);
-            player2.setY(300);
-
+            player1 = new Player(0, 0);
+            player2 = new Player(300, 300);
             clock = new Timer();
             fps = new FPS(800);
+
+            endGame = false;
 
         }
 
@@ -64,11 +62,11 @@ namespace PillHunt
             Random random = new Random();
             int maxX = ScreenManager.GraphicsDevice.Viewport.Width - pill.Width;
             int maxY = ScreenManager.GraphicsDevice.Viewport.Height - pill.Height;
-            pillerList = new Dictionary<Pill, Rectangle>();
+            pills = new Dictionary<Pill, Rectangle>();
 
             for (int i = 0; i < 100; i++)
             {
-                pillerList.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
+                pills.Add(new Pill(), new Rectangle(random.Next(maxX), random.Next(maxY), 32, 32));
             }
         }
 
@@ -144,11 +142,11 @@ namespace PillHunt
                     KeyboardState keyState = Keyboard.GetState();
 
                     movement(keyState);
-                    calculateFPS(gameTime);
+                    fps.calculateFPS(gameTime);
 
                     //checks if either of the players intersects with a piller
                     //and if they do then the player gets a score and the piller is removed
-                    foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+                    foreach (KeyValuePair<Pill, Rectangle> pair in pills)
                     {
                         if (player1.getPosition().Intersects(pair.Value))
                         {
@@ -166,7 +164,7 @@ namespace PillHunt
                     //removes the eaten pillers
                     foreach (Pill pill in toBeRemoved)
                     {
-                        pillerList.Remove(pill);
+                        pills.Remove(pill);
                     }
 
                 }
@@ -255,18 +253,6 @@ namespace PillHunt
 
         }
 
-        //calculates current FPS
-        private void calculateFPS(GameTime gameTime)
-            {
-            fps.increaseCounter();
-            fps.increaseTime(gameTime.ElapsedGameTime.Milliseconds);
-
-            if (fps.getFrameTime() >= 1000)
-                {
-                fps.setFPS();
-                }
-            }
-
         //input handling
         public override void HandleInput(GameTime gameTime, InputState input)
         {
@@ -303,7 +289,7 @@ namespace PillHunt
 
             if (!endGame)
             {
-                foreach (KeyValuePair<Pill, Rectangle> pair in pillerList)
+                foreach (KeyValuePair<Pill, Rectangle> pair in pills)
                 {
                     pair.Key.draw(spriteBatch, pill, pair.Value);
                 }
