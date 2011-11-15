@@ -31,7 +31,6 @@ namespace PillHunt
 
         Dictionary<Pill, Rectangle> pills;
         List<Pill> toBeRemoved;
-
         bool endGame;
         float pauseAlpha;
 
@@ -42,7 +41,6 @@ namespace PillHunt
             //times for the transition
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
             //sets the escape-key as the pause-button
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
 
@@ -90,9 +88,6 @@ namespace PillHunt
                 gameOver = content.Load<Texture2D>("gameover");
                 bg = content.Load<Texture2D>("bg");
                 createPills();
-
-                Thread.Sleep(1000);
-
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
