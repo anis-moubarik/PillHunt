@@ -15,20 +15,25 @@ namespace PillHunt
         ContentManager content;
         InputAction pauseAction;
 
+        //fonts
         SpriteFont gameFont;
         SpriteFont font;
 
+        //textures
         Texture2D awesomeTexture;
         Texture2D pillTexture;
         Texture2D dimmerTexture;
         Texture2D goTexture;
         Texture2D bgTexture;
 
+        //our own classes
         Player player1;
         Player player2;
         Pills pills;
         Timer clock;
         FPS fps;
+        Scores scores;
+        PlayerMovement movement;
 
         bool gameEnds;
         float pauseAlpha;
@@ -47,14 +52,21 @@ namespace PillHunt
             //sets the escape-key as the pause-button
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
 
+            // --- nää 6 vois jotenkin antaa jatkossa parametreina (texture sizet vois ehkä poistaa):
             screenWidth = 800;
             screenHeight = 600;
+            string p1name = "Player1";
+            string p2name = "Player2";
+            int playerTextureSize = 32;
+            int pillTextureSize = 32;
 
-            player1 = new Player(0, 0);
-            player2 = new Player(screenWidth - 32, screenHeight - 32);
+            player1 = new Player(0, 0, p1name);
+            player2 = new Player(screenWidth - playerTextureSize, screenHeight - playerTextureSize, p2name);
             clock = new Timer();
             fps = new FPS(screenWidth);
-            pills = new Pills(100, screenWidth, screenHeight, 32);
+            pills = new Pills(100, screenWidth, screenHeight, pillTextureSize);
+            scores = new Scores(screenWidth);
+            movement = new PlayerMovement(screenWidth, screenHeight, playerTextureSize, playerTextureSize);
 
             gameEnds = false;
 
@@ -107,127 +119,32 @@ namespace PillHunt
             base.Update(gameTime, otherScreenHasFocus, false);
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
-            if (coveredByOtherScreen)
-                pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
-            else
-                pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+            if (coveredByOtherScreen) { pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1); }
+            else { pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0); }
+
 
             if (IsActive)
 
             {
 
                 //game ends if the time runs out or all the pills are eaten
-
                 if (clock.getTime() > 0 && !pills.isEmpty())
                 {
                     clock.decreaseTime(gameTime.ElapsedGameTime.TotalSeconds);
                 }
                 
-                else
-                {
-                    gameEnds = true;
-                }
-
+                else { gameEnds = true; }
 
                 if (!gameEnds)
 
                 {
-
-                    KeyboardState keyState = Keyboard.GetState();
-
-                    movement(keyState);
+                    movement.moveBothPlayers(Keyboard.GetState(), player1, player2);
                     fps.calculateFPS(gameTime);
-
-                    //counts new scores for both players and removes all the eaten pills
                     player1.increaseScore(pills.countIntersections(player1.getPosition()));
                     player2.increaseScore(pills.countIntersections(player2.getPosition()));
-
                 }
 
             }
-        }
-
-        // --- movementille oma luokka ---
-        private void movement(KeyboardState keyState)
-        {
-
-        //players move faster if keys are pressed, otherwise they slow down
-
-        Boolean playerOne = false;
-        Boolean playerTwo = false;
-
-        //player 1 movement
-        if (keyState.IsKeyDown(Keys.W))
-            {
-            player1.changeSpeedY(-2);
-            playerOne = true;
-            }
-        if (keyState.IsKeyDown(Keys.S))
-            {
-            player1.changeSpeedY(2);
-            playerOne = true;
-            }
-        if (keyState.IsKeyDown(Keys.A))
-            {
-            player1.changeSpeedX(-2);
-            playerOne = true;
-            }
-        if (keyState.IsKeyDown(Keys.D))
-            {
-            player1.changeSpeedX(2);
-            playerOne = true;
-            }
-
-        //player 2 movement
-        if (keyState.IsKeyDown(Keys.Up))
-            {
-            player2.changeSpeedY(-2);
-            playerTwo = true;
-            }
-        if (keyState.IsKeyDown(Keys.Down))
-            {
-            player2.changeSpeedY(2);
-            playerTwo = true;
-            }
-        if (keyState.IsKeyDown(Keys.Left))
-            {
-            player2.changeSpeedX(-2);
-            playerTwo = true;
-            }
-        if (keyState.IsKeyDown(Keys.Right))
-            {
-            player2.changeSpeedX(2);
-            playerTwo = true;
-            }
-
-        //possible slow downs
-        if (!playerOne)
-            {
-            player1.slowDown();
-            }
-        if (!playerTwo)
-            {
-            player2.slowDown();
-            }
-
-            int maxX = ScreenManager.GraphicsDevice.Viewport.Width - awesomeTexture.Width;
-            int maxY = ScreenManager.GraphicsDevice.Viewport.Height - awesomeTexture.Height;
-            int minY = 0;
-            int minX = 0;
-
-            //if players intersect with each other, they bounce away
-            if (player1.getPosition().Intersects(player2.getPosition()))
-            {
-                player1.bounceX();
-                player1.bounceY();
-                player2.bounceX();
-                player2.bounceY();
-            }
-
-            //the actual moving happens here
-            player1.move(maxX, maxY, minX, minY);
-            player2.move(maxX, maxY, minX, minY);
-
         }
 
         //input handling
@@ -250,37 +167,27 @@ namespace PillHunt
         }
 
 
-
         public override void Draw(GameTime gameTime)
         {
+
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             ScreenManager.GraphicsDevice.Clear(Color.White);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             spriteBatch.Draw(bgTexture, new Vector2(0, 0), Color.White);
-                
+
             pills.draw(spriteBatch, pillTexture);        
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
             player2.draw(spriteBatch, awesomeTexture, Color.Red);
             fps.draw(spriteBatch, font);
-
-            spriteBatch.DrawString(font, "Player 1: " + player1.getScore(), new Vector2(screenWidth - 100, 20), Color.White);
-            spriteBatch.DrawString(font, "Player 2: " + player2.getScore(), new Vector2(screenWidth - 100, 40), Color.White);
-
+            scores.draw(spriteBatch, font, player1, player2);
 
             if (gameEnds)
             {
-                Rectangle dim = new Rectangle(0, 0, screenWidth, screenHeight);
-                Vector2 mid = new Vector2((float)ScreenManager.GraphicsDevice.Viewport.Width / 2, (float)ScreenManager.GraphicsDevice.Viewport.Height / 2);
-                Vector2 goPos = new Vector2((float)goTexture.Width / 2, (float)goTexture.Height / 2);
-                spriteBatch.Draw(dimmerTexture, dim, new Color(new Vector4(1f, 1f, 1f, 0.5f)));
-                spriteBatch.Draw(goTexture, mid, null, Color.White, 0f, goPos, 1f, SpriteEffects.None, 1f);
-                spriteBatch.DrawString(font, "Game Over", new Vector2(mid.X - 50, mid.Y - 50), Color.Black);
-                spriteBatch.DrawString(font, "Player 1 score: " + player1.getScore(), new Vector2(mid.X - 50, mid.Y - 20), Color.Black);
-                spriteBatch.DrawString(font, "Player 2 score: " + player2.getScore(), new Vector2(mid.X - 50, mid.Y - 0), Color.Black);
-
+                EndScreen endscreen = new EndScreen(player1, player2);
+                endscreen.draw(spriteBatch, font, goTexture, dimmerTexture, screenWidth, screenHeight);
             }
 
             spriteBatch.End();
@@ -291,6 +198,7 @@ namespace PillHunt
                 float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
+
         }
 
     }
