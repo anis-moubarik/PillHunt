@@ -88,9 +88,9 @@ namespace PillHunt
             return score;
             }
 
-        public void increaseScore()
+        public void increaseScore(int increase)
             {
-            score++;
+            score = score + increase;
             }
 
         //draws the player using the given spirtebatch, texture and color

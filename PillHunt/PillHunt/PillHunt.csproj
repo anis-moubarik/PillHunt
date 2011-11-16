@@ -136,6 +136,7 @@
     <Compile Include="Screens\HelpMenuScreen.cs" />
     <Compile Include="Screens\PauseMenuScreen.cs" />
     <Compile Include="Screens\Pill.cs" />
+    <Compile Include="Screens\Pills.cs" />
     <Compile Include="Screens\Player.cs" />
     <Compile Include="Screens\PlayerIndexEventArgs.cs" />
     <Compile Include="Screens\FPS.cs" />

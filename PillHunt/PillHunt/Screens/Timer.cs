@@ -13,7 +13,7 @@ namespace PillHunt
         private double time;
         private Vector2 timeVector; //location of the timer
 
-
+        // --- timerista vois tehä sellasen et sille annetaan parametrina aika ---
         public Timer()
         {
             time = 8.0f;
@@ -29,12 +29,6 @@ namespace PillHunt
         public void decreaseTime(double decrease)
         {
             time = time - decrease;
-        }
-
-        //resets the timer
-        public void zero()
-        {
-            time = 0.0f;
         }
 
         //draws the timer to the left corner of the screen
