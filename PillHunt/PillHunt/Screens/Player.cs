@@ -10,16 +10,23 @@ namespace PillHunt
     class Player
         {
 
+        string name;
         private int score;
         private int speedX;
         private int speedY;
         private Rectangle position;
 
         //creates a new player to a given (x,y) position
-        public Player(int x, int y)
+        public Player(int x, int y, string nick)
             {
             score = 0;
             position = new Rectangle(x, y, 32, 32);
+            name = nick;
+            }
+
+        public string getName()
+            {
+            return name;
             }
 
         public void changeSpeedX(int change)

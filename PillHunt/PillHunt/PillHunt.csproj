@@ -123,6 +123,7 @@
     <Compile Include="BackgroundScreen.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="ScreenFactory.cs" />
+    <Compile Include="Screens\EndScreen.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="InputAction.cs" />
@@ -143,6 +144,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ScreenManager.cs" />
+    <Compile Include="Screens\PlayerMovement.cs" />
+    <Compile Include="Screens\Scores.cs" />
     <Compile Include="Screens\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
