@@ -13,17 +13,20 @@ namespace PillHunt
             : base("PillHunt")
         {
             // Create our menu entries.
-            MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
+            MenuEntry playGameMenuEntry = new MenuEntry("Single player");
+            MenuEntry versusMode = new MenuEntry("Versus");
             MenuEntry helpMenuEntry = new MenuEntry("Help");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
             // Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
+            versusMode.Selected += versusModeMenuEntrySelected;
             helpMenuEntry.Selected += HelpMenuEntry;
             exitMenuEntry.Selected += OnCancel;
 
             // Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
+            MenuEntries.Add(versusMode);
             MenuEntries.Add(helpMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
@@ -33,8 +36,14 @@ namespace PillHunt
 
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
-                               new GameplayScreen());
+
+            ScreenManager.AddScreen(new playGameScreen(true), e.PlayerIndex);
+        }
+
+        void versusModeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            //LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new playGameScreen(true));
+            ScreenManager.AddScreen(new playGameScreen(true), e.PlayerIndex);
         }
 
 

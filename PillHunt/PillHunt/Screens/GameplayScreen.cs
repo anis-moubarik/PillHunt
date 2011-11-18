@@ -25,6 +25,8 @@ namespace PillHunt
         Texture2D dimmerTexture;
         Texture2D goTexture;
         Texture2D bgTexture;
+        Texture2D wallTexture;
+
 
         //our own classes
         Player player1;
@@ -34,6 +36,7 @@ namespace PillHunt
         FPS fps;
         Scores scores;
         PlayerMovement movement;
+        Map map;
 
         bool gameEnds;
         float pauseAlpha;
@@ -41,7 +44,7 @@ namespace PillHunt
         int screenWidth;
         int screenHeight;
 
-
+ 
         public GameplayScreen()
         {
 
@@ -52,22 +55,23 @@ namespace PillHunt
             //sets the escape-key as the pause-button
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
 
-            // --- n‰‰ 6 vois jotenkin antaa jatkossa parametreina (texture sizet vois ehk‰ poistaa):
-            screenWidth = 800;
-            screenHeight = 600;
+            // --- n‰‰ 7 vois jotenkin antaa jatkossa parametreina (texture sizet vois ehk‰ poistaa):
+            screenWidth = 1024;
+            screenHeight = 768;
             string p1name = "Player1";
             string p2name = "Player2";
             int playerTextureSize = 32;
             int pillTextureSize = 32;
+            string mapName = "map.txt";
 
             player1 = new Player(0, 0, p1name);
             player2 = new Player(screenWidth - playerTextureSize, screenHeight - playerTextureSize, p2name);
             clock = new Timer();
             fps = new FPS(screenWidth);
-            pills = new Pills(100, screenWidth, screenHeight, pillTextureSize);
+            map = new Map(mapName, screenWidth, screenHeight);
+            pills = new Pills(map, 100, screenWidth, screenHeight, pillTextureSize);
             scores = new Scores(screenWidth);
             movement = new PlayerMovement(screenWidth, screenHeight, playerTextureSize, playerTextureSize);
-
             gameEnds = false;
 
         }
@@ -92,6 +96,7 @@ namespace PillHunt
                 dimmerTexture = content.Load<Texture2D>("dimmer");
                 goTexture = content.Load<Texture2D>("gameover");
                 bgTexture = content.Load<Texture2D>("bg");
+                wallTexture = content.Load<Texture2D>("wall");
 
                 Thread.Sleep(1000);
                 ScreenManager.Game.ResetElapsedTime();
@@ -138,7 +143,7 @@ namespace PillHunt
                 if (!gameEnds)
 
                 {
-                    movement.moveBothPlayers(Keyboard.GetState(), player1, player2);
+                    movement.moveBothPlayers(Keyboard.GetState(), player1, player2, map);
                     fps.calculateFPS(gameTime);
                     player1.increaseScore(pills.countIntersections(player1.getPosition()));
                     player2.increaseScore(pills.countIntersections(player2.getPosition()));
@@ -175,8 +180,10 @@ namespace PillHunt
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
-            spriteBatch.Draw(bgTexture, new Vector2(0, 0), Color.White);
+            Rectangle fullscreen = new Rectangle(0, 0, screenWidth, screenHeight);
+            spriteBatch.Draw(bgTexture, fullscreen, Color.White);
 
+            map.draw(spriteBatch, wallTexture);
             pills.draw(spriteBatch, pillTexture);        
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);

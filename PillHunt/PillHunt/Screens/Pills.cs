@@ -13,18 +13,24 @@ namespace PillHunt
         private List<Pill> list;
 
         //creates given amount of new pills to random positions, requires also screen size and pill texture's size
-        public Pills(int numberOfPills, int screenWidth, int screenHeight, int pillSize)
+        public Pills(Map map, int numberOfPills, int screenWidth, int screenHeight, int pillSize)
             {
 
             list = new List<Pill>();
             Random random = new Random();
             int maxWidth = screenWidth - pillSize;
             int maxHeight = screenHeight - pillSize;
+            Rectangle position;
 
             for (int i = 0; i < numberOfPills; i++)
+            {
+                position = new Rectangle(random.Next(maxWidth), random.Next(maxHeight), pillSize, pillSize);
+                while (map.intersectsWithAWall(position))
                 {
-                list.Add(new Pill(new Rectangle(random.Next(maxWidth), random.Next(maxHeight), pillSize, pillSize)));
+                    position = new Rectangle(random.Next(maxWidth), random.Next(maxHeight), pillSize, pillSize);
                 }
+                list.Add(new Pill(position));
+            }
 
             }
 

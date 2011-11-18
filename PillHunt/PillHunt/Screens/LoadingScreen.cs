@@ -21,7 +21,6 @@ namespace PillHunt
         {
             this.loadingIsSlow = loadingIsSlow;
             this.screensToLoad = screensToLoad;
-
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
         }
 
@@ -37,8 +36,8 @@ namespace PillHunt
             LoadingScreen loadingScreen = new LoadingScreen(screenManager,
                                                             loadingIsSlow,
                                                             screensToLoad);
-
             screenManager.AddScreen(loadingScreen, controllingPlayer);
+            
         }
 
 
