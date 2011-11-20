@@ -36,14 +36,12 @@ namespace PillHunt
 
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-
-            ScreenManager.AddScreen(new playGameScreen(true), e.PlayerIndex);
+            ScreenManager.AddScreen(new PlayGameScreen(true), e.PlayerIndex);
         }
 
         void versusModeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            //LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new playGameScreen(true));
-            ScreenManager.AddScreen(new playGameScreen(true), e.PlayerIndex);
+            ScreenManager.AddScreen(new PlayGameScreen(true), e.PlayerIndex);
         }
 
 

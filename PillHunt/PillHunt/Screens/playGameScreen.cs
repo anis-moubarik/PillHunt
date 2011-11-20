@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace PillHunt
 {
-    class playGameScreen : MenuScreen
+    class PlayGameScreen : MenuScreen
     {
-        public playGameScreen(bool versusMode)
+        public PlayGameScreen(bool versusMode)
             : base("PillHunt")
         {
             if (versusMode)

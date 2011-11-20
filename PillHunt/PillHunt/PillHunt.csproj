@@ -146,7 +146,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ScreenManager.cs" />
     <Compile Include="Screens\PlayerMovement.cs" />
-    <Compile Include="Screens\playGameScreen.cs" />
+    <Compile Include="Screens\PlayGameScreen.cs" />
     <Compile Include="Screens\Scores.cs" />
     <Compile Include="Screens\Timer.cs" />
     <Compile Include="Wall.cs" />
