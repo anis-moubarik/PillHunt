@@ -17,8 +17,8 @@ namespace PillHunt
 
             graphics = new GraphicsDeviceManager(this);
             TargetElapsedTime = TimeSpan.FromTicks(166666);
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
 
             // Create the screen factory and add it to the Services
             screenFactory = new ScreenFactory();

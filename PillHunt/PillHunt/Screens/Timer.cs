@@ -16,7 +16,7 @@ namespace PillHunt
         // --- timerista vois tehä sellasen et sille annetaan parametrina aika ---
         public Timer()
         {
-            time = 8.0f;
+            time = 120.0f;
             timeVector = new Vector2(0, 0);
         }
 
