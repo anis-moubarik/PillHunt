@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace PillHunt
     {
@@ -14,11 +16,14 @@ namespace PillHunt
         Player loser;
         bool tie;
 
+
+
         //creates a new endscreen
         public EndScreen(Player player1, Player player2)
             {
             tie = false;
             whoWon(player1, player2);
+
             }
 
         //checks who won the game
@@ -72,6 +77,8 @@ namespace PillHunt
                 spriteBatch.DrawString(font, winner.getName() + " ate " + winner.getScore() + " pills and won!", new Vector2(mid.X - 110, mid.Y - 20), Color.Black);
                 spriteBatch.DrawString(font, loser.getName() + " ate only " + loser.getScore() + " pills.", new Vector2(mid.X - 110, mid.Y), Color.Black);
                 }
+
+            spriteBatch.DrawString(font, "Press Enter to continue", new Vector2(mid.X-110, mid.Y+20), Color.Black);
 
             }
 

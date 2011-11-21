@@ -123,6 +123,7 @@
     <Compile Include="Screens\BackgroundScreen.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Screens\RestartScreen.cs" />
     <Compile Include="Screens\ScreenFactory.cs" />
     <Compile Include="Screens\EndScreen.cs" />
     <Compile Include="Screens\GameplayScreen.cs" />

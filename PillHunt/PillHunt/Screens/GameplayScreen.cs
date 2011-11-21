@@ -14,6 +14,7 @@ namespace PillHunt
 
         ContentManager content;
         InputAction pauseAction;
+        InputAction endGameAction;
 
         //fonts
         SpriteFont gameFont;
@@ -54,6 +55,7 @@ namespace PillHunt
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
             //sets the escape-key as the pause-button
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
+            endGameAction = new InputAction(new Keys[] { Keys.Enter }, true);
 
             // --- n‰‰ 7 vois jotenkin antaa jatkossa parametreina (texture sizet vois ehk‰ poistaa):
             screenWidth = 1024;
@@ -164,13 +166,16 @@ namespace PillHunt
             KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
 
             PlayerIndex player;
-            if (pauseAction.Evaluate(input, ControllingPlayer, out player))
+            if (pauseAction.Evaluate(input, ControllingPlayer, out player) && !gameEnds)
             {
 
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
             }
+            if (endGameAction.Evaluate(input, ControllingPlayer, out player) && gameEnds)
+            {
+                ScreenManager.AddScreen(new RestartScreen(), ControllingPlayer);
+            }
         }
-
 
         public override void Draw(GameTime gameTime)
         {
