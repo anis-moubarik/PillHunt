@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace PillHunt
 {
@@ -15,6 +17,8 @@ namespace PillHunt
         ContentManager content;
         InputAction pauseAction;
         InputAction endGameAction;
+        SoundEffect nom;
+        Song bgMusic;
 
         //fonts
         SpriteFont gameFont;
@@ -56,6 +60,9 @@ namespace PillHunt
             //sets the escape-key as the pause-button
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
             endGameAction = new InputAction(new Keys[] { Keys.Enter }, true);
+
+
+
 
             // --- n‰‰ 7 vois jotenkin antaa jatkossa parametreina (texture sizet vois ehk‰ poistaa):
             screenWidth = 1024;
@@ -99,8 +106,12 @@ namespace PillHunt
                 goTexture = content.Load<Texture2D>("gameover");
                 bgTexture = content.Load<Texture2D>("bg");
                 wallTexture = content.Load<Texture2D>("wall");
-
-                Thread.Sleep(1000);
+                nom = content.Load<SoundEffect>("nom");
+                bgMusic = content.Load<Song>("daymare");
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Play(bgMusic);
+                MediaPlayer.Volume = 0.085f;
+                SoundEffect.MasterVolume = 0.09f;
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
@@ -147,8 +158,13 @@ namespace PillHunt
                 {
                     movement.moveBothPlayers(Keyboard.GetState(), player1, player2, map);
                     fps.calculateFPS(gameTime);
+                    if (pills.intersects(player1.getPosition()))
+                    {
+                        nom.Play();
+                    }
                     player1.increaseScore(pills.countIntersections(player1.getPosition()));
                     player2.increaseScore(pills.countIntersections(player2.getPosition()));
+
                 }
 
             }

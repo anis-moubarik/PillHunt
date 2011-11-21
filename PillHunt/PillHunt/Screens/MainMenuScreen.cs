@@ -1,13 +1,14 @@
 
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 namespace PillHunt
 {
     // First thing that shows up is this.
     class MainMenuScreen : MenuScreen
     {
-
 
         public MainMenuScreen()
             : base("PillHunt")

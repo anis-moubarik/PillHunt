@@ -4,18 +4,19 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 
 namespace PillHunt
     {
     class Pills
         {
 
+
         private List<Pill> list;
 
         //creates given amount of new pills to random positions, requires also screen size and pill texture's size
         public Pills(Map map, int numberOfPills, int screenWidth, int screenHeight, int pillSize)
             {
-
             list = new List<Pill>();
             Random random = new Random();
             int maxWidth = screenWidth - pillSize;
@@ -54,6 +55,18 @@ namespace PillHunt
             return intersections;
 
             }
+
+        public bool intersects(Rectangle position)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (position.Intersects(list[i].getPosition()))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
 
         //draws all the pills using the given spritebatch and texture
