@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,7 +11,6 @@ namespace PillHunt
         private int score;
         private int speedX;
         private int speedY;
-        private int totalSpeed;
         private const int maxSpeed = 30;
         private Rectangle position;
 

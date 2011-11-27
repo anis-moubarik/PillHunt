@@ -1,7 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Content;
 
 namespace PillHunt
 {
