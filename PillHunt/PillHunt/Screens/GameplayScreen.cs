@@ -70,11 +70,11 @@ namespace PillHunt
             string mapName = "map.txt";
             // ---
 
-            player1 = new Player(0, 0, screenWidth, screenHeight, p1name);
-            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name);
             clock = new Timer(20.0f);
             fps = new FPS(screenWidth);
             map = new Map(mapName, screenWidth, screenHeight);
+            player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map);
+            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name, map);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             scores = new Scores(screenWidth);
             movement = new PlayerMovement();
@@ -174,7 +174,7 @@ namespace PillHunt
 
                 if (!gameEnds)
                     {
-                    movement.moveBothPlayers(Keyboard.GetState(), player1, player2, map);
+                    movement.moveBothPlayers(Keyboard.GetState(), player1, player2);
                     fps.calculateFPS(gameTime);
                     player1.increaseScore(pills.countIntersections(player1.getPosition(), nom));
                     player2.increaseScore(pills.countIntersections(player2.getPosition(), nom));
