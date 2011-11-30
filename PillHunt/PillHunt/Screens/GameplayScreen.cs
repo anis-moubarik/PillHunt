@@ -70,14 +70,14 @@ namespace PillHunt
             string mapName = "map.txt";
             // ---
 
-            player1 = new Player(0, 0, p1name);
-            player2 = new Player(screenWidth - 32, screenHeight - 32, p2name);
-            clock = new Timer(10.0f);
+            player1 = new Player(0, 0, screenWidth, screenHeight, p1name);
+            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name);
+            clock = new Timer(20.0f);
             fps = new FPS(screenWidth);
             map = new Map(mapName, screenWidth, screenHeight);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             scores = new Scores(screenWidth);
-            movement = new PlayerMovement(screenWidth, screenHeight, 32, 32);
+            movement = new PlayerMovement();
             gameEnds = false;
 
             }
@@ -178,7 +178,6 @@ namespace PillHunt
                     fps.calculateFPS(gameTime);
                     player1.increaseScore(pills.countIntersections(player1.getPosition(), nom));
                     player2.increaseScore(pills.countIntersections(player2.getPosition(), nom));
-
                     }
 
                 }
@@ -199,8 +198,8 @@ namespace PillHunt
             map.draw(spriteBatch, wallTexture);
             pills.draw(spriteBatch, pillTexture);
             clock.draw(spriteBatch, font);
-            player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
-            player2.draw(spriteBatch, awesomeTexture, Color.Red);
+            player1.draw(font, spriteBatch, awesomeTexture, Color.Yellow);
+            player2.draw(font, spriteBatch, awesomeTexture, Color.Red);
             fps.draw(spriteBatch, font);
             scores.draw(spriteBatch, font, player1, player2);
 
