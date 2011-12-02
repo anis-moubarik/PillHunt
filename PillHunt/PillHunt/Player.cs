@@ -9,26 +9,23 @@ namespace PillHunt
 
         private string name;
         private int score;
-        private int width;
-        private int height;
+        private int screenWidth;
+        private int screenHeight;
         private int speed;
-        private int bounceRate;
         private Rectangle position;
-        Map map;
+        private Vector2 direction;
 
         //creates a new player to a given (x,y) position
-        public Player(int x, int y, int w, int h, string n, Map m)
+        public Player(int x, int y, int width, int height, string n)
             {
 
             position = new Rectangle(x, y, 32, 32);
-            width = w;
-            height = h;
+            screenWidth = width;
+            screenHeight = height;
             name = n;
-            map = m;
-
+            direction = new Vector2(0, screenHeight);
             score = 0;
             speed = 8;
-            bounceRate = 2;
 
             }
 
@@ -55,188 +52,87 @@ namespace PillHunt
 
         //player movement
 
-        public void moveUpAndLeft()
-            {
-            if (noLeftEdge() && noTop() && noWall())
-                {
-                up();
-                left();
-                }
-            else
-                {
-                bounceDown();
-                bounceRight();
-                }
-            }
-
-        public void moveUpAndRight()
-            {
-            if (noRightEdge() && noTop() && noWall())
-                {
-                up();
-                right();
-                }
-            else
-                {
-                bounceDown();
-                bounceLeft();
-                }
-            }
-
-        public void moveDownAndLeft()
-            {
-            if (noLeftEdge() && noBottom() && noWall())
-                {
-                down();
-                left();
-                }
-            else
-                {
-                bounceUp();
-                bounceRight();
-                }
-            }
-
-        public void moveDownAndRight()
-            {
-            if (noRightEdge() && noBottom() && noWall())
-                {
-                down();
-                right();
-                }
-            else
-                {
-                bounceUp();
-                bounceLeft();
-                }
-            }
-
         public void moveUp()
             {
-            if (noTop() && noWall())
+            if (position.Y > 0)
                 {
-                up();
-                }
-            else
-                {
-                bounceDown();
+                position.Y = position.Y - speed;
                 }
             }
 
         public void moveDown()
             {
-            if (noBottom() && noWall())
+            if (position.Y < (screenHeight - 32))
                 {
-                down();
-                }
-            else
-                {
-                bounceUp();
+                position.Y = position.Y + speed;
                 }
             }
 
         public void moveLeft()
             {
 
-            if (noLeftEdge() && noWall())
+            if (position.X > 0)
                 {
-                left();
-                }
-            else
-                {
-                bounceRight();
+                position.X = position.X - speed;
                 }
             }
 
         public void moveRight()
             {
 
-            if (noRightEdge() && noWall())
+            if (position.X < (screenWidth - 32))
                 {
-                right();
-                }
-            else
-                {
-                bounceLeft();
+                position.X = position.X + speed;
                 }
             }
-
-
-        //directions
-
-        public void up()
-            {
-            position.Y = position.Y - speed;
-            }
-
-        public void down()
-            {
-            position.Y = position.Y + speed;
-            }
-
-        public void left()
-            {
-            position.X = position.X - speed;
-            }
-
-        public void right()
-            {
-            position.X = position.X + speed;
-            }
-
-
-        //bounces
         
-        public void bounceUp()
+        public void changeDirectionX(float x)
             {
-            position.Y = position.Y - bounceRate * speed;
+            direction.X = x;
+            direction.Y = position.Y;
             }
 
-        public void bounceDown()
+        public void changeDirectionY(float y)
             {
-            position.Y = position.Y + bounceRate * speed;
+            direction.Y = y;
+            direction.X = position.X;
             }
 
-        public void bounceLeft()
+        public void changeBothDirections(float x, float y)
             {
-            position.X = position.X - bounceRate * speed;
+            direction.X = x;
+            direction.Y = y;
             }
 
-        public void bounceRight()
+        //moves player towards the direction vector
+        public void moveTowardsDirection()
             {
-            position.X = position.X + bounceRate * speed;
+
+            if (position.Y < direction.Y)
+                {
+                moveDown();
+                }
+
+            else if (position.Y > direction.Y)
+                {
+                moveUp();
+                }
+
+            if (position.X < direction.X)
+                {
+                moveRight();
+                }
+
+            else if (position.X > direction.X)
+                {
+                moveLeft();
+                }
+
             }
 
-
-        //wall and edge checks
-
-        public bool noWall()
-            {
-            return !map.intersectsWithAWall(position);
-            }
-
-        public bool noLeftEdge()
-            {
-            return position.X > 0;
-            }
-
-        public bool noRightEdge()
-            {
-            return position.X < (width - 32);
-            }
-
-        public bool noTop()
-            {
-            return position.Y > 0;
-            }
-
-        public bool noBottom()
-            {
-            return position.Y < (height - 32);
-            }
 
         //draws the player using the given spirtebatch, texture and color
-        public void draw(SpriteFont font, SpriteBatch spriteBatch, Texture2D texture, Color color)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, Color color)
             {
             spriteBatch.Draw(texture, position, color);
             }

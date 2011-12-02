@@ -73,8 +73,8 @@ namespace PillHunt
             clock = new Timer(20.0f);
             fps = new FPS(screenWidth);
             map = new Map(mapName, screenWidth, screenHeight);
-            player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map);
-            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name, map);
+            player1 = new Player(0, 0, screenWidth, screenHeight, p1name);
+            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             scores = new Scores(screenWidth);
             movement = new PlayerMovement();
@@ -106,8 +106,8 @@ namespace PillHunt
                 bgMusic = content.Load<Song>("daymare");
                 MediaPlayer.IsRepeating = true;
                 MediaPlayer.Play(bgMusic);
-                MediaPlayer.Volume = 0.085f;
-                SoundEffect.MasterVolume = 0.09f;
+                MediaPlayer.Volume = 0.000f; //0.085f
+                SoundEffect.MasterVolume = 0.00f; //0.09f
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
@@ -198,8 +198,8 @@ namespace PillHunt
             map.draw(spriteBatch, wallTexture);
             pills.draw(spriteBatch, pillTexture);
             clock.draw(spriteBatch, font);
-            player1.draw(font, spriteBatch, awesomeTexture, Color.Yellow);
-            player2.draw(font, spriteBatch, awesomeTexture, Color.Red);
+            player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
+            player2.draw(spriteBatch, awesomeTexture, Color.Red);
             fps.draw(spriteBatch, font);
             scores.draw(spriteBatch, font, player1, player2);
 

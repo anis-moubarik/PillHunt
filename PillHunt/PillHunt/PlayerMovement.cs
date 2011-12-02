@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace PillHunt
     {
@@ -17,43 +18,45 @@ namespace PillHunt
 
             if (keyState.IsKeyDown(Keys.W) && keyState.IsKeyDown(Keys.A))
                 {
-                player1.moveUpAndLeft();
+                player1.changeBothDirections(float.MinValue, float.MinValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.W) && keyState.IsKeyDown(Keys.D))
                 {
-                player1.moveUpAndRight();
+                player1.changeBothDirections(float.MaxValue, float.MinValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.S) && keyState.IsKeyDown(Keys.A))
                 {
-                player1.moveDownAndLeft();
+                player1.changeBothDirections(float.MinValue, float.MaxValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.S) && keyState.IsKeyDown(Keys.D))
                 {
-                player1.moveDownAndRight();
+                player1.changeBothDirections(float.MaxValue, float.MaxValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.W))
                 {
-                player1.moveUp();
+                player1.changeDirectionY(float.MinValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.S))
                 {
-                player1.moveDown();
+                player1.changeDirectionY(float.MaxValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.A))
                 {
-                player1.moveLeft();
+                player1.changeDirectionX(float.MinValue);
                 }
 
             else if (keyState.IsKeyDown(Keys.D))
                 {
-                player1.moveRight();
+                player1.changeDirectionX(float.MaxValue);
                 }
+
+            player1.moveTowardsDirection();
 
             }
         }
