@@ -1,0 +1,4 @@
+2 // number of the walls, followed by all the walls:
+true,true,64,0,20,600
+true,false,100,80,860,20
+//isMoving, isVertical, movingSpeed, x, y, width, height

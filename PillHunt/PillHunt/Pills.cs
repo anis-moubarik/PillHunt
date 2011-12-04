@@ -24,7 +24,7 @@ namespace PillHunt
             for (int i = 0; i < numberOfPills; i++)
                 {
                 position = new Rectangle(random.Next(maxWidth), random.Next(maxHeight), pillSize, pillSize);
-                while (map.intersectsWithAWall(position))
+                while (map.intersectsWithAWall(position, ""))
                     {
                     position = new Rectangle(random.Next(maxWidth), random.Next(maxHeight), pillSize, pillSize);
                     }

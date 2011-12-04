@@ -8,24 +8,100 @@ namespace PillHunt
         {
 
         private Rectangle position;
+        private int screenWidth;
+        private int screenHeight;
+        private bool isMoving;
+        private bool isVertical;
+        private int movingSpeed;
+        private Random random;
 
         //creates a new wall to given position
-        public Wall(Rectangle pos)
+        public Wall(Rectangle pos, int width, int height, bool moving, bool vertical, int speed)
             {
             position = pos;
+            screenWidth = width;
+            screenHeight = height;
+            isMoving = moving;
+            isVertical = vertical;
+            movingSpeed = speed;
+            random = new Random();
             }
 
-        //returns wall's position
-        public Rectangle getPosition()
+        //returns the position of a given edge of the wall
+        public Rectangle getPosition(String edge)
             {
-            return position;
+            if (edge.Equals("left"))
+                {
+                return new Rectangle(position.X, position.Y, 2, position.Height);
+                }
+            else if (edge.Equals("right"))
+                {
+                return new Rectangle(position.X + position.Width - 2, position.Y, 2, position.Height);
+                }
+            else if (edge.Equals("top"))
+                {
+                return new Rectangle(position.X, position.Y, position.Width, 2);
+                }
+            else if (edge.Equals("bottom"))
+                {
+                return new Rectangle(position.X, position.Y + position.Height - 2, position.Width, 2);
+                }
+            else {
+                return position;
+                }
             }
 
         //draws the wall using the given spritebatch and texture
         public void draw(SpriteBatch spriteBatch, Texture2D texture)
             {
-            spriteBatch.Draw(texture, position, Color.White);
+
+            if (isMoving)
+                {
+                moveWall();
+                }
+
+            if (random.Next(30) == 15)
+                {
+                spriteBatch.Draw(texture, position, Color.Blue);
+                }
+
+            else if (random.Next(100) == 50)
+                {
+                spriteBatch.Draw(texture, position, Color.Pink);
+                }
+
+            else
+                {
+                spriteBatch.Draw(texture, position, Color.White);
+                }
+
             }
+
+        //moves the wall
+        public void moveWall()
+
+            {
+
+            if (isVertical)
+                {
+                if (position.X < 50 || position.X > (screenWidth - position.Width - 50))
+                    {
+                    movingSpeed = -1 * movingSpeed;
+                    }
+                position.X = position.X + movingSpeed;
+                }
+
+            else
+                {
+                if (position.Y < 50 || position.Y > (screenHeight - position.Height - 50))
+                    {
+                    movingSpeed = -1 * movingSpeed;
+                    }
+                position.Y = position.Y + movingSpeed;
+                }
+
+            }
+
         }
 
     }

@@ -13,10 +13,8 @@ namespace PillHunt
 
         public Map(string map, int screenWidth, int screenHeight)
         {
-
             list = new List<Wall>();
-            loadMap(map);
-
+            loadMap(map, screenWidth, screenHeight);
         }
 
         //draws all the walls using the given spritebatch and texture
@@ -28,29 +26,32 @@ namespace PillHunt
             }
         }
 
-
-        public void loadMap(string map)
+        //loads a map from a .txt-file
+        public void loadMap(string map, int width, int height)
         {
 
             TextReader tr = new StreamReader(map);
             int lines = int.Parse(tr.ReadLine());
             string[] text;
+            Rectangle position;
 
             for (int i = 0; i < lines; i++)
             {
                 text = tr.ReadLine().Split(',');
-                list.Add(new Wall(new Rectangle(int.Parse(text[0]), int.Parse(text[1]), int.Parse(text[2]), int.Parse(text[3]))));
+                position = new Rectangle(int.Parse(text[3]), int.Parse(text[4]), int.Parse(text[5]), int.Parse(text[6]));
+                list.Add(new Wall(position, width, height, bool.Parse(text[0]), bool.Parse(text[1]), int.Parse(text[2])));
             }
 
             tr.Close();
 
         }
 
-        public bool intersectsWithAWall(Rectangle position)
+        //returns true if given position intersects with a given edge of a wall
+        public bool intersectsWithAWall(Rectangle position, String edge)
         {
             for (int i = 0; i < list.Count; i++)
             {
-                if (position.Intersects(list[i].getPosition()))
+                if (position.Intersects(list[i].getPosition(edge)))
                 {
                     return true;
                 }

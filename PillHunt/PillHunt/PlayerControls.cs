@@ -4,16 +4,15 @@ using Microsoft.Xna.Framework;
 
 namespace PillHunt
     {
-    class PlayerMovement
+    class PlayerControls
         {
 
-        //creates a new player movement
-        public PlayerMovement()
+        public PlayerControls()
             {
             }
 
-        //moves both players according to keyboard's current state
-        public void moveBothPlayers(KeyboardState keyState, Player player1, Player player2)
+        //changes directions of both players according to keyboard's current state
+        public void checkKeyboardStatus(KeyboardState keyState, Player player1, Player player2)
             {
 
             if (keyState.IsKeyDown(Keys.W) && keyState.IsKeyDown(Keys.A))
@@ -55,8 +54,6 @@ namespace PillHunt
                 {
                 player1.changeDirectionX(float.MaxValue);
                 }
-
-            player1.moveTowardsDirection();
 
             }
         }

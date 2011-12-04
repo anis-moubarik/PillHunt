@@ -41,7 +41,7 @@ namespace PillHunt
         Timer clock;
         FPS fps;
         Scores scores;
-        PlayerMovement movement;
+        PlayerControls controls;
         Map map;
 
         bool gameEnds;
@@ -73,11 +73,11 @@ namespace PillHunt
             clock = new Timer(20.0f);
             fps = new FPS(screenWidth);
             map = new Map(mapName, screenWidth, screenHeight);
-            player1 = new Player(0, 0, screenWidth, screenHeight, p1name);
-            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name);
+            player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map);
+            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name, map);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             scores = new Scores(screenWidth);
-            movement = new PlayerMovement();
+            controls = new PlayerControls();
             gameEnds = false;
 
             }
@@ -106,8 +106,8 @@ namespace PillHunt
                 bgMusic = content.Load<Song>("daymare");
                 MediaPlayer.IsRepeating = true;
                 MediaPlayer.Play(bgMusic);
-                MediaPlayer.Volume = 0.000f; //0.085f
-                SoundEffect.MasterVolume = 0.00f; //0.09f
+                MediaPlayer.Volume = 0.085f;
+                SoundEffect.MasterVolume = 0.09f;
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
@@ -174,8 +174,9 @@ namespace PillHunt
 
                 if (!gameEnds)
                     {
-                    movement.moveBothPlayers(Keyboard.GetState(), player1, player2);
                     fps.calculateFPS(gameTime);
+                    controls.checkKeyboardStatus(Keyboard.GetState(), player1, player2);
+                    player1.moveTowardsDirection();
                     player1.increaseScore(pills.countIntersections(player1.getPosition(), nom));
                     player2.increaseScore(pills.countIntersections(player2.getPosition(), nom));
                     }
