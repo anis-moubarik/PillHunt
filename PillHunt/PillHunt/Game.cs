@@ -10,9 +10,9 @@ namespace PillHunt
         ScreenManager screenManager;
         ScreenFactory screenFactory;
 
-
         public Game()
         {
+
             Content.RootDirectory = "Content";
             graphics = new GraphicsDeviceManager(this);
             TargetElapsedTime = TimeSpan.FromTicks(166666);
@@ -27,6 +27,7 @@ namespace PillHunt
             Components.Add(screenManager);
 
             AddInitialScreens();
+
         }
 
         private void AddInitialScreens()

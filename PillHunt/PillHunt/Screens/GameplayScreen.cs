@@ -49,7 +49,6 @@ namespace PillHunt
         int screenWidth;
         int screenHeight;
 
-
         public GameplayScreen()
             {
 
@@ -106,8 +105,8 @@ namespace PillHunt
                 bgMusic = content.Load<Song>("daymare");
                 MediaPlayer.IsRepeating = true;
                 MediaPlayer.Play(bgMusic);
-                MediaPlayer.Volume = 0.085f;
-                SoundEffect.MasterVolume = 0.09f;
+                MediaPlayer.Volume = 0.000f; //0.085f;
+                SoundEffect.MasterVolume = 0.00f; //0.09f;
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
@@ -196,7 +195,7 @@ namespace PillHunt
             Rectangle fullscreen = new Rectangle(0, 0, screenWidth, screenHeight);
             spriteBatch.Draw(bgTexture, fullscreen, Color.White);
 
-            map.draw(spriteBatch, wallTexture);
+            map.draw(spriteBatch, wallTexture, gameEnds);
             pills.draw(spriteBatch, pillTexture);
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);

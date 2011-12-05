@@ -13,7 +13,6 @@ namespace PillHunt
         private bool isMoving;
         private bool isVertical;
         private int movingSpeed;
-        private Random random;
 
         //creates a new wall to given position
         public Wall(Rectangle pos, int width, int height, bool moving, bool vertical, int speed)
@@ -24,7 +23,6 @@ namespace PillHunt
             isMoving = moving;
             isVertical = vertical;
             movingSpeed = speed;
-            random = new Random();
             }
 
         //returns the position of a given edge of the wall
@@ -52,28 +50,15 @@ namespace PillHunt
             }
 
         //draws the wall using the given spritebatch and texture
-        public void draw(SpriteBatch spriteBatch, Texture2D texture)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds)
             {
 
-            if (isMoving)
+            if (isMoving && !gameEnds)
                 {
                 moveWall();
                 }
 
-            if (random.Next(30) == 15)
-                {
-                spriteBatch.Draw(texture, position, Color.Blue);
-                }
-
-            else if (random.Next(100) == 50)
-                {
-                spriteBatch.Draw(texture, position, Color.Pink);
-                }
-
-            else
-                {
-                spriteBatch.Draw(texture, position, Color.White);
-                }
+            spriteBatch.Draw(texture, position, Color.White);
 
             }
 
@@ -82,7 +67,7 @@ namespace PillHunt
 
             {
 
-            if (isVertical)
+            if (isVertical) //vertical wall, moves left and right
                 {
                 if (position.X < 50 || position.X > (screenWidth - position.Width - 50))
                     {
@@ -91,7 +76,7 @@ namespace PillHunt
                 position.X = position.X + movingSpeed;
                 }
 
-            else
+            else //horizontal wall, moves up and down
                 {
                 if (position.Y < 50 || position.Y > (screenHeight - position.Height - 50))
                     {

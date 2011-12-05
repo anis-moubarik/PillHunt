@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace PillHunt
@@ -15,6 +16,7 @@ namespace PillHunt
         private Rectangle position;
         private Vector2 direction;
         private Map map;
+        private bool inputEnabled;
 
         //creates a new player to a given (x,y) position
         public Player(int x, int y, int width, int height, string n, Map m)
@@ -28,6 +30,7 @@ namespace PillHunt
             screenHeight = height;
             score = 0;
             speed = 8;
+            inputEnabled = true;
 
             }
 
@@ -51,6 +54,11 @@ namespace PillHunt
             score = score + increase;
             }
 
+        public bool isInputEnabled()
+            {
+            return inputEnabled;
+            }
+
 
         //player movement, if the player hits an edge or a wall, it bounces
 
@@ -58,6 +66,7 @@ namespace PillHunt
             {
             if (position.Y > 0 && noWalls("bottom"))
                 {
+                inputEnabled = true;
                 position.Y = position.Y - speed;
                 }
             else
@@ -70,6 +79,7 @@ namespace PillHunt
             {
             if (position.Y < (screenHeight - 32) && noWalls("top"))
                 {
+                inputEnabled = true;
                 position.Y = position.Y + speed;
                 }
             else
@@ -82,6 +92,7 @@ namespace PillHunt
             {
             if (position.X > 0 && noWalls("right"))
                 {
+                inputEnabled = true;
                 position.X = position.X - speed;
                 }
             else
@@ -94,6 +105,7 @@ namespace PillHunt
             {
             if (position.X < (screenWidth - 32) && noWalls("left"))
                 {
+                inputEnabled = true;
                 position.X = position.X + speed;
                 }
             else
@@ -111,6 +123,8 @@ namespace PillHunt
         //bounces player towards opposite direction(s)
         public void bounce(bool leftOrRightEdge)
             {
+
+            inputEnabled = false;
 
             //player moving left and up
             if (direction.X == float.MinValue && direction.Y == float.MinValue)
