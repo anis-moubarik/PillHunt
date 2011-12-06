@@ -64,60 +64,68 @@ namespace PillHunt
 
         public void moveUp()
             {
-            if (position.Y > 0 && noWalls("bottom"))
+
+            if (position.Y < 5 || wall("bottom")) //top edge or bottom edge of a wall
+                {
+                bounce(false);
+                }
+            else
                 {
                 inputEnabled = true;
                 position.Y = position.Y - speed;
                 }
-            else
-                {
-                bounce(false);
-                }
+
             }
 
         public void moveDown()
             {
-            if (position.Y < (screenHeight - 32) && noWalls("top"))
+
+            if (position.Y > (screenHeight - 37) || wall("top")) //bottom edge or top edge of a wall
+                {
+                bounce(false);
+                }
+            else
                 {
                 inputEnabled = true;
                 position.Y = position.Y + speed;
                 }
-            else
-                {
-                bounce(false);
-                }
+
             }
 
         public void moveLeft()
             {
-            if (position.X > 0 && noWalls("right"))
+
+            if (position.X < 5 || wall("right")) //left edge or left edge of a wall
+                {
+                bounce(true);
+                }
+            else
                 {
                 inputEnabled = true;
                 position.X = position.X - speed;
                 }
-            else
-                {
-                bounce(true);
-                }
+
             }
 
         public void moveRight()
             {
-            if (position.X < (screenWidth - 32) && noWalls("left"))
+
+            if (position.X > (screenWidth - 37) || wall("left")) //right edge or right edge of a wall
+                {
+                bounce(true);
+                }
+            else
                 {
                 inputEnabled = true;
                 position.X = position.X + speed;
                 }
-            else
-                {
-                bounce(true);
-                }
+
             }
 
-        //returns true if there are no walls in the way
-        public bool noWalls(String edge)
+        //returns true if there is a given edge of a wall in the way
+        public bool wall(String edge)
             {
-            return !(map.intersectsWithAWall(position, edge));
+            return map.intersectsWithAWall(position, edge);
             }
 
         //bounces player towards opposite direction(s)

@@ -34,7 +34,7 @@ namespace PillHunt
                 }
             else if (edge.Equals("right"))
                 {
-                return new Rectangle(position.X + position.Width - 2, position.Y, 2, position.Height);
+                return new Rectangle(position.X + position.Width, position.Y - 2, 2, position.Height);
                 }
             else if (edge.Equals("top"))
                 {
