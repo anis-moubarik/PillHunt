@@ -67,19 +67,104 @@ namespace PillHunt
             }
 
 
-        //player movement, if the player hits an edge or a wall, it bounces
+        //player movement, if the player hits an edge, a wall or another player, it bounces
+
+        public void moveUpAndLeft()
+            {
+
+            towardsOneWay = false;
+
+            if (topEdges())
+                {
+                bounce(false);
+                }
+            else if (leftEdges())
+                {
+                bounce(true);
+                }
+            else
+                {
+                up();
+                left();
+                }
+
+            }
+
+        public void moveUpAndRight()
+            {
+
+            towardsOneWay = false;
+
+            if (topEdges())
+                {
+                bounce(false);
+                }
+            else if (rightEdges())
+                {
+                bounce(true);
+                }
+            else
+                {
+                up();
+                right();
+                }
+
+            }
+
+        public void moveDownAndLeft()
+            {
+
+            towardsOneWay = false;
+
+            if (bottomEdges())
+                {
+                bounce(false);
+                }
+            else if (leftEdges())
+                {
+                bounce(true);
+                }
+            else
+                {
+                down();
+                left();
+                }
+
+            }
+
+        public void moveDownAndRight()
+            {
+
+            towardsOneWay = false;
+
+            if (bottomEdges())
+                {
+                bounce(false);
+                }
+            else if (rightEdges())
+                {
+                bounce(true);
+                }
+            else
+                {
+                down();
+                right();
+                }
+
+            }
 
         public void moveUp()
             {
 
-            if (position.Y < 5 || wall("bottom")) //top edge or bottom edge of a wall
+            towardsOneWay = true;
+
+            if (topEdges())
                 {
                 bounce(false);
                 }
             else
                 {
-                inputEnabled = true;
-                position.Y = position.Y - speed;
+                up();
                 }
 
             }
@@ -87,14 +172,15 @@ namespace PillHunt
         public void moveDown()
             {
 
-            if (position.Y > (screenHeight - 37) || wall("top")) //bottom edge or top edge of a wall
+            towardsOneWay = true;
+
+            if (bottomEdges())
                 {
                 bounce(false);
                 }
             else
                 {
-                inputEnabled = true;
-                position.Y = position.Y + speed;
+                down();
                 }
 
             }
@@ -102,14 +188,15 @@ namespace PillHunt
         public void moveLeft()
             {
 
-            if (position.X < 5 || wall("right")) //left edge or left edge of a wall
+            towardsOneWay = true;
+
+            if (leftEdges())
                 {
                 bounce(true);
                 }
             else
                 {
-                inputEnabled = true;
-                position.X = position.X - speed;
+                left();
                 }
 
             }
@@ -117,16 +204,61 @@ namespace PillHunt
         public void moveRight()
             {
 
-            if (position.X > (screenWidth - 37) || wall("left")) //right edge or right edge of a wall
+            towardsOneWay = true;
+
+            if (rightEdges())
                 {
                 bounce(true);
                 }
             else
                 {
-                inputEnabled = true;
-                position.X = position.X + speed;
+                right();
                 }
 
+            }
+
+        public bool topEdges()
+            {
+            return (position.Y < 5 || wall("bottom"));
+            }
+
+        public bool bottomEdges()
+            {
+            return (position.Y > (screenHeight - 37) || wall("top"));
+            }
+
+        public bool leftEdges()
+            {
+            return (position.X < 5 || wall("right"));
+            }
+
+        public bool rightEdges()
+            {
+            return (position.X > (screenWidth - 37) || wall("left"));
+            }
+
+        public void left()
+            {
+            inputEnabled = true;
+            position.X = position.X - speed;
+            }
+
+        public void right()
+            {
+            inputEnabled = true;
+            position.X = position.X + speed;
+            }
+
+        public void up()
+            {
+            inputEnabled = true;
+            position.Y = position.Y - speed;
+            }
+
+        public void down()
+            {
+            inputEnabled = true;
+            position.Y = position.Y + speed;
             }
 
         //returns true if there is a given edge of a wall in the way
@@ -135,7 +267,7 @@ namespace PillHunt
             return map.intersectsWithAWall(position, edge);
             }
 
-        //bounces player towards opposite direction(s)
+        //bounces player towards opposite direction
         public void bounce(bool leftOrRightEdge)
             {
 
@@ -223,30 +355,52 @@ namespace PillHunt
             {
             direction.X = x;
             direction.Y = position.Y;
-            towardsOneWay = true;
             }
 
         public void changeDirectionY(float y)
             {
             direction.Y = y;
             direction.X = position.X;
-            towardsOneWay = true;
             }
 
         public void changeBothDirections(float x, float y)
             {
             direction.X = x;
             direction.Y = y;
-            towardsOneWay = false;
             }
 
-        //moves player towards the direction vector, checks if the players collide
+        //moves player towards the direction vector
         public void moveTowardsDirection()
             {
 
-            if (position.Y < direction.Y)
+            if (position.X > direction.X && position.Y > direction.Y)
                 {
-                moveDown();
+                moveUpAndLeft();
+                }
+
+            else if (position.X < direction.X && position.Y > direction.Y)
+                {
+                moveUpAndRight();
+                }
+
+            else if (position.X > direction.X && position.Y < direction.Y)
+                {
+                moveDownAndLeft();
+                }
+
+            else if (position.X < direction.X && position.Y < direction.Y)
+                {
+                moveDownAndRight();
+                }
+
+            else if (position.X > direction.X)
+                {
+                moveLeft();
+                }
+
+            else if (position.X < direction.X)
+                {
+                moveRight();
                 }
 
             else if (position.Y > direction.Y)
@@ -254,14 +408,9 @@ namespace PillHunt
                 moveUp();
                 }
 
-            if (position.X < direction.X)
+            else if (position.Y < direction.Y)
                 {
-                moveRight();
-                }
-
-            else if (position.X > direction.X)
-                {
-                moveLeft();
+                moveDown();
                 }
 
             }

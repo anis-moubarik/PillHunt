@@ -51,10 +51,10 @@ namespace PillHunt
             }
 
         //draws the wall using the given spritebatch and texture
-        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, Player player1)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, bool active, Player player1)
             {
 
-            if (isMoving && !gameEnds)
+            if (isMoving && !gameEnds && active)
                 {
                 moveWall(player1);
                 }

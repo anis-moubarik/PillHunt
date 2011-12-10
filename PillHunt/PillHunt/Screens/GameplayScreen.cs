@@ -140,7 +140,6 @@ namespace PillHunt
             PlayerIndex player;
             if (pauseAction.Evaluate(input, ControllingPlayer, out player) && !gameEnds)
                 {
-
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
                 }
             if (endGameAction.Evaluate(input, ControllingPlayer, out player) && gameEnds)
@@ -195,7 +194,7 @@ namespace PillHunt
             Rectangle fullscreen = new Rectangle(0, 0, screenWidth, screenHeight);
             spriteBatch.Draw(bgTexture, fullscreen, Color.White);
 
-            map.draw(spriteBatch, wallTexture, gameEnds, player1);
+            map.draw(spriteBatch, wallTexture, gameEnds, IsActive, player1);
             pills.draw(spriteBatch, pillTexture);
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
