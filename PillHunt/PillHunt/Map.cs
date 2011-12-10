@@ -18,11 +18,11 @@ namespace PillHunt
             }
 
         //draws all the walls using the given spritebatch and texture
-        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, Player player1)
             {
             foreach (Wall wall in list)
                 {
-                wall.draw(spriteBatch, texture, gameEnds);
+                wall.draw(spriteBatch, texture, gameEnds, player1);
                 }
             }
 

@@ -17,6 +17,7 @@ namespace PillHunt
         private Vector2 direction;
         private Map map;
         private bool inputEnabled;
+        private bool towardsOneWay;
 
         //creates a new player to a given (x,y) position
         public Player(int x, int y, int width, int height, string n, Map m)
@@ -31,6 +32,7 @@ namespace PillHunt
             score = 0;
             speed = 8;
             inputEnabled = true;
+            towardsOneWay = false;
 
             }
 
@@ -57,6 +59,11 @@ namespace PillHunt
         public bool isInputEnabled()
             {
             return inputEnabled;
+            }
+
+        public bool movingOnlyTowardsOneWay()
+            {
+            return towardsOneWay;
             }
 
 
@@ -216,18 +223,21 @@ namespace PillHunt
             {
             direction.X = x;
             direction.Y = position.Y;
+            towardsOneWay = true;
             }
 
         public void changeDirectionY(float y)
             {
             direction.Y = y;
             direction.X = position.X;
+            towardsOneWay = true;
             }
 
         public void changeBothDirections(float x, float y)
             {
             direction.X = x;
             direction.Y = y;
+            towardsOneWay = false;
             }
 
         //moves player towards the direction vector, checks if the players collide
