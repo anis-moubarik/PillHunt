@@ -41,11 +41,6 @@ namespace PillHunt
             return name;
             }
 
-        public Rectangle getPosition()
-            {
-            return position;
-            }
-
         public int getScore()
             {
             return score;
@@ -66,21 +61,46 @@ namespace PillHunt
             return towardsOneWay;
             }
 
+        //returns the position of a given edge of the player
+        public Rectangle getPosition(String edge)
+            {
+            if (edge.Equals("left"))
+                {
+                return new Rectangle(position.X, position.Y, 2, position.Height);
+                }
+            else if (edge.Equals("right"))
+                {
+                return new Rectangle(position.X + position.Width, position.Y - 2, 2, position.Height);
+                }
+            else if (edge.Equals("top"))
+                {
+                return new Rectangle(position.X, position.Y, position.Width, 2);
+                }
+            else if (edge.Equals("bottom"))
+                {
+                return new Rectangle(position.X, position.Y + position.Height - 2, position.Width, 2);
+                }
+            else
+                {
+                return position;
+                }
+            }
 
-        //player movement, if the player hits an edge, a wall or another player, it bounces
 
-        public void moveUpAndLeft()
+        //player movement, if the player hits an edge, a wall or another player, it bounces:
+
+        public void moveUpAndLeft(Player otherPlayer)
             {
 
             towardsOneWay = false;
 
-            if (topEdges())
+            if (topEdges() || position.Intersects(otherPlayer.getPosition("bottom")))
                 {
-                bounce(false);
+                bounceFromUpAndLeft(false);
                 }
-            else if (leftEdges())
+            else if (leftEdges() || position.Intersects(otherPlayer.getPosition("right")))
                 {
-                bounce(true);
+                bounceFromUpAndLeft(true);
                 }
             else
                 {
@@ -90,18 +110,18 @@ namespace PillHunt
 
             }
 
-        public void moveUpAndRight()
+        public void moveUpAndRight(Player otherPlayer)
             {
 
             towardsOneWay = false;
 
-            if (topEdges())
+            if (topEdges() || position.Intersects(otherPlayer.getPosition("bottom")))
                 {
-                bounce(false);
+                bounceFromUpAndRight(false);
                 }
-            else if (rightEdges())
+            else if (rightEdges() || position.Intersects(otherPlayer.getPosition("left")))
                 {
-                bounce(true);
+                bounceFromUpAndRight(true);
                 }
             else
                 {
@@ -111,18 +131,18 @@ namespace PillHunt
 
             }
 
-        public void moveDownAndLeft()
+        public void moveDownAndLeft(Player otherPlayer)
             {
 
             towardsOneWay = false;
 
-            if (bottomEdges())
+            if (bottomEdges() || position.Intersects(otherPlayer.getPosition("top")))
                 {
-                bounce(false);
+                bounceFromDownAndLeft(false);
                 }
-            else if (leftEdges())
+            else if (leftEdges() || position.Intersects(otherPlayer.getPosition("right")))
                 {
-                bounce(true);
+                bounceFromDownAndLeft(true);
                 }
             else
                 {
@@ -132,18 +152,18 @@ namespace PillHunt
 
             }
 
-        public void moveDownAndRight()
+        public void moveDownAndRight(Player otherPlayer)
             {
 
             towardsOneWay = false;
 
-            if (bottomEdges())
+            if (bottomEdges() || position.Intersects(otherPlayer.getPosition("top")))
                 {
-                bounce(false);
+                bounceFromDownAndRight(false);
                 }
-            else if (rightEdges())
+            else if (rightEdges() || position.Intersects(otherPlayer.getPosition("left")))
                 {
-                bounce(true);
+                bounceFromDownAndRight(true);
                 }
             else
                 {
@@ -153,14 +173,14 @@ namespace PillHunt
 
             }
 
-        public void moveUp()
+        public void moveUp(Player otherPlayer)
             {
 
             towardsOneWay = true;
 
-            if (topEdges())
+            if (topEdges() || position.Intersects(otherPlayer.getPosition("bottom")))
                 {
-                bounce(false);
+                bounceDown();
                 }
             else
                 {
@@ -169,14 +189,14 @@ namespace PillHunt
 
             }
 
-        public void moveDown()
+        public void moveDown(Player otherPlayer)
             {
 
             towardsOneWay = true;
 
-            if (bottomEdges())
+            if (bottomEdges() || position.Intersects(otherPlayer.getPosition("top")))
                 {
-                bounce(false);
+                bounceUp();
                 }
             else
                 {
@@ -185,14 +205,14 @@ namespace PillHunt
 
             }
 
-        public void moveLeft()
+        public void moveLeft(Player otherPlayer)
             {
 
             towardsOneWay = true;
 
-            if (leftEdges())
+            if (leftEdges() || position.Intersects(otherPlayer.getPosition("right")))
                 {
-                bounce(true);
+                bounceRight();
                 }
             else
                 {
@@ -201,14 +221,14 @@ namespace PillHunt
 
             }
 
-        public void moveRight()
+        public void moveRight(Player otherPlayer)
             {
 
             towardsOneWay = true;
 
-            if (rightEdges())
+            if (rightEdges() || position.Intersects(otherPlayer.getPosition("left")))
                 {
-                bounce(true);
+                bounceLeft();
                 }
             else
                 {
@@ -267,88 +287,107 @@ namespace PillHunt
             return map.intersectsWithAWall(position, edge);
             }
 
-        //bounces player towards opposite direction
-        public void bounce(bool leftOrRightEdge)
+        //returns true if the players collide
+        public bool hitsOtherPlayer(Rectangle p2position)
+            {
+            return position.Intersects(p2position);
+            }
+
+
+        //bounce when player moving left and up
+        public void bounceFromUpAndLeft(bool leftOrRightEdge)
             {
 
             inputEnabled = false;
 
-            //player moving left and up
-            if (direction.X == float.MinValue && direction.Y == float.MinValue)
+            if (leftOrRightEdge)
                 {
-                if (leftOrRightEdge)
-                    {
-                    changeBothDirections(float.MaxValue, float.MinValue);
-                    }
-                else
-                    {
-                    changeBothDirections(float.MinValue, float.MaxValue);
-                    }
+                changeBothDirections(float.MaxValue, float.MinValue);
+                }
+            else
+                {
+                changeBothDirections(float.MinValue, float.MaxValue);
                 }
 
-            //player moving right and up
-            else if (direction.X == float.MaxValue && direction.Y == float.MinValue)
+            }
+
+        //bounce when player moving right and up
+        public void bounceFromUpAndRight(bool leftOrRightEdge)
+            {
+
+            inputEnabled = false;
+
+            if (leftOrRightEdge)
                 {
-                if (leftOrRightEdge)
-                    {
-                    changeBothDirections(float.MinValue, float.MinValue);
-                    }
-                else
-                    {
-                    changeBothDirections(float.MaxValue, float.MaxValue);
-                    }
+                changeBothDirections(float.MinValue, float.MinValue);
+                }
+            else
+                {
+                changeBothDirections(float.MaxValue, float.MaxValue);
                 }
 
-            //player moving left and down
-            else if (direction.X == float.MinValue && direction.Y == float.MaxValue)
+            }
+
+        //bounce when player moving left and down
+        public void bounceFromDownAndLeft(bool leftOrRightEdge)
+            {
+
+            inputEnabled = false;
+
+            if (leftOrRightEdge)
                 {
-                if (leftOrRightEdge)
-                    {
-                    changeBothDirections(float.MaxValue, float.MaxValue);
-                    }
-                else
-                    {
-                    changeBothDirections(float.MinValue, float.MinValue);
-                    }
+                changeBothDirections(float.MaxValue, float.MaxValue);
+                }
+            else
+                {
+                changeBothDirections(float.MinValue, float.MinValue);
                 }
 
-            //player moving right and down
-            else if (direction.X == float.MaxValue && direction.Y == float.MaxValue)
+            }
+
+        //bounce when player moving right and down
+        public void bounceFromDownAndRight(bool leftOrRightEdge)
+            {
+
+            inputEnabled = false;
+
+            if (leftOrRightEdge)
                 {
-                if (leftOrRightEdge)
-                    {
-                    changeBothDirections(float.MinValue, float.MaxValue);
-                    }
-                else
-                    {
-                    changeBothDirections(float.MaxValue, float.MinValue);
-                    }
+                changeBothDirections(float.MinValue, float.MaxValue);
+                }
+            else
+                {
+                changeBothDirections(float.MaxValue, float.MinValue);
                 }
 
-            //player moving only left
-            else if (direction.X == float.MinValue)
-                {
-                direction.X = float.MaxValue;
-                }
+            }
 
-            //player moving only right
-            else if (direction.X == float.MaxValue)
-                {
-                direction.X = float.MinValue;
-                }
+        //bounce when player moving only left
+        public void bounceRight()
+            {
+            inputEnabled = false;
+            direction.X = float.MaxValue;
+            }
 
-            //player moving only up
-            else if (direction.Y == float.MinValue)
-                {
-                direction.Y = float.MaxValue;
-                }
+        //bounce when player moving only right
+        public void bounceLeft()
+            {
+            inputEnabled = false;
+            direction.X = float.MinValue;
+            }
 
-            //player moving only down
-            else if (direction.Y == float.MaxValue)
-                {
-                direction.Y = float.MinValue;
-                }
+        //bounce when player moving only up
+        public void bounceDown()
+            {
+            inputEnabled = false;
+            direction.Y = float.MaxValue;
+            }
 
+        //bounce when player moving only down
+        public void bounceUp()
+            {
+            inputEnabled = false;
+            direction.Y = float.MinValue;
             }
 
         public void changeDirectionX(float x)
@@ -370,47 +409,47 @@ namespace PillHunt
             }
 
         //moves player towards the direction vector
-        public void moveTowardsDirection()
+        public void moveTowardsDirection(Player otherPlayer)
             {
 
             if (position.X > direction.X && position.Y > direction.Y)
                 {
-                moveUpAndLeft();
+                moveUpAndLeft(otherPlayer);
                 }
 
             else if (position.X < direction.X && position.Y > direction.Y)
                 {
-                moveUpAndRight();
+                moveUpAndRight(otherPlayer);
                 }
 
             else if (position.X > direction.X && position.Y < direction.Y)
                 {
-                moveDownAndLeft();
+                moveDownAndLeft(otherPlayer);
                 }
 
             else if (position.X < direction.X && position.Y < direction.Y)
                 {
-                moveDownAndRight();
+                moveDownAndRight(otherPlayer);
                 }
 
             else if (position.X > direction.X)
                 {
-                moveLeft();
+                moveLeft(otherPlayer);
                 }
 
             else if (position.X < direction.X)
                 {
-                moveRight();
+                moveRight(otherPlayer);
                 }
 
             else if (position.Y > direction.Y)
                 {
-                moveUp();
+                moveUp(otherPlayer);
                 }
 
             else if (position.Y < direction.Y)
                 {
-                moveDown();
+                moveDown(otherPlayer);
                 }
 
             }

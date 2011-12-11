@@ -51,12 +51,12 @@ namespace PillHunt
             }
 
         //draws the wall using the given spritebatch and texture
-        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, bool active, Player player1)
+        public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, bool active, Player player1, Player player2)
             {
 
             if (isMoving && !gameEnds && active)
                 {
-                moveWall(player1);
+                moveWall(player1, player2);
                 }
 
             spriteBatch.Draw(texture, position, Color.White);
@@ -64,10 +64,10 @@ namespace PillHunt
             }
 
         //moves the wall
-        public void moveWall(Player player1)
+        public void moveWall(Player player1, Player player2)
             {
 
-            checkPlayerHits(player1);
+            checkPlayerHits(player1, player2);
 
             if (isVertical) //vertical wall, moves left and right
                 {
@@ -91,31 +91,56 @@ namespace PillHunt
             }
 
         //checks if player hits a moving wall while player is moving only towards one way
-        public void checkPlayerHits(Player player1)
+        public void checkPlayerHits(Player player1, Player player2)
             {
 
             if (player1.movingOnlyTowardsOneWay())
 
                 {
 
-                if (player1.getPosition().Intersects(getPosition("top")))
+                if (player1.getPosition("").Intersects(getPosition("top")))
                     {
                     player1.changeDirectionY(float.MinValue);
                     }
 
-                else if (player1.getPosition().Intersects(getPosition("bottom")))
+                else if (player1.getPosition("").Intersects(getPosition("bottom")))
                     {
                     player1.changeDirectionY(float.MaxValue);
                     }
 
-                else if (player1.getPosition().Intersects(getPosition("left")))
+                else if (player1.getPosition("").Intersects(getPosition("left")))
                     {
                     player1.changeDirectionX(float.MinValue);
                     }
 
-                else if (player1.getPosition().Intersects(getPosition("right")))
+                else if (player1.getPosition("").Intersects(getPosition("right")))
                     {
                     player1.changeDirectionX(float.MaxValue);
+                    }
+
+                }
+
+            if (player2.movingOnlyTowardsOneWay())
+                {
+
+                if (player2.getPosition("").Intersects(getPosition("top")))
+                    {
+                    player2.changeDirectionY(float.MinValue);
+                    }
+
+                else if (player2.getPosition("").Intersects(getPosition("bottom")))
+                    {
+                    player2.changeDirectionY(float.MaxValue);
+                    }
+
+                else if (player2.getPosition("").Intersects(getPosition("left")))
+                    {
+                    player2.changeDirectionX(float.MinValue);
+                    }
+
+                else if (player2.getPosition("").Intersects(getPosition("right")))
+                    {
+                    player2.changeDirectionX(float.MaxValue);
                     }
 
                 }

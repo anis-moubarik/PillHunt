@@ -61,6 +61,52 @@ namespace PillHunt
 
                 }
 
+
+            if (player2.isInputEnabled())
+                {
+
+                if (keyState.IsKeyDown(Keys.Up) && keyState.IsKeyDown(Keys.Left))
+                    {
+                    player2.changeBothDirections(float.MinValue, float.MinValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Up) && keyState.IsKeyDown(Keys.Right))
+                    {
+                    player2.changeBothDirections(float.MaxValue, float.MinValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Down) && keyState.IsKeyDown(Keys.Left))
+                    {
+                    player2.changeBothDirections(float.MinValue, float.MaxValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Down) && keyState.IsKeyDown(Keys.Right))
+                    {
+                    player2.changeBothDirections(float.MaxValue, float.MaxValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Up))
+                    {
+                    player2.changeDirectionY(float.MinValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Down))
+                    {
+                    player2.changeDirectionY(float.MaxValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Left))
+                    {
+                    player2.changeDirectionX(float.MinValue);
+                    }
+
+                else if (keyState.IsKeyDown(Keys.Right))
+                    {
+                    player2.changeDirectionX(float.MaxValue);
+                    }
+
+                }
+
             }
         }
     }

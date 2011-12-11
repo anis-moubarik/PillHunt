@@ -174,9 +174,10 @@ namespace PillHunt
                     {
                     fps.calculateFPS(gameTime);
                     controls.checkKeyboardStatus(Keyboard.GetState(), player1, player2);
-                    player1.moveTowardsDirection();
-                    player1.increaseScore(pills.countIntersections(player1.getPosition(), nom));
-                    player2.increaseScore(pills.countIntersections(player2.getPosition(), nom));
+                    player1.moveTowardsDirection(player2);
+                    player2.moveTowardsDirection(player1);
+                    player1.increaseScore(pills.countIntersections(player1.getPosition(""), nom));
+                    player2.increaseScore(pills.countIntersections(player2.getPosition(""), nom));
                     }
 
                 }
@@ -194,7 +195,7 @@ namespace PillHunt
             Rectangle fullscreen = new Rectangle(0, 0, screenWidth, screenHeight);
             spriteBatch.Draw(bgTexture, fullscreen, Color.White);
 
-            map.draw(spriteBatch, wallTexture, gameEnds, IsActive, player1);
+            map.draw(spriteBatch, wallTexture, gameEnds, IsActive, player1, player2);
             pills.draw(spriteBatch, pillTexture);
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
