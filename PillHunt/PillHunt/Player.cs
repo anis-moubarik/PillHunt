@@ -13,7 +13,10 @@ namespace PillHunt
         private int screenWidth;
         private int screenHeight;
         private int speed;
+        private int stuckTimer;
         private Rectangle position;
+        private Rectangle startPosition;
+        private Rectangle lastKnownPosition;
         private Vector2 direction;
         private Map map;
         private bool inputEnabled;
@@ -24,6 +27,7 @@ namespace PillHunt
             {
 
             position = new Rectangle(x, y, 32, 32);
+            startPosition = position;
             direction = new Vector2(x, y);
             map = m;
             name = n;
@@ -31,6 +35,7 @@ namespace PillHunt
             screenHeight = height;
             score = 0;
             speed = 8;
+            stuckTimer = 0;
             inputEnabled = true;
             towardsOneWay = false;
 
@@ -412,6 +417,11 @@ namespace PillHunt
         public void moveTowardsDirection(Player otherPlayer)
             {
 
+            if (playerGotStuck())
+                {
+                position = startPosition;
+                }
+
             if (position.X > direction.X && position.Y > direction.Y)
                 {
                 moveUpAndLeft(otherPlayer);
@@ -450,6 +460,33 @@ namespace PillHunt
             else if (position.Y < direction.Y)
                 {
                 moveDown(otherPlayer);
+                }
+
+            }
+
+        //returns true if the player doesn't move for a while
+        //players sometimes get stuck on walls or each other and this method is used to fix that bug
+        public bool playerGotStuck()
+            {
+
+            if (position.Equals(lastKnownPosition))
+                {
+                stuckTimer++;
+                if (stuckTimer > 100)
+                    {
+                    return true;
+                    }
+                else
+                    {
+                    return false;
+                    }
+                }
+
+            else
+                {
+                lastKnownPosition = position;
+                stuckTimer = 0;
+                return false;
                 }
 
             }

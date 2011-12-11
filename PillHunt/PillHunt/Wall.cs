@@ -8,21 +8,35 @@ namespace PillHunt
         {
 
         private Rectangle position;
-        private int screenWidth;
-        private int screenHeight;
+        private Rectangle originalPosition;
+        private Rectangle limitPosition;
         private bool isMoving;
         private bool isVertical;
-        private int movingSpeed;
+        private bool isInflating;
+        private int inflateLimit;
+        private int speed;
 
-        //creates a new wall to given position
-        public Wall(Rectangle pos, int width, int height, bool moving, bool vertical, int speed)
+        //creates a new wall
+        public Wall(Rectangle pos, Rectangle limitPos, bool moving, bool vertical, bool inflating, int iLimit, int s)
             {
+
             position = pos;
-            screenWidth = width;
-            screenHeight = height;
+            limitPosition = limitPos;
             isMoving = moving;
             isVertical = vertical;
-            movingSpeed = speed;
+            isInflating = inflating;
+            inflateLimit = iLimit;
+            speed = s;
+
+            if (isVertical)
+                {
+                originalPosition = new Rectangle(pos.X - (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+                }
+            else
+                {
+                originalPosition = new Rectangle(pos.X, pos.Y - (pos.Height + 1), pos.Width, pos.Height);
+                }
+
             }
 
         //returns the position of a given edge of the wall
@@ -54,9 +68,19 @@ namespace PillHunt
         public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, bool active, Player player1, Player player2)
             {
 
-            if (isMoving && !gameEnds && active)
+            if (!gameEnds && active)
                 {
-                moveWall(player1, player2);
+
+                if (isMoving)
+                    {
+                    moveWall(player1, player2);
+                    }
+
+                if (isInflating)
+                    {
+                    inflateWall(player1, player2);
+                    }
+
                 }
 
             spriteBatch.Draw(texture, position, Color.White);
@@ -69,24 +93,46 @@ namespace PillHunt
 
             checkPlayerHits(player1, player2);
 
-            if (isVertical) //vertical wall, moves left and right
+            if (position.Intersects(originalPosition) || position.Intersects(limitPosition))
                 {
-                
-                if (position.X < 50 || position.X > (screenWidth - position.Width - 50))
-                    {
-                    movingSpeed = -1 * movingSpeed;
-                    }
-                position.X = position.X + movingSpeed;
+                speed = -1 * speed;
                 }
 
+            if (isVertical) //vertical wall, moves left and right
+                {
+                position.X = position.X + speed;
+                }
             else //horizontal wall, moves up and down
                 {
-                if (position.Y < 50 || position.Y > (screenHeight - position.Height - 50))
-                    {
-                    movingSpeed = -1 * movingSpeed;
-                    }
-                position.Y = position.Y + movingSpeed;
+                position.Y = position.Y + speed;
                 }
+
+            }
+
+        //inflates the wall
+        public void inflateWall(Player player1, Player player2)
+            {
+
+            checkPlayerHits(player1, player2);
+
+            if (isMoving)
+                {
+                if (position.Width < 0 || position.Width > (originalPosition.Width + inflateLimit))
+                    {
+                    speed = -1 * speed;
+                    }
+                }
+
+            else
+                {
+                if (position.Width < originalPosition.Width || position.Width > (originalPosition.Width + inflateLimit))
+                    {
+                    speed = -1 * speed;
+                    }
+                }
+
+            position.Width = position.Width + speed;
+            position.Height = position.Height + speed;
 
             }
 
@@ -95,7 +141,6 @@ namespace PillHunt
             {
 
             if (player1.movingOnlyTowardsOneWay())
-
                 {
 
                 if (player1.getPosition("").Intersects(getPosition("top")))

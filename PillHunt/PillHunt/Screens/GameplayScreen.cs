@@ -71,7 +71,7 @@ namespace PillHunt
 
             clock = new Timer(20.0f);
             fps = new FPS(screenWidth);
-            map = new Map(mapName, screenWidth, screenHeight);
+            map = new Map(mapName);
             player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map);
             player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name, map);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
