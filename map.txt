@@ -1,4 +1,4 @@
 3
-Tomato,true,true,false,4,200,100,20,200,600,0
-White,true,false,false,4,600,300,200,20,400,0
-Black,true,false,true,1,200,400,100,20,200,100
+Tomato,true,true,false,false,4,200,100,20,200,600,0,0
+White,true,false,false,true,4,600,300,200,20,400,0,20
+Black,true,false,true,false,1,200,400,100,20,200,100,0

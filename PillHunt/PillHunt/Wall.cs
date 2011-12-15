@@ -11,22 +11,33 @@ namespace PillHunt
         private Rectangle position;
         private Rectangle originalPosition;
         private Rectangle limitPosition;
+        private Rectangle outSideScreenPosition;
         private bool isMoving;
         private bool isVertical;
         private bool isInflating;
+        private bool partTimeVisible;
+        private bool isVisible;
+        private int visibilityCounter;
+        private int blinkRate;
         private int inflateLimit;
         private int speed;
 
         //creates a new wall
-        public Wall(Color c, Rectangle pos, Rectangle limitPos, bool moving, bool vertical, bool inflating, int iLimit, int s)
+        public Wall(Color c, Rectangle pos, Rectangle limitPos, bool moving, 
+            bool vertical, bool inflating, bool ptv, int bRate, int iLimit, int s)
             {
 
             color = c;
             position = pos;
             limitPosition = limitPos;
+            outSideScreenPosition = new Rectangle(-100, -100, 1, 1);
             isMoving = moving;
             isVertical = vertical;
             isInflating = inflating;
+            partTimeVisible = ptv;
+            isVisible = true;
+            visibilityCounter = 0;
+            blinkRate = bRate;
             inflateLimit = iLimit;
             speed = s;
 
@@ -44,6 +55,12 @@ namespace PillHunt
         //returns the position of a given edge of the wall
         public Rectangle getPosition(String edge)
             {
+
+            if (!isVisible)
+                {
+                return outSideScreenPosition;
+                }
+
             if (edge.Equals("left"))
                 {
                 return new Rectangle(position.X, position.Y, 2, position.Height);
@@ -70,7 +87,7 @@ namespace PillHunt
         public void draw(SpriteBatch spriteBatch, Texture2D texture, bool gameEnds, bool active, Player player1, Player player2)
             {
 
-            if (!gameEnds && active)
+            if (!gameEnds && active) //game doesn't end and it isn't paused
                 {
 
                 if (isMoving)
@@ -83,9 +100,17 @@ namespace PillHunt
                     inflateWall(player1, player2);
                     }
 
+                if (partTimeVisible)
+                    {
+                    hideOrShowWall();
+                    }
+
                 }
 
-            spriteBatch.Draw(texture, position, color);
+            if (isVisible)
+                {
+                spriteBatch.Draw(texture, position, color);
+                }
 
             }
 
@@ -135,6 +160,23 @@ namespace PillHunt
 
             position.Width = position.Width + speed;
             position.Height = position.Height + speed;
+
+            }
+
+        //hides or shows a part-time visible wall
+        public void hideOrShowWall()
+            {
+
+            if (visibilityCounter > blinkRate)
+                {
+                isVisible = !isVisible;
+                visibilityCounter = 0;
+                }
+
+            else
+                {
+                visibilityCounter++;
+                }
 
             }
 
