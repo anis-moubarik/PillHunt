@@ -7,6 +7,7 @@ namespace PillHunt
     class Wall
         {
 
+        private Color color;
         private Rectangle position;
         private Rectangle originalPosition;
         private Rectangle limitPosition;
@@ -17,9 +18,10 @@ namespace PillHunt
         private int speed;
 
         //creates a new wall
-        public Wall(Rectangle pos, Rectangle limitPos, bool moving, bool vertical, bool inflating, int iLimit, int s)
+        public Wall(Color c, Rectangle pos, Rectangle limitPos, bool moving, bool vertical, bool inflating, int iLimit, int s)
             {
 
+            color = c;
             position = pos;
             limitPosition = limitPos;
             isMoving = moving;
@@ -83,7 +85,7 @@ namespace PillHunt
 
                 }
 
-            spriteBatch.Draw(texture, position, Color.White);
+            spriteBatch.Draw(texture, position, color);
 
             }
 
