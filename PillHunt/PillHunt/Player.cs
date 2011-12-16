@@ -19,11 +19,13 @@ namespace PillHunt
         private Rectangle lastKnownPosition;
         private Vector2 direction;
         private Map map;
+        private AI ai;
         private bool inputEnabled;
         private bool towardsOneWay;
+        private bool playerIsAI;
 
         //creates a new player to a given (x,y) position
-        public Player(int x, int y, int width, int height, string n, Map m)
+        public Player(int x, int y, int width, int height, string n, Map m, bool computer, int aiLevel)
             {
 
             position = new Rectangle(x, y, 32, 32);
@@ -38,6 +40,8 @@ namespace PillHunt
             stuckTimer = 0;
             inputEnabled = true;
             towardsOneWay = false;
+            playerIsAI = computer;
+            ai = new AI(aiLevel);
 
             }
 
@@ -64,6 +68,16 @@ namespace PillHunt
         public bool movingOnlyTowardsOneWay()
             {
             return towardsOneWay;
+            }
+
+        public bool isAI()
+            {
+            return playerIsAI;
+            }
+
+        public AI getAI()
+            {
+            return ai;
             }
 
         //returns the position of a given edge of the player
@@ -411,6 +425,12 @@ namespace PillHunt
             {
             direction.X = x;
             direction.Y = y;
+            }
+
+        //sets AI player's direction
+        public void setDirection(Vector2 dir)
+            {
+            direction = dir;
             }
 
         //moves player towards the direction vector

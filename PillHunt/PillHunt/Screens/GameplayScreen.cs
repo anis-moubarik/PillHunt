@@ -67,13 +67,18 @@ namespace PillHunt
             string p1name = "Player1";
             string p2name = "Player2";
             string mapName = "map.txt";
+                //tekoälyyy:
+            bool p1ai = false;
+            bool p2ai = true;
+            int p1aiLevel = 1;
+            int p2aiLevel = 1;
             // ---
 
             clock = new Timer(20.0f);
             fps = new FPS(screenWidth);
             map = new Map(mapName);
-            player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map);
-            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name, map);
+            player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map, p1ai, p1aiLevel);
+            player2 = new Player(screenWidth - 32, screenHeight - 32, screenWidth, screenHeight, p2name, map, p2ai, p2aiLevel);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             scores = new Scores(screenWidth);
             controls = new PlayerControls();
