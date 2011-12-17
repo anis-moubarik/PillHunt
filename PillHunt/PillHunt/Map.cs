@@ -39,7 +39,7 @@ namespace PillHunt
             PropertyInfo colorProperty;
 
             bool isMoving, isVertical, isInflating, partTimeVisible;
-            int speed, x, y, width, height, movingLimit, inflateLimit, blinkRate;
+            int counter, speed, x, y, width, height, movingLimit, inflateLimit, blinkRate;
 
             Rectangle position;
             Rectangle limitPosition;
@@ -57,14 +57,15 @@ namespace PillHunt
                 isInflating = bool.Parse(line[3]);
                 partTimeVisible = bool.Parse(line[4]);
 
-                speed = int.Parse(line[5]);
-                x = int.Parse(line[6]);
-                y = int.Parse(line[7]);
-                width = int.Parse(line[8]);
-                height = int.Parse(line[9]);
-                movingLimit = int.Parse(line[10]);
-                inflateLimit = int.Parse(line[11]);
-                blinkRate = int.Parse(line[12]);
+                counter = int.Parse(line[5]);
+                speed = int.Parse(line[6]);
+                x = int.Parse(line[7]);
+                y = int.Parse(line[8]);
+                width = int.Parse(line[9]);
+                height = int.Parse(line[10]);
+                movingLimit = int.Parse(line[11]);
+                inflateLimit = int.Parse(line[12]);
+                blinkRate = int.Parse(line[13]);
 
                 position = new Rectangle(x, y, width, height);
 
@@ -78,7 +79,7 @@ namespace PillHunt
                     }
 
                 list.Add(new Wall(color, position, limitPosition, isMoving,
-                    isVertical, isInflating, partTimeVisible, blinkRate, inflateLimit, speed));
+                    isVertical, isInflating, partTimeVisible, counter, blinkRate, inflateLimit, speed));
 
                 }
 

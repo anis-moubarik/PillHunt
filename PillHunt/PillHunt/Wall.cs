@@ -24,7 +24,7 @@ namespace PillHunt
 
         //creates a new wall
         public Wall(Color c, Rectangle pos, Rectangle limitPos, bool moving, 
-            bool vertical, bool inflating, bool ptv, int bRate, int iLimit, int s)
+            bool vertical, bool inflating, bool ptv, int counter, int bRate, int iLimit, int s)
             {
 
             color = c;
@@ -36,12 +36,13 @@ namespace PillHunt
             isInflating = inflating;
             partTimeVisible = ptv;
             isVisible = true;
-            visibilityCounter = 0;
+            visibilityCounter = counter;
             blinkRate = bRate;
             inflateLimit = iLimit;
             speed = s;
 
             if (isVertical)
+
                 {
 
                 if (speed < 0)
