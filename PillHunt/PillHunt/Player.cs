@@ -25,7 +25,7 @@ namespace PillHunt
         private bool playerIsAI;
 
         //creates a new player to a given (x,y) position
-        public Player(int x, int y, int width, int height, string n, Map m, bool computer, int aiLevel)
+        public Player(int x, int y, int width, int height, string n, Map m, bool computer, int aiLevel, Pills pills)
             {
 
             position = new Rectangle(x, y, 32, 32);
@@ -41,7 +41,7 @@ namespace PillHunt
             inputEnabled = true;
             towardsOneWay = false;
             playerIsAI = computer;
-            ai = new AI(aiLevel);
+            ai = new AI(aiLevel, pills);
 
             }
 

@@ -33,6 +33,11 @@ namespace PillHunt
 
             }
 
+        //returns the list of all the pills
+        public List<Pill> getPills()
+            {
+            return list;
+            }
 
         //counts and returns how many pills in the list intersect with the given position
         //also removes all the pills that intersect with the given position and plays the nom sound if pills are eaten
