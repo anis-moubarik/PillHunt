@@ -66,12 +66,12 @@ namespace PillHunt
             screenHeight = 768;
             string p1name = "Player1";
             string p2name = "Player2";
-            string mapName = "map.txt";
+            string mapName = "map2.txt";
                 //tekoälyyy:
             bool p1ai = false;
             bool p2ai = true;
             int p1aiLevel = 3;
-            int p2aiLevel = 3;
+            int p2aiLevel = 4;
             // ---
 
             clock = new Timer(20.0f);
