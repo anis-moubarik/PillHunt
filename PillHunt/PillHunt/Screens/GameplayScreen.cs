@@ -70,8 +70,8 @@ namespace PillHunt
                 //tekoälyyy:
             bool p1ai = true;
             bool p2ai = true;
-            int p1aiLevel = 1;
-            int p2aiLevel = 1;
+            int p1aiLevel = 3;
+            int p2aiLevel = 3;
             // ---
 
             clock = new Timer(20.0f);

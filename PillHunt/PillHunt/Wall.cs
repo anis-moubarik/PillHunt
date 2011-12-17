@@ -43,12 +43,30 @@ namespace PillHunt
 
             if (isVertical)
                 {
-                originalPosition = new Rectangle(pos.X - (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+
+                if (speed < 0)
+                    {
+                    originalPosition = new Rectangle(pos.X + (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+                    }
+
+                else
+                    {
+                    originalPosition = new Rectangle(pos.X - (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+                    }
+
                 }
+
             else
-                {
-                originalPosition = new Rectangle(pos.X, pos.Y - (pos.Height + 1), pos.Width, pos.Height);
-                }
+
+                if (speed < 0)
+                    {
+                    originalPosition = new Rectangle(pos.X, pos.Y + (pos.Height + 1), pos.Width, pos.Height);
+                    }
+
+                else
+                    {
+                    originalPosition = new Rectangle(pos.X, pos.Y - (pos.Height + 1), pos.Width, pos.Height);
+                    }
 
             }
 
