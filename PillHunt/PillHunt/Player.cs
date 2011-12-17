@@ -492,7 +492,7 @@ namespace PillHunt
             if (position.Equals(lastKnownPosition))
                 {
                 stuckTimer++;
-                if (stuckTimer > 100)
+                if (stuckTimer > 80)
                     {
                     return true;
                     }

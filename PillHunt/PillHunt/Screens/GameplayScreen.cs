@@ -68,10 +68,10 @@ namespace PillHunt
             string p2name = "Player2";
             string mapName = "map.txt";
                 //tekoälyyy:
-            bool p1ai = false;
+            bool p1ai = true;
             bool p2ai = true;
             int p1aiLevel = 1;
-            int p2aiLevel = 3;
+            int p2aiLevel = 1;
             // ---
 
             clock = new Timer(20.0f);

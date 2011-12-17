@@ -14,7 +14,10 @@ namespace PillHunt
         private bool targetAcquired;
         private Pills pills;
         private bool hardIsUsingMedium;
-        
+        private int wallHitCounter;
+        private bool moveToRandomDirection;
+        private int yetAnotherCounter;
+
         //creates a new AI of given level
         public AI(int lvl, Pills p)
             {
@@ -24,18 +27,53 @@ namespace PillHunt
             targetAcquired = false;
             pills = p;
             hardIsUsingMedium = false;
+            wallHitCounter = 0;
+            moveToRandomDirection = false;
+            yetAnotherCounter = 0;
             }
 
         //sets a new target for AI player if it doesn't already have one or the previous target has been reached
         public void moveAIPlayer(Player player)
             {
 
+            //if AI player hits wall enough times it will be given a random direction
+            //fixes a bug where AI player got "stuck" on wall when the nearest pill was in the otherside of the wall
+            if (player.wall("") || yetAnotherCounter > 0)
+                {
+
+                wallHitCounter++;
+
+                if (wallHitCounter > 10)
+                    {
+
+                    if (!moveToRandomDirection)
+                        {
+                        player.setDirection(randomDirection());
+                        moveToRandomDirection = true;
+                        }
+
+                    if (yetAnotherCounter > 80)
+                        {
+                        wallHitCounter = 0;
+                        yetAnotherCounter = 0;
+                        moveToRandomDirection = false;
+                        }
+                    else
+                        {
+                        yetAnotherCounter++;
+                        }
+                    
+                    }
+
+                }
+
+            //level 1 AI's direction change interval
             if (level == 1 && targetAcquired)
                 {
 
                 counter++;
 
-                if (counter > 30)
+                if (counter > 50)
                     {
                     counter = 0;
                     targetAcquired = false;
@@ -43,6 +81,7 @@ namespace PillHunt
 
                 }
 
+            //level 3 AI's medium/very hard level change intervals
             else if (level == 3 && hardIsUsingMedium)
                 {
 
@@ -70,10 +109,12 @@ namespace PillHunt
 
                 }
 
-            if (!targetAcquired)
+            //no target or no need to send the AI player to a random direction
+            if (!targetAcquired && !moveToRandomDirection)
                 {
                 player.setDirection(getDirection(player));
                 }
+
             }
 
         //returns new target for AI, target depends on the level of AI
