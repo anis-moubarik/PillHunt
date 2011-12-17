@@ -9,20 +9,67 @@ namespace PillHunt
         {
 
         private int level;
+        private int counter;
+        private Random random;
         private bool targetAcquired;
         private Pills pills;
-
+        private bool hardIsUsingMedium;
+        
         //creates a new AI of given level
         public AI(int lvl, Pills p)
             {
             level = lvl;
+            counter = 0;
+            random = new Random();
             targetAcquired = false;
             pills = p;
+            hardIsUsingMedium = false;
             }
 
-        //sets a new target for AI if it doesn't already have one or the previous target has been reached
+        //sets a new target for AI player if it doesn't already have one or the previous target has been reached
         public void moveAIPlayer(Player player)
             {
+
+            if (level == 1 && targetAcquired)
+                {
+
+                counter++;
+
+                if (counter > 30)
+                    {
+                    counter = 0;
+                    targetAcquired = false;
+                    }
+
+                }
+
+            else if (level == 3 && hardIsUsingMedium)
+                {
+
+                counter++;
+
+                if (counter > 100)
+                    {
+                    hardIsUsingMedium = false;
+                    counter = 0;
+                    targetAcquired = false;
+                    }
+
+                }
+
+            else if (level == 3 && !hardIsUsingMedium)
+                {
+
+                counter++;
+
+                if (counter > 100)
+                    {
+                    hardIsUsingMedium = true;
+                    counter = 0;
+                    }
+
+                }
+
             if (!targetAcquired)
                 {
                 player.setDirection(getDirection(player));
@@ -43,30 +90,49 @@ namespace PillHunt
                 return mediumTarget();
                 }
 
-            else
+            else if (level == 3)
                 {
                 return hardTarget(player);
                 }
 
+            else
+                {
+                return veryHardTarget(player);
+                }
+
             }
 
-        //level 1 = easy, AI sets starting direction and the rest is based on bounces and luck
+        //level 1 = easy, AI player gets totally random directions
         public Vector2 easyTarget()
             {
             targetAcquired = true;
-            return new Vector2(float.MinValue, float.MinValue);
+            return randomDirection();
             }
 
-        //level 2 = medium
+        //level 2 = medium, AI player gets starting direction and the rest is based on bounces and luck
         public Vector2 mediumTarget()
             {
             targetAcquired = true;
             return new Vector2(float.MinValue, float.MinValue);
             }
 
-        //level 3 = hard, AI gets always the location of the nearest pill and tries to go towards it
+        //level 3 = hard, AI player gets in turns medium or very hard targets
         public Vector2 hardTarget(Player player)
             {
+            if (hardIsUsingMedium)
+                {
+                return mediumTarget();
+                }
+            else
+                {
+                return nearestPill(player.getPosition(""));
+                }
+            }
+
+        //level 4 = very hard, AI player gets always the location of the nearest pill and tries to go towards it
+        public Vector2 veryHardTarget(Player player)
+            {
+            targetAcquired = false;
             return nearestPill(player.getPosition(""));
             }
 
@@ -93,6 +159,37 @@ namespace PillHunt
                 }
 
             return nearest;
+
+            }
+
+        //returns a random direction vector
+        public Vector2 randomDirection()
+            {
+
+            int randomNumber = random.Next(3);
+            Vector2 randomVector;
+
+            if (randomNumber == 0)
+                {
+                randomVector = new Vector2(float.MinValue, float.MinValue);
+                }
+
+            else if (randomNumber == 1)
+                {
+                randomVector = new Vector2(float.MaxValue, float.MinValue);
+                }
+
+            else if (randomNumber == 2)
+                {
+                randomVector = new Vector2(float.MinValue, float.MaxValue);
+                }
+
+            else
+                {
+                randomVector = new Vector2(float.MaxValue, float.MaxValue);
+                }
+
+            return randomVector;
 
             }
 

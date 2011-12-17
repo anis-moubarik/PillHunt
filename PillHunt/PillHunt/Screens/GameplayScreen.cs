@@ -70,7 +70,7 @@ namespace PillHunt
                 //tekoälyyy:
             bool p1ai = false;
             bool p2ai = true;
-            int p1aiLevel = 3;
+            int p1aiLevel = 1;
             int p2aiLevel = 3;
             // ---
 
