@@ -9,40 +9,43 @@ namespace PillHunt
 
         MenuEntry p1HumanOrAIEntry;
         MenuEntry p2HumanOrAIEntry;
-        MenuEntry soundEntry;
+        MenuEntry mapEntry;
 
-        private string[] humanOrAI = { " human", " easy", " medium", " hard", " very hard" };
+        private string[] humanOrAI = { "human player", "novice computer", "dealer computer", "addict computer", "drug lord computer" };
         private int currentP1HumanOrAi = 0;
         private int currentP2HumanOrAi = 0;
-        private bool soundsOn = true;
 
+        private string[] maps = { "map", "map2", "map3" };
+        private int currentMap = 0;
+
+        //creates a new play game screen
         public PlayGameScreen() : base("PillHunt")
 
             {
 
-            // Create our menu entries.
+            //creating menu entries
 
             p1HumanOrAIEntry = new MenuEntry(string.Empty);
             p2HumanOrAIEntry = new MenuEntry(string.Empty);
-            soundEntry = new MenuEntry(string.Empty);
+            mapEntry = new MenuEntry(string.Empty);
 
             updateMenuEntries();
 
-            MenuEntry playGame = new MenuEntry("Play Game");
-            MenuEntry exitMenuEntry = new MenuEntry("Back to main menu");
+            MenuEntry playGame = new MenuEntry("\n\n\nStart the Game");
+            MenuEntry exitMenuEntry = new MenuEntry("\n\n\n\n\nBack to the Main Menu");
 
             // Hook up menu event handlers.
             p1HumanOrAIEntry.Selected += p1HumanOrAISelected;
             p2HumanOrAIEntry.Selected += p2HumanOrAISelected;
-            soundEntry.Selected += soundOnOrOffSelected;
-
+            mapEntry.Selected += mapSelected;
+            
             playGame.Selected += playGameSelected;
             exitMenuEntry.Selected += confirmQuitMessageBoxAccepted;
 
             // Add entries to the menu.
             MenuEntries.Add(p1HumanOrAIEntry);
             MenuEntries.Add(p2HumanOrAIEntry);
-            MenuEntries.Add(soundEntry);
+            MenuEntries.Add(mapEntry);
 
             MenuEntries.Add(playGame);
             MenuEntries.Add(exitMenuEntry);
@@ -52,9 +55,9 @@ namespace PillHunt
         //update the menu values:
         void updateMenuEntries()
             {
-            p1HumanOrAIEntry.Text = "Player 1: " + humanOrAI[currentP1HumanOrAi];
-            p2HumanOrAIEntry.Text = "Player 2: " + humanOrAI[currentP2HumanOrAi];
-            soundEntry.Text = "Sounds: " + (soundsOn ? " on" : " off");
+            p1HumanOrAIEntry.Text = "\nPlayer 1: " + humanOrAI[currentP1HumanOrAi];
+            p2HumanOrAIEntry.Text = "\nPlayer 2: " + humanOrAI[currentP2HumanOrAi];
+            mapEntry.Text = "\n\nMap: " + maps[currentMap];
             }
 
 
@@ -72,9 +75,9 @@ namespace PillHunt
             updateMenuEntries();
             }
 
-        void soundOnOrOffSelected(object sender, PlayerIndexEventArgs e)
+        void mapSelected(object sender, PlayerIndexEventArgs e)
             {
-            soundsOn = !soundsOn;
+            currentMap = (currentMap + 1) % maps.Length;
             updateMenuEntries();
             }
 

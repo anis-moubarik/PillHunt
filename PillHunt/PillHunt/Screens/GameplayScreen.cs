@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
 namespace PillHunt
@@ -20,7 +19,6 @@ namespace PillHunt
 
         //sounds
         SoundEffect nom;
-        Song bgMusic;
 
         //fonts
         SpriteFont gameFont;
@@ -60,14 +58,13 @@ namespace PillHunt
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
             endGameAction = new InputAction(new Keys[] { Keys.Enter }, true);
 
-
-            // --- n‰‰ vois jotenkin antaa jatkossa parametreina:
             screenWidth = 1024;
             screenHeight = 768;
+
+            // --- n‰‰ jatkossa parametreina:
             string p1name = "Player1";
             string p2name = "Player2";
             string mapName = "map3.txt";
-                //teko‰lyyy:
             bool p1ai = false;
             bool p2ai = true;
             int p1aiLevel = 3;
@@ -107,11 +104,6 @@ namespace PillHunt
                 bgTexture = content.Load<Texture2D>(map.getBGTexture());
                 wallTexture = content.Load<Texture2D>(map.getWallTexture());
                 nom = content.Load<SoundEffect>("nom");
-                bgMusic = content.Load<Song>("daymare");
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Play(bgMusic);
-                MediaPlayer.Volume = 0.000f; //0.085f;
-                SoundEffect.MasterVolume = 0.00f; //0.09f;
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
