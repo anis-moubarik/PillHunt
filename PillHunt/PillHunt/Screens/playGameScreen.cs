@@ -1,64 +1,94 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 
 namespace PillHunt
-{
-    class PlayGameScreen : MenuScreen
     {
-        public PlayGameScreen(bool versusMode)
-            : base("PillHunt")
+    class PlayGameScreen : MenuScreen
+
         {
-            if (versusMode)
+
+        MenuEntry p1HumanOrAIEntry;
+        MenuEntry p2HumanOrAIEntry;
+        MenuEntry soundEntry;
+
+        private string[] humanOrAI = { " human", " easy", " medium", " hard", " very hard" };
+        private int currentP1HumanOrAi = 0;
+        private int currentP2HumanOrAi = 0;
+        private bool soundsOn = true;
+
+        public PlayGameScreen() : base("PillHunt")
+
             {
-                MenuEntry playerNames = new MenuEntry("Player names");
-                MenuEntry playGame = new MenuEntry("Play Game");
-                // Hook up menu event handlers.
-                playerNames.Selected += playerNamesMenuEntrySelected;
-                playGame.Selected += playGameSelected;
 
+            // Create our menu entries.
 
-                // Add entries to the menu.
-                MenuEntries.Add(playerNames);
-                MenuEntries.Add(playGame);
-            }
-            else
-            {
-                MenuEntry playerNames = new MenuEntry("Player names");
+            p1HumanOrAIEntry = new MenuEntry(string.Empty);
+            p2HumanOrAIEntry = new MenuEntry(string.Empty);
+            soundEntry = new MenuEntry(string.Empty);
 
-                // Hook up menu event handlers.
-                playerNames.Selected += playerNamesMenuEntrySelected;
+            updateMenuEntries();
 
-                // Add entries to the menu.
-                MenuEntries.Add(playerNames);
-            }
+            MenuEntry playGame = new MenuEntry("Play Game");
             MenuEntry exitMenuEntry = new MenuEntry("Back to main menu");
-            exitMenuEntry.Selected += ConfirmQuitMessageBoxAccepted;
+
+            // Hook up menu event handlers.
+            p1HumanOrAIEntry.Selected += p1HumanOrAISelected;
+            p2HumanOrAIEntry.Selected += p2HumanOrAISelected;
+            soundEntry.Selected += soundOnOrOffSelected;
+
+            playGame.Selected += playGameSelected;
+            exitMenuEntry.Selected += confirmQuitMessageBoxAccepted;
+
+            // Add entries to the menu.
+            MenuEntries.Add(p1HumanOrAIEntry);
+            MenuEntries.Add(p2HumanOrAIEntry);
+            MenuEntries.Add(soundEntry);
+
+            MenuEntries.Add(playGame);
             MenuEntries.Add(exitMenuEntry);
-        }
+
+            }
+
+        //update the menu values:
+        void updateMenuEntries()
+            {
+            p1HumanOrAIEntry.Text = "Player 1: " + humanOrAI[currentP1HumanOrAi];
+            p2HumanOrAIEntry.Text = "Player 2: " + humanOrAI[currentP2HumanOrAi];
+            soundEntry.Text = "Sounds: " + (soundsOn ? " on" : " off");
+            }
+
+
+        //event handlers:
+
+        void p1HumanOrAISelected(object sender, PlayerIndexEventArgs e)
+            {
+            currentP1HumanOrAi = (currentP1HumanOrAi + 1) % humanOrAI.Length;
+            updateMenuEntries();
+            }
+
+        void p2HumanOrAISelected(object sender, PlayerIndexEventArgs e)
+            {
+            currentP2HumanOrAi = (currentP2HumanOrAi + 1) % humanOrAI.Length;
+            updateMenuEntries();
+            }
+
+        void soundOnOrOffSelected(object sender, PlayerIndexEventArgs e)
+            {
+            soundsOn = !soundsOn;
+            updateMenuEntries();
+            }
 
         void playGameSelected(object sender, PlayerIndexEventArgs e)
-        {
+            {
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
-        }
+            }
 
-        void playerNamesMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            //MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen();
-
-            //confirmExitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
-        }
-        void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
-        {
-            //LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
-            //                                               new MainMenuScreen());
-            //ScreenManager.AddScreen(new playGameScreen(true), e.PlayerIndex);
+        void confirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
+            {
             ScreenManager.AddScreen(new MainMenuScreen(), e.PlayerIndex);
+            }
+
         }
+
     }
-}
 

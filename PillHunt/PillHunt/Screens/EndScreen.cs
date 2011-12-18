@@ -16,7 +16,6 @@ namespace PillHunt
             {
             tie = false;
             whoWon(player1, player2);
-
             }
 
         //checks who won the game

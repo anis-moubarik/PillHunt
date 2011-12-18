@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 namespace PillHunt
 {
 
@@ -23,8 +24,8 @@ namespace PillHunt
 
         public MessageBoxScreen(string message, bool includeUsageText)
         {
-            const string usageText = "\nEnter = ok" +
-                                     "\nEsc = cancel"; 
+            const string usageText = "\nEnter = Yes, rehab here I come.." +
+                                     "\nEsc = No, rehab is for quitters!"; 
             
             if (includeUsageText)
                 this.message = message + usageText;

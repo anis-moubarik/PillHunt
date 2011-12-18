@@ -1,8 +1,4 @@
-
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Audio;
 
 namespace PillHunt
 {
@@ -14,39 +10,30 @@ namespace PillHunt
             : base("PillHunt")
         {
             // Create our menu entries.
-            MenuEntry playGameMenuEntry = new MenuEntry("Single player");
-            MenuEntry versusMode = new MenuEntry("Versus");
-            MenuEntry helpMenuEntry = new MenuEntry("Help");
-            MenuEntry exitMenuEntry = new MenuEntry("Exit");
+            MenuEntry playGameMenuEntry = new MenuEntry("Hunt Pills!");
+            MenuEntry helpMenuEntry = new MenuEntry("\nHelp!");
+            MenuEntry exitMenuEntry = new MenuEntry("\n\nExit");
 
             // Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
-            versusMode.Selected += versusModeMenuEntrySelected;
             helpMenuEntry.Selected += HelpMenuEntry;
             exitMenuEntry.Selected += OnCancel;
 
             // Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
-            MenuEntries.Add(versusMode);
             MenuEntries.Add(helpMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
         }
 
 
+        //event handlers:
 
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            ScreenManager.AddScreen(new PlayGameScreen(true), e.PlayerIndex);
+            ScreenManager.AddScreen(new PlayGameScreen(), e.PlayerIndex);
         }
 
-        void versusModeMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            ScreenManager.AddScreen(new PlayGameScreen(true), e.PlayerIndex);
-        }
-
-
-        // Event handler for when the help menu entry is selected.
         void HelpMenuEntry(object sender, PlayerIndexEventArgs e)
         {
             ScreenManager.AddScreen(new HelpMenuScreen(), e.PlayerIndex);
