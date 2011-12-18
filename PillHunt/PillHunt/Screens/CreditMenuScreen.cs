@@ -39,7 +39,6 @@ namespace PillHunt
         {
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             SpriteFont font = ScreenManager.Font;
-
             // Darken down any other screens that were drawn beneath the popup.
             ScreenManager.FadeBackBufferToBlack(TransitionAlpha * 2 / 3);
 
@@ -63,7 +62,6 @@ namespace PillHunt
             spriteBatch.Begin();
 
             spriteBatch.DrawString(font, message, textPosition, color);
-
             spriteBatch.End();
         }
 
