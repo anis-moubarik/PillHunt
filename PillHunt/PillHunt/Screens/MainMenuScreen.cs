@@ -26,18 +26,21 @@ namespace PillHunt
 
             MenuEntry playGameMenuEntry = new MenuEntry("\nHunt Pills!");
             MenuEntry helpMenuEntry = new MenuEntry("\n\n\nHelp");
-            MenuEntry exitMenuEntry = new MenuEntry("\n\n\n\nExit");
+            MenuEntry creditMenuEntry = new MenuEntry("\n\n\n\nCredits");
+            MenuEntry exitMenuEntry = new MenuEntry("\n\n\n\n\nExit");
 
             // Hook up menu event handlers.
             playGameMenuEntry.Selected += playGameMenuEntrySelected;
             soundEntry.Selected += soundOnOrOffSelected;
             helpMenuEntry.Selected += helpMenuEntrySelected;
+            creditMenuEntry.Selected += creditMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             // Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(soundEntry);
             MenuEntries.Add(helpMenuEntry);
+            MenuEntries.Add(creditMenuEntry);
             MenuEntries.Add(exitMenuEntry);
 
             }
@@ -81,6 +84,11 @@ namespace PillHunt
             {
             ScreenManager.AddScreen(new HelpMenuScreen(), e.PlayerIndex);
             }
+
+        void creditMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            ScreenManager.AddScreen(new CreditMenuScreen(), e.PlayerIndex);
+        }
 
 
         // When the user cancels the main menu, ask if they want to exit.

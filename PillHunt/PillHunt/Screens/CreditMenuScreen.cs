@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 namespace PillHunt
 {
 
-    class HelpMenuScreen : MenuScreen
+    class CreditMenuScreen : MenuScreen
     {
 
         static string message;
 
-        public HelpMenuScreen()
+        public CreditMenuScreen()
             : base("Options")
         {
             // Create our menu entries.
@@ -19,11 +19,14 @@ namespace PillHunt
             back.Selected += OnCancel;
             
             // Add entries to the menu.
-            message = "PillHunt is a realistic simulation of the hunt\nsome members of the society go through daily.\n\n"
-            + "Your objective is to eat as many pills\n as you can under the time limit.\n\nPlayer 1 moves using the WASD keys.\n"
-            + "Player 2 moves using the arrow keys.\n\n"
-            + "Press ESC to pause, restart or exit the game.\n\n"
-            + "You can now choose your opponent from four difficulty levels, you can also play against your human friends\n\n";
+            message = "Music: Mr.Spastic - Daymare\n\n"
+            + "Movement, walls and maps: Simo Sahlstedt , Miro Varilo, Anis Moubarik\n\n"
+            + "AI: Simo Sahlstedt \n\n"
+            + "Menus: Anis Moubarik\n\n"
+            + "Help menu: Miro Varilo\n\n"
+            + "Documentation: Anis Moubarik\n\n"
+            + "Textures and sound effects: Anon, Anis Moubarik, Simo Sahlstedt\n\n"
+            + "Game concept: Anis Moubarik";
             MenuEntries.Add(back);
         }
 
