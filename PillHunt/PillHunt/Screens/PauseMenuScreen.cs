@@ -65,8 +65,7 @@ namespace PillHunt
 
         void restartDifferentGameMenuSelected(object sender, PlayerIndexEventArgs e)
             {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen(p1name, p2name,
-                mapName, p1ai, p2ai, p1aiLevel, p2aiLevel));
+            LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new PlayGameScreen());
             }
 
         void confirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)

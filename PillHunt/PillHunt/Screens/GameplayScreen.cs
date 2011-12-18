@@ -152,7 +152,8 @@ namespace PillHunt
                 }
             if (endGameAction.Evaluate(input, ControllingPlayer, out player) && gameEnds)
                 {
-                ScreenManager.AddScreen(new RestartScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new RestartScreen(p1name,p2name,mapName,p1ai, 
+                    p2ai,p1aiLevel, p2aiLevel), ControllingPlayer);
                 }
             }
 
