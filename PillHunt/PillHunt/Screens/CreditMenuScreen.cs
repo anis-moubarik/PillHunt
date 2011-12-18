@@ -22,7 +22,7 @@ namespace PillHunt
             message = "Music: Mr.Spastic - Daymare\n\n"
             + "Movement, walls and maps: Simo Sahlstedt , Miro Varilo, Anis Moubarik\n\n"
             + "AI: Simo Sahlstedt \n\n"
-            + "Menus: Anis Moubarik, Simo Sahlstedt\n\n"
+            + "Menus: Anis Moubarik, Simo Sahlstedt, Miro Varilo\n\n"
             + "Help menu: Miro Varilo\n\n"
             + "Documentation: Anis Moubarik\n\n"
             + "Textures and sound effects: Anon, Anis Moubarik, Simo Sahlstedt\n\n"
