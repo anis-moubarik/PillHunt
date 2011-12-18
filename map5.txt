@@ -1,0 +1,8 @@
+weirdbg
+White
+anothertexture
+4
+Brown,false,false,true,false,0,-3,130,0,80,20,0,650,0
+Brown,false,false,true,false,0,-3,360,0,80,20,0,650,0
+Brown,false,false,true,false,0,-3,590,0,80,20,0,650,0
+Brown,false,false,true,false,0,-3,820,0,80,20,0,650,0

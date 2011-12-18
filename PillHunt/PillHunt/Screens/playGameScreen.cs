@@ -26,10 +26,11 @@ namespace PillHunt
 
             //adding all the maps to the Dictionary
             maps = new Dictionary<int, string>();
-            maps.Add(0, "Wall test map");
+            maps.Add(0, "Wrecked Star");
             maps.Add(1, "Trap 'em all!");
             maps.Add(2, "Flying Chess Boards");
             maps.Add(3, "Roman Night");
+            maps.Add(4, "Green Roots");
 
             //creating menu entries
             p1HumanOrAIEntry = new MenuEntry(string.Empty);
