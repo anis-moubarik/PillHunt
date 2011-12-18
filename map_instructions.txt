@@ -1,4 +1,5 @@
 bg //background texture
+White //background color
 wall //wall texture
 5 // number of the walls, followed by all the walls:
 Tomato,true,true,false,false,0,4,200,100,20,200,300,0,0
@@ -8,4 +9,5 @@ White,true,false,false,true,0,-4,600,700,200,20,-150,0,20
 Black,true,false,true,false,0,1,200,400,100,20,200,100,0
 
 //color, isMoving, isVertical, isInflating, partTimeVisible
-//visibilityCounterStartsAt, speed, x, y, width, height, limit, blinkRate
+//visibilityCounterStartsAt, speed, x, y, width, height, movingLimit,
+//inflateLimit, blinkRate

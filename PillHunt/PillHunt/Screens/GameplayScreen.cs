@@ -66,7 +66,7 @@ namespace PillHunt
             screenHeight = 768;
             string p1name = "Player1";
             string p2name = "Player2";
-            string mapName = "map2.txt";
+            string mapName = "map3.txt";
                 //tekoälyyy:
             bool p1ai = false;
             bool p2ai = true;
@@ -198,7 +198,7 @@ namespace PillHunt
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             Rectangle fullscreen = new Rectangle(0, 0, screenWidth, screenHeight);
-            spriteBatch.Draw(bgTexture, fullscreen, Color.White);
+            spriteBatch.Draw(bgTexture, fullscreen, map.getBGColor());
 
             map.draw(spriteBatch, wallTexture, gameEnds, IsActive, player1, player2);
             pills.draw(spriteBatch, pillTexture);

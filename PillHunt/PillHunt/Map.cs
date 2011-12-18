@@ -13,6 +13,7 @@ namespace PillHunt
         private List<Wall> list;
         private string backgroundTexture;
         private string wallTexture;
+        private Color backgroundColor;
 
         public Map(string map)
             {
@@ -39,20 +40,28 @@ namespace PillHunt
             return wallTexture;
             }
 
+        public Color getBGColor()
+            {
+            return backgroundColor;
+            }
+
         //loads a map from a .txt-file
         public void loadMap(string map)
             {
 
             TextReader tr = new StreamReader(map);
+            PropertyInfo colorProperty;
 
             backgroundTexture = tr.ReadLine();
+            colorProperty = typeof(Color).GetProperty(tr.ReadLine());
+            backgroundColor = (Color)colorProperty.GetValue(null, null);
             wallTexture = tr.ReadLine();
+
             int numberOfLines = int.Parse(tr.ReadLine());
 
             string[] line;
 
             Color color;
-            PropertyInfo colorProperty;
 
             bool isMoving, isVertical, isInflating, partTimeVisible;
             int counter, speed, x, y, width, height, movingLimit, inflateLimit, blinkRate;

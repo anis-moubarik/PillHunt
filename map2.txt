@@ -1,4 +1,5 @@
 bg
+White
 wall
 10
 Tomato,false,true,false,true,0,0,250,0,20,270,0,0,60
