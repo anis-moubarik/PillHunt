@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace PillHunt
     {
@@ -15,7 +16,7 @@ namespace PillHunt
         private int currentP1HumanOrAi = 0;
         private int currentP2HumanOrAi = 0;
 
-        private string[] maps = { "map", "map2", "map3" };
+        private Dictionary<int, string> maps;
         private int currentMap = 0;
 
         //creates a new play game screen
@@ -23,8 +24,14 @@ namespace PillHunt
 
             {
 
-            //creating menu entries
+            //adding all the maps to the Dictionary
+            maps = new Dictionary<int, string>();
+            maps.Add(0, "Wall test map");
+            maps.Add(1, "Trap 'em all!");
+            maps.Add(2, "Flying Chess Boards");
+            maps.Add(3, "Roman Night");
 
+            //creating menu entries
             p1HumanOrAIEntry = new MenuEntry(string.Empty);
             p2HumanOrAIEntry = new MenuEntry(string.Empty);
             mapEntry = new MenuEntry(string.Empty);
@@ -77,7 +84,7 @@ namespace PillHunt
 
         void mapSelected(object sender, PlayerIndexEventArgs e)
             {
-            currentMap = (currentMap + 1) % maps.Length;
+            currentMap = (currentMap + 1) % maps.Keys.Count;
             updateMenuEntries();
             }
 
@@ -111,7 +118,7 @@ namespace PillHunt
                 player2Name = "Computer 2";
                 }
 
-            string map = maps[currentMap] + ".txt";
+            string map = "map" + (currentMap + 1) + ".txt";
 
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen(player1Name, player2Name,
                 map, player1IsAI, player2IsAI, currentP1HumanOrAi, currentP2HumanOrAi));
