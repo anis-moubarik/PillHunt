@@ -2,6 +2,8 @@ Content\awesome.xnb
 Content\pill.xnb
 Content\dimmer.xnb
 Content\gameover.xnb
+Content\blank.xnb
+Content\background.xnb
 Content\gradient.xnb
 Content\bg.xnb
 Content\FPS.xnb
@@ -11,7 +13,5 @@ Content\wall.xnb
 Content\daymare.xnb
 Content\nom.xnb
 Content\select.xnb
-Content\blank.xnb
-Content\background.xnb
 Content\squares.xnb
 Content\daymare.wma
