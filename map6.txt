@@ -1,0 +1,12 @@
+abstractbg
+White
+pinktexture
+8
+White,false,true,true,false,0,6,300,220,40,40,0,364,0
+White,false,true,false,false,0,0,300,520,405,40,0,0,0
+White,false,false,false,false,0,0,300,260,40,260,0,0,0
+White,false,false,false,false,0,0,665,260,40,260,0,0,0
+White,true,false,true,false,0,2,100,500,100,20,200,100,0
+White,true,false,true,false,0,2,100,100,100,20,200,100,0
+White,true,false,true,false,0,2,800,500,100,20,200,100,0
+White,true,false,true,false,0,2,800,100,100,20,200,100,0
