@@ -37,17 +37,29 @@ namespace PillHunt
         Player player2;
         Pills pills;
         Timer clock;
-        FPS fps;
+        //FPS fps;
         Scores scores;
         PlayerControls controls;
         Map map;
 
+        //given as parameters
+        string p1name;
+        string p2name;
+        string mapName;
+        bool p1ai;
+        bool p2ai;
+        int p1aiLevel;
+        int p2aiLevel;
+
+        //others
         bool gameEnds;
         float pauseAlpha;
         int screenWidth;
         int screenHeight;
 
-        public GameplayScreen()
+        //creates a new gameplay screen
+        public GameplayScreen(string player1Name, string player2Name, string nameOfTheMap, 
+            bool player1IsAI, bool player2IsAI, int player1AILevel, int player2AILevel)
             {
 
             //times for the transition
@@ -61,18 +73,16 @@ namespace PillHunt
             screenWidth = 1024;
             screenHeight = 768;
 
-            // --- n‰‰ jatkossa parametreina:
-            string p1name = "Player1";
-            string p2name = "Player2";
-            string mapName = "map3.txt";
-            bool p1ai = false;
-            bool p2ai = true;
-            int p1aiLevel = 3;
-            int p2aiLevel = 4;
-            // ---
+            p1name = player1Name;
+            p2name = player2Name;
+            mapName = nameOfTheMap;
+            p1ai = player1IsAI;
+            p2ai = player2IsAI;
+            p1aiLevel = player1AILevel;
+            p2aiLevel = player2AILevel;
 
             clock = new Timer(20.0f);
-            fps = new FPS(screenWidth);
+            //fps = new FPS(screenWidth);
             map = new Map(mapName);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map, p1ai, p1aiLevel, pills);
@@ -169,7 +179,7 @@ namespace PillHunt
 
                 if (!gameEnds)
                     {
-                    fps.calculateFPS(gameTime);
+                    //fps.calculateFPS(gameTime);
                     controls.checkKeyboardStatus(Keyboard.GetState(), player1, player2);
                     player1.moveTowardsDirection(player2);
                     player2.moveTowardsDirection(player1);
@@ -197,7 +207,7 @@ namespace PillHunt
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
             player2.draw(spriteBatch, awesomeTexture, Color.Red);
-            fps.draw(spriteBatch, font);
+            //fps.draw(spriteBatch, font);
             scores.draw(spriteBatch, font, player1, player2);
 
             if (gameEnds)

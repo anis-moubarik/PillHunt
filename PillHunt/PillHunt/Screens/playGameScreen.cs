@@ -83,7 +83,39 @@ namespace PillHunt
 
         void playGameSelected(object sender, PlayerIndexEventArgs e)
             {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
+
+            bool player1IsAI;
+            bool player2IsAI;
+            string player1Name;
+            string player2Name;
+
+            if (currentP1HumanOrAi == 0)
+                {
+                player1IsAI = false;
+                player1Name = "Player 1";
+                }
+            else
+                {
+                player1IsAI = true;
+                player1Name = "Computer 1";
+                }
+
+            if (currentP2HumanOrAi == 0)
+                {
+                player2IsAI = false;
+                player2Name = "Player 2";
+                }
+            else
+                {
+                player2IsAI = true;
+                player2Name = "Computer 2";
+                }
+
+            string map = maps[currentMap] + ".txt";
+
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen(player1Name, player2Name,
+                map, player1IsAI, player2IsAI, currentP1HumanOrAi, currentP2HumanOrAi));
+
             }
 
         void confirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
