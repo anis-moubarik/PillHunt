@@ -1,0 +1,11 @@
+bg
+Black
+squares
+7
+BurlyWood,true,false,false,false,0,6,96,100,64,64,604,0,0
+Chocolate,true,false,false,false,0,-6,224,604,64,64,-604,0,0
+White,true,false,false,false,0,6,352,100,64,64,604,0,0
+DarkOliveGreen,true,false,false,false,0,-6,480,604,64,64,-604,0,0
+PeachPuff,true,false,false,false,0,6,608,100,64,64,604,0,0
+IndianRed,true,false,false,false,0,-6,736,604,64,64,-604,0,0
+DarkKhaki,true,false,false,false,0,6,864,100,64,64,604,0,0

@@ -13,8 +13,8 @@ namespace PillHunt
 
         public Scores(int screenWidth)
             {
-            p1 = new Vector2(screenWidth - 100, 20);
-            p2 = new Vector2(screenWidth - 100, 40);
+            p1 = new Vector2(screenWidth - 135, 2);
+            p2 = new Vector2(screenWidth - 135, 22);
             }
 
         //draws the scores of given players with given sprite batch and font

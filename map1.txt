@@ -1,0 +1,9 @@
+bg
+White
+wall
+5
+Tomato,true,true,false,false,0,4,200,100,20,200,300,0,0
+Tomato,true,true,false,false,0,-4,800,100,20,200,-300,0,0
+White,true,false,false,true,0,4,600,400,200,20,150,0,20
+White,true,false,false,true,0,-4,600,700,200,20,-150,0,20
+Black,true,true,true,false,0,1,200,400,100,20,200,100,0

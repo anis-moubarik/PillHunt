@@ -1,0 +1,8 @@
+bg
+Blue
+squares
+4
+Tomato,true,true,false,false,0,4,100,60,20,200,500,0,0
+Tomato,true,true,false,false,0,-4,900,60,20,200,-500,0,0
+Tomato,true,true,false,false,0,4,100,510,20,200,500,0,0
+Tomato,true,true,false,false,0,-4,900,510,20,200,-500,0,0

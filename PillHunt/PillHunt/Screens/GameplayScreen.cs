@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
 namespace PillHunt
@@ -20,7 +19,6 @@ namespace PillHunt
 
         //sounds
         SoundEffect nom;
-        Song bgMusic;
 
         //fonts
         SpriteFont gameFont;
@@ -39,17 +37,29 @@ namespace PillHunt
         Player player2;
         Pills pills;
         Timer clock;
-        FPS fps;
+        //FPS fps;
         Scores scores;
         PlayerControls controls;
         Map map;
 
+        //given as parameters
+        string p1name;
+        string p2name;
+        string mapName;
+        bool p1ai;
+        bool p2ai;
+        int p1aiLevel;
+        int p2aiLevel;
+
+        //others
         bool gameEnds;
         float pauseAlpha;
         int screenWidth;
         int screenHeight;
 
-        public GameplayScreen()
+        //creates a new gameplay screen
+        public GameplayScreen(string player1Name, string player2Name, string nameOfTheMap, 
+            bool player1IsAI, bool player2IsAI, int player1AILevel, int player2AILevel)
             {
 
             //times for the transition
@@ -60,22 +70,19 @@ namespace PillHunt
             pauseAction = new InputAction(new Keys[] { Keys.Escape }, true);
             endGameAction = new InputAction(new Keys[] { Keys.Enter }, true);
 
-
-            // --- n‰‰ vois jotenkin antaa jatkossa parametreina:
             screenWidth = 1024;
             screenHeight = 768;
-            string p1name = "Player1";
-            string p2name = "Player2";
-            string mapName = "map.txt";
-                //teko‰lyyy:
-            bool p1ai = false;
-            bool p2ai = true;
-            int p1aiLevel = 3;
-            int p2aiLevel = 3;
-            // ---
+
+            p1name = player1Name;
+            p2name = player2Name;
+            mapName = nameOfTheMap;
+            p1ai = player1IsAI;
+            p2ai = player2IsAI;
+            p1aiLevel = player1AILevel;
+            p2aiLevel = player2AILevel;
 
             clock = new Timer(20.0f);
-            fps = new FPS(screenWidth);
+            //fps = new FPS(screenWidth);
             map = new Map(mapName);
             pills = new Pills(map, 100, screenWidth, screenHeight, 32);
             player1 = new Player(0, 0, screenWidth, screenHeight, p1name, map, p1ai, p1aiLevel, pills);
@@ -104,14 +111,9 @@ namespace PillHunt
                 font = content.Load<SpriteFont>("FPS");
                 dimmerTexture = content.Load<Texture2D>("dimmer");
                 goTexture = content.Load<Texture2D>("gameover");
-                bgTexture = content.Load<Texture2D>("bg");
-                wallTexture = content.Load<Texture2D>("wall");
+                bgTexture = content.Load<Texture2D>(map.getBGTexture());
+                wallTexture = content.Load<Texture2D>(map.getWallTexture());
                 nom = content.Load<SoundEffect>("nom");
-                bgMusic = content.Load<Song>("daymare");
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Play(bgMusic);
-                MediaPlayer.Volume = 0.000f; //0.085f;
-                SoundEffect.MasterVolume = 0.00f; //0.09f;
                 ScreenManager.Game.ResetElapsedTime();
 
                 }
@@ -145,11 +147,13 @@ namespace PillHunt
             PlayerIndex player;
             if (pauseAction.Evaluate(input, ControllingPlayer, out player) && !gameEnds)
                 {
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new PauseMenuScreen(p1name,p2name,mapName,p1ai, 
+                    p2ai,p1aiLevel, p2aiLevel), ControllingPlayer);
                 }
             if (endGameAction.Evaluate(input, ControllingPlayer, out player) && gameEnds)
                 {
-                ScreenManager.AddScreen(new RestartScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new RestartScreen(p1name,p2name,mapName,p1ai, 
+                    p2ai,p1aiLevel, p2aiLevel), ControllingPlayer);
                 }
             }
 
@@ -177,7 +181,7 @@ namespace PillHunt
 
                 if (!gameEnds)
                     {
-                    fps.calculateFPS(gameTime);
+                    //fps.calculateFPS(gameTime);
                     controls.checkKeyboardStatus(Keyboard.GetState(), player1, player2);
                     player1.moveTowardsDirection(player2);
                     player2.moveTowardsDirection(player1);
@@ -198,14 +202,14 @@ namespace PillHunt
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
 
             Rectangle fullscreen = new Rectangle(0, 0, screenWidth, screenHeight);
-            spriteBatch.Draw(bgTexture, fullscreen, Color.White);
+            spriteBatch.Draw(bgTexture, fullscreen, map.getBGColor());
 
             map.draw(spriteBatch, wallTexture, gameEnds, IsActive, player1, player2);
             pills.draw(spriteBatch, pillTexture);
             clock.draw(spriteBatch, font);
             player1.draw(spriteBatch, awesomeTexture, Color.Yellow);
             player2.draw(spriteBatch, awesomeTexture, Color.Red);
-            fps.draw(spriteBatch, font);
+            //fps.draw(spriteBatch, font);
             scores.draw(spriteBatch, font, player1, player2);
 
             if (gameEnds)

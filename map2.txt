@@ -1,0 +1,14 @@
+bg
+White
+wall
+10
+Tomato,false,true,false,true,0,0,250,0,20,270,0,0,60
+Tomato,false,false,false,true,0,0,0,250,270,20,0,0,60
+Tomato,false,true,false,true,30,0,250,498,20,270,0,0,60
+Tomato,false,false,false,true,30,0,0,498,270,20,0,0,60
+Tomato,false,true,false,true,30,0,754,0,20,270,0,0,60
+Tomato,false,false,false,true,30,0,754,250,270,20,0,0,60
+Tomato,false,true,false,true,0,0,754,498,20,270,0,0,60
+Tomato,false,false,false,true,0,0,754,498,270,20,0,0,60
+Tomato,false,true,false,true,15,0,420,300,206,20,0,0,60
+Tomato,false,true,false,true,15,0,420,452,206,20,0,0,60

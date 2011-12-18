@@ -1,64 +1,136 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 namespace PillHunt
-{
-    class PlayGameScreen : MenuScreen
     {
-        public PlayGameScreen(bool versusMode)
-            : base("PillHunt")
+    class PlayGameScreen : MenuScreen
+
         {
-            if (versusMode)
+
+        MenuEntry p1HumanOrAIEntry;
+        MenuEntry p2HumanOrAIEntry;
+        MenuEntry mapEntry;
+
+        private string[] humanOrAI = { "human player", "novice computer", "dealer computer", "addict computer", "drug lord computer" };
+        private int currentP1HumanOrAi = 0;
+        private int currentP2HumanOrAi = 0;
+
+        private Dictionary<int, string> maps;
+        private int currentMap = 0;
+
+        //creates a new play game screen
+        public PlayGameScreen() : base("PillHunt")
+
             {
-                MenuEntry playerNames = new MenuEntry("Player names");
-                MenuEntry playGame = new MenuEntry("Play Game");
-                // Hook up menu event handlers.
-                playerNames.Selected += playerNamesMenuEntrySelected;
-                playGame.Selected += playGameSelected;
 
+            //adding all the maps to the Dictionary
+            maps = new Dictionary<int, string>();
+            maps.Add(0, "Wall test map");
+            maps.Add(1, "Trap 'em all!");
+            maps.Add(2, "Flying Chess Boards");
+            maps.Add(3, "Roman Night");
 
-                // Add entries to the menu.
-                MenuEntries.Add(playerNames);
-                MenuEntries.Add(playGame);
-            }
-            else
-            {
-                MenuEntry playerNames = new MenuEntry("Player names");
+            //creating menu entries
+            p1HumanOrAIEntry = new MenuEntry(string.Empty);
+            p2HumanOrAIEntry = new MenuEntry(string.Empty);
+            mapEntry = new MenuEntry(string.Empty);
 
-                // Hook up menu event handlers.
-                playerNames.Selected += playerNamesMenuEntrySelected;
+            updateMenuEntries();
 
-                // Add entries to the menu.
-                MenuEntries.Add(playerNames);
-            }
-            MenuEntry exitMenuEntry = new MenuEntry("Back to main menu");
-            exitMenuEntry.Selected += ConfirmQuitMessageBoxAccepted;
+            MenuEntry playGame = new MenuEntry("\n\n\nStart Hunting!");
+            MenuEntry exitMenuEntry = new MenuEntry("\n\n\n\n\nBack to Main Menu");
+
+            // Hook up menu event handlers.
+            p1HumanOrAIEntry.Selected += p1HumanOrAISelected;
+            p2HumanOrAIEntry.Selected += p2HumanOrAISelected;
+            mapEntry.Selected += mapSelected;
+            
+            playGame.Selected += playGameSelected;
+            exitMenuEntry.Selected += confirmQuitMessageBoxAccepted;
+
+            // Add entries to the menu.
+            MenuEntries.Add(p1HumanOrAIEntry);
+            MenuEntries.Add(p2HumanOrAIEntry);
+            MenuEntries.Add(mapEntry);
+
+            MenuEntries.Add(playGame);
             MenuEntries.Add(exitMenuEntry);
-        }
+
+            }
+
+        //update the menu values:
+        void updateMenuEntries()
+            {
+            p1HumanOrAIEntry.Text = "\nPlayer 1: " + humanOrAI[currentP1HumanOrAi];
+            p2HumanOrAIEntry.Text = "\nPlayer 2: " + humanOrAI[currentP2HumanOrAi];
+            mapEntry.Text = "\n\nMap: " + maps[currentMap];
+            }
+
+
+        //event handlers:
+
+        void p1HumanOrAISelected(object sender, PlayerIndexEventArgs e)
+            {
+            currentP1HumanOrAi = (currentP1HumanOrAi + 1) % humanOrAI.Length;
+            updateMenuEntries();
+            }
+
+        void p2HumanOrAISelected(object sender, PlayerIndexEventArgs e)
+            {
+            currentP2HumanOrAi = (currentP2HumanOrAi + 1) % humanOrAI.Length;
+            updateMenuEntries();
+            }
+
+        void mapSelected(object sender, PlayerIndexEventArgs e)
+            {
+            currentMap = (currentMap + 1) % maps.Keys.Count;
+            updateMenuEntries();
+            }
 
         void playGameSelected(object sender, PlayerIndexEventArgs e)
-        {
-            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen());
-        }
+            {
 
-        void playerNamesMenuEntrySelected(object sender, PlayerIndexEventArgs e)
-        {
-            //MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen();
+            bool player1IsAI;
+            bool player2IsAI;
+            string player1Name;
+            string player2Name;
 
-            //confirmExitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
-        }
-        void ConfirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
-        {
-            //LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(),
-            //                                               new MainMenuScreen());
-            //ScreenManager.AddScreen(new playGameScreen(true), e.PlayerIndex);
+            if (currentP1HumanOrAi == 0)
+                {
+                player1IsAI = false;
+                player1Name = "Player 1";
+                }
+            else
+                {
+                player1IsAI = true;
+                player1Name = "Computer 1";
+                }
+
+            if (currentP2HumanOrAi == 0)
+                {
+                player2IsAI = false;
+                player2Name = "Player 2";
+                }
+            else
+                {
+                player2IsAI = true;
+                player2Name = "Computer 2";
+                }
+
+            string map = "map" + (currentMap + 1) + ".txt";
+
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex, new GameplayScreen(player1Name, player2Name,
+                map, player1IsAI, player2IsAI, currentP1HumanOrAi, currentP2HumanOrAi));
+
+            }
+
+        void confirmQuitMessageBoxAccepted(object sender, PlayerIndexEventArgs e)
+            {
             ScreenManager.AddScreen(new MainMenuScreen(), e.PlayerIndex);
+            }
+
         }
+
     }
-}
 

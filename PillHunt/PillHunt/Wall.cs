@@ -23,8 +23,8 @@ namespace PillHunt
         private int speed;
 
         //creates a new wall
-        public Wall(Color c, Rectangle pos, Rectangle limitPos, bool moving, 
-            bool vertical, bool inflating, bool ptv, int bRate, int iLimit, int s)
+        public Wall(Color c, Rectangle pos, Rectangle limitPos, bool moving,
+            bool vertical, bool inflating, bool ptv, int counter, int bRate, int iLimit, int s)
             {
 
             color = c;
@@ -36,19 +36,37 @@ namespace PillHunt
             isInflating = inflating;
             partTimeVisible = ptv;
             isVisible = true;
-            visibilityCounter = 0;
+            visibilityCounter = counter;
             blinkRate = bRate;
             inflateLimit = iLimit;
             speed = s;
 
             if (isVertical)
                 {
-                originalPosition = new Rectangle(pos.X - (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+
+                if (speed < 0)
+                    {
+                    originalPosition = new Rectangle(pos.X + (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+                    }
+
+                else
+                    {
+                    originalPosition = new Rectangle(pos.X - (pos.Width + 1), pos.Y, pos.Width, pos.Height);
+                    }
+
                 }
+
             else
-                {
-                originalPosition = new Rectangle(pos.X, pos.Y - (pos.Height + 1), pos.Width, pos.Height);
-                }
+
+                if (speed < 0)
+                    {
+                    originalPosition = new Rectangle(pos.X, pos.Y + (pos.Height + 1), pos.Width, pos.Height);
+                    }
+
+                else
+                    {
+                    originalPosition = new Rectangle(pos.X, pos.Y - (pos.Height + 1), pos.Width, pos.Height);
+                    }
 
             }
 
@@ -144,22 +162,39 @@ namespace PillHunt
 
             if (isMoving)
                 {
-                if (position.Width < 0 || position.Width > (originalPosition.Width + inflateLimit))
+                if (isVertical)
                     {
-                    speed = -1 * speed;
+                    if (position.Width < 0 || position.Width > (originalPosition.Width + inflateLimit))
+                        {
+                        speed = -1 * speed;
+                        }
+                    }
+                else
+                    {
+                    if (position.Height < 0 || position.Height > (originalPosition.Height + inflateLimit))
+                        {
+                        speed = -1 * speed;
+                        }
                     }
                 }
 
             else
                 {
-                if (position.Width < originalPosition.Width || position.Width > (originalPosition.Width + inflateLimit))
+                if (position.Width < originalPosition.Width || position.Width > (originalPosition.Width + inflateLimit) ||
+                    position.Height < originalPosition.Height || position.Height > (originalPosition.Height + inflateLimit))
                     {
                     speed = -1 * speed;
                     }
                 }
 
-            position.Width = position.Width + speed;
-            position.Height = position.Height + speed;
+            if (isVertical)
+                {
+                position.Width = position.Width + speed;
+                }
+            else
+                {
+                position.Height = position.Height + speed;
+                }
 
             }
 
