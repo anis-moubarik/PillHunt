@@ -30,6 +30,7 @@ namespace PillHunt
             maps.Add(1, "Trap 'em all!");
             maps.Add(2, "Flying Chess Boards");
             maps.Add(3, "Roman Night");
+            maps.Add(4, "Green Roots");
 
             //creating menu entries
             p1HumanOrAIEntry = new MenuEntry(string.Empty);
