@@ -11,6 +11,8 @@ namespace PillHunt
         {
 
         private List<Wall> list;
+        private string backgroundTexture;
+        private string wallTexture;
 
         public Map(string map)
             {
@@ -27,12 +29,26 @@ namespace PillHunt
                 }
             }
 
+        public string getBGTexture()
+            {
+            return backgroundTexture;
+            }
+
+        public string getWallTexture()
+            {
+            return wallTexture;
+            }
+
         //loads a map from a .txt-file
         public void loadMap(string map)
             {
 
             TextReader tr = new StreamReader(map);
+
+            backgroundTexture = tr.ReadLine();
+            wallTexture = tr.ReadLine();
             int numberOfLines = int.Parse(tr.ReadLine());
+
             string[] line;
 
             Color color;

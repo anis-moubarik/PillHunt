@@ -104,8 +104,8 @@ namespace PillHunt
                 font = content.Load<SpriteFont>("FPS");
                 dimmerTexture = content.Load<Texture2D>("dimmer");
                 goTexture = content.Load<Texture2D>("gameover");
-                bgTexture = content.Load<Texture2D>("bg");
-                wallTexture = content.Load<Texture2D>("wall");
+                bgTexture = content.Load<Texture2D>(map.getBGTexture());
+                wallTexture = content.Load<Texture2D>(map.getWallTexture());
                 nom = content.Load<SoundEffect>("nom");
                 bgMusic = content.Load<Song>("daymare");
                 MediaPlayer.IsRepeating = true;

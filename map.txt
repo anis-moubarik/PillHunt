@@ -1,3 +1,5 @@
+bg
+wall
 5
 Tomato,true,true,false,false,0,4,200,100,20,200,300,0,0
 Tomato,true,true,false,false,0,-4,800,100,20,200,-300,0,0
