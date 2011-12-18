@@ -23,7 +23,7 @@ namespace PillHunt
             + "Your objective is to eat as many pills\n as you can under the time limit.\n\nPlayer 1 moves using the WASD keys.\n"
             + "Player 2 moves using the arrow keys.\n\n"
             + "Press ESC to pause, restart or exit the game.\n\n"
-            + "You can now choose your opponent from four difficulty levels, \nyou can also play against your human friends\n\n";
+            + "You can now choose your opponent from four difficulty levels, \nyou can also play against your human friends.\n\n";
             MenuEntries.Add(back);
         }
 
