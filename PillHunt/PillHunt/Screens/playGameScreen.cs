@@ -31,8 +31,8 @@ namespace PillHunt
 
             updateMenuEntries();
 
-            MenuEntry playGame = new MenuEntry("\n\n\nStart the Game");
-            MenuEntry exitMenuEntry = new MenuEntry("\n\n\n\n\nBack to the Main Menu");
+            MenuEntry playGame = new MenuEntry("\n\n\nStart Hunting!");
+            MenuEntry exitMenuEntry = new MenuEntry("\n\n\n\n\nBack to Main Menu");
 
             // Hook up menu event handlers.
             p1HumanOrAIEntry.Selected += p1HumanOrAISelected;

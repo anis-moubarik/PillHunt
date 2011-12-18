@@ -147,7 +147,8 @@ namespace PillHunt
             PlayerIndex player;
             if (pauseAction.Evaluate(input, ControllingPlayer, out player) && !gameEnds)
                 {
-                ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
+                ScreenManager.AddScreen(new PauseMenuScreen(p1name,p2name,mapName,p1ai, 
+                    p2ai,p1aiLevel, p2aiLevel), ControllingPlayer);
                 }
             if (endGameAction.Evaluate(input, ControllingPlayer, out player) && gameEnds)
                 {

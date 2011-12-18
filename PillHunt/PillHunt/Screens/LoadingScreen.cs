@@ -13,9 +13,6 @@ namespace PillHunt
 
         GameScreen[] screensToLoad;
 
-
-
-
         private LoadingScreen(ScreenManager screenManager, bool loadingIsSlow,
                               GameScreen[] screensToLoad)
         {

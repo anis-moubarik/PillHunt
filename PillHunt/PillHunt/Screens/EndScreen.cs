@@ -67,7 +67,7 @@ namespace PillHunt
             else
                 {
                 spriteBatch.DrawString(font, winner.getName() + " ate " + winner.getScore() + " pills and won!", new Vector2(mid.X - 110, mid.Y - 20), Color.Black);
-                spriteBatch.DrawString(font, loser.getName() + " ate only " + loser.getScore() + " pills.", new Vector2(mid.X - 100, mid.Y), Color.Black);
+                spriteBatch.DrawString(font, loser.getName() + " ate only " + loser.getScore() + " pills.", new Vector2(mid.X - 110, mid.Y), Color.Black);
                 }
 
             spriteBatch.DrawString(font, "Press Enter to continue", new Vector2(mid.X - 95, mid.Y + 26), Color.Red);
